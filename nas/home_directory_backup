@@ -1,3 +1,0 @@
-#!/bin/sh
-
-/usr/bin/rsync -azPi --delete --exclude Photos /mnt/raid0/Homes/ /mnt/raid1/Homes/ > /mnt/raid0/logs/home_directory_backup/$(date +%m-%d-%y--%I-%M-%p)
