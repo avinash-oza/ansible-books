@@ -1,6 +1,11 @@
 ---
 - name: install apache2 and other modules
-  apt: pkg={{item}}  state=installed update_cache=true cache_valid_time=3600
+  apt: 
+    name: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
   with_items:
     - apache2
     - apache2-dev
@@ -17,7 +22,11 @@
     - "Listen 80"
 
 - name: install unzip for google2fa
-  apt: pkg=unzip  state=installed update_cache=true cache_valid_time=3600
+  apt: 
+    name: unzip
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
 
 - name: Check for google2fa module
   stat:

@@ -1,8 +1,8 @@
 ---
 - name: install useful packages
   apt: 
-    pkg: "{{ item }}"
-    state: installed
+    name: "{{ item }}"
+    state: present
   with_items:
     - git
     - ntp
