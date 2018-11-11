@@ -21,6 +21,7 @@
     requirements: "/home/{{ garage_door_user }}/home-projects/pi/store_temperature/requirements.txt"
     virtualenv_python: python3
     virtualenv: "/home/{{ garage_door_user }}/store-temperature-virtual-env"
+    state: forcereinstall
 
 - name: Copy config for db
   template:
@@ -49,20 +50,14 @@
     state: present
     user: "{{ garage_door_user }}"
 
-
-- name: Copy systemd file for starting store_temperature service
-  become: yes
-  template:
-    src: "template_store_temperatures.service"
-    dest: "/etc/systemd/system/store_temperatures.service"
-    mode: 0644
-
-- name: Enable service to run on boot and start
-  become: yes
-  service:
-    name: "store_temperatures.service"
-    state: restarted
-    enabled: true
+- name: Install store temperature mysql job
+  cron:
+    name: "store_temperature_sql_job"
+    backup: true
+    minute: "*/60"
+    job: "{{ store_cron_job }}"
+    state: present
+    user: "{{ garage_door_user }}"
 
 - name: Change ownership of all files to user
   become: true
