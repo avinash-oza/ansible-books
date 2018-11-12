@@ -1,13 +1,13 @@
 version: '2'
 services:
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin:latest
+        image: phpmyadmin/phpmyadmin:4.8.3
         links:
             - "db:db"
         environment:
             PMA_USER: root
             PMA_PASSWORD: "{{ mysql_root_password }}"
-            PMA_ABSOLUTE_URI: "https://{{ local_domain_name }}/phpmyadmin"
+            PMA_ABSOLUTE_URI: "https://{{ local_domain_name }}/tools/phpmyadmin"
         ports:
             # Puts on 8080
             - "8080:80"
