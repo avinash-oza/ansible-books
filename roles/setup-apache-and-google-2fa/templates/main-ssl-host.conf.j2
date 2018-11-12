@@ -11,7 +11,7 @@ Loadmodule authn_google_module mods-enabled/mod_authn_google.so
 	SSLCertificateKeyFile /etc/letsencrypt/live/{{ local_domain_name }}/privkey.pem
 	SSLCertificateChainFile /etc/letsencrypt/live/{{ local_domain_name }}/chain.pem
 
-	<Location />
+	<Location /tools>
 		SSLRequireSSL
 		Options ExecCGI
 		AllowOverride None
