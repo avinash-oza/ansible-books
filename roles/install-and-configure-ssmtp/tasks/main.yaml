@@ -3,8 +3,11 @@
 - name: Install ssmtp
   become: yes
   apt:
-      name: ssmtp
+      name: "{{ item }}"
       state: present
+  with_items:
+    - ssmtp
+    - mailutils
 
 - name: Copy ssmtp config files
   become: yes
