@@ -2,10 +2,10 @@
 Description=Start telegram bot
 
 [Service]
-Type=forking
+Type=simple
 User={{ telegram_user_account }}
 Group={{ telegram_user_account }}
-ExecStart={{ telegram_checkout_location }}/start_telegram_bot.sh
+ExecStart={{ telegram_anaconda_path }}/envs/telegram-bot/bin/run-telegram-bot
 Restart=always
 RestartSec=10
 
