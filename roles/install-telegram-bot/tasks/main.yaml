@@ -20,29 +20,21 @@
     force: yes
 
 - name: check for telegram-bot conda env
-  shell: "{{ telegram_anaconda_path }}/conda env list | grep telegram-bot | cat"
+  shell: "{{ telegram_anaconda_path }}/bin/conda env list | grep telegram-bot | cat"
   register: conda_env_exists
 
 - name: Create conda env
-  shell: "{{ telegram_anaconda_path }}/conda create -n telegram-bot python=3"
+  shell: "{{ telegram_anaconda_path }}/bin/conda create -y -n telegram-bot python=3"
   when: conda_env_exists.stdout == ""
 
 - name: Install package and deps
-  shell: "source {{ telegram_anaconda_path }}/activate telegram-bot && {{ item }}"
+  shell: "source {{ telegram_anaconda_path }}/bin/activate telegram-bot && {{ item }}"
   args:
     executable: /bin/bash
     chdir: "{{ telegram_checkout_location }}"
   with_items:
     - "pip install -r requirements.txt"
     - "pip install ."
-
-- name: Create telegram-bot start file
-  template:
-    src: start_telegram_bot.sh
-    dest: "{{ telegram_checkout_location }}/start_telegram_bot.sh"
-    owner: "{{ telegram_user_account }}"
-    group: "{{ telegram_user_account }}"
-    mode: 0755
 
 - name: "Create config file location"
   become: yes

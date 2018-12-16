@@ -3,4 +3,4 @@ telegram_checkout_location: /tmp/telegram-bot
 telegram_bot_repo: https://github.com/avinash-oza/telegram-bot.git
 telegram_log_location: /var/log/custom-logs/telegram-bot
 telegram_alerts_endpoint: http://localhost:25001/send_nagios_alert
-telegram_anaconda_path: /opt/anaconda/bin
+telegram_anaconda_path: /opt/anaconda
