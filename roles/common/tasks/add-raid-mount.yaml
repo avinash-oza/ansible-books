@@ -1,6 +1,6 @@
 # runs only when raid_mount_ip_address is defined
 
-https://askubuntu.com/questions/778392/install-second-network-interface-on-virtualized-ubuntu-server
+# https://askubuntu.com/questions/778392/install-second-network-interface-on-virtualized-ubuntu-server
 
 
 - name: Install required packages CENTOS
