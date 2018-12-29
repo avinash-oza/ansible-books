@@ -1,0 +1,15 @@
+[Unit]
+Description=Garage Door service on {{ microservice_port }}
+
+[Service]
+Type=simple
+User= {{ garage_door_user }}
+Group= {{ garage_door_user }}
+
+Environment="TZ=America/New_York"
+ExecStart=/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/run-garage-door-service
+Restart=on-success
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
