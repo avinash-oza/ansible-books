@@ -7,6 +7,7 @@ User= {{ garage_door_user }}
 Group= {{ garage_door_user }}
 
 Environment="TZ=America/New_York"
+Environment="APP_SETTINGS=/etc/garage-door-service/config.config"
 ExecStart=/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/run-garage-door-service
 Restart=on-success
 RestartSec=30
