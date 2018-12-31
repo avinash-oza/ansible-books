@@ -80,6 +80,15 @@
     owner: root
     group: root
 
+- name: Copy aws passwd
+  become: true
+  copy:
+    src: aws_passwd
+    dest: /etc/apache2/
+    owner: root
+    group: root
+
+
 - name: Copy reverse proxy configs
   become: true
   template:
