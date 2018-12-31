@@ -26,4 +26,13 @@ Loadmodule authn_google_module mods-enabled/mod_authn_google.so
 		GoogleAuthEntryWindow 2
 		Require valid-user
 	</Location>
+	<Location /aws>
+		SSLRequireSSL
+		Order allow,deny
+		Allow from all
+		AuthName "Services"
+		AuthType Basic
+                AuthUserFile /etc/apache2/aws_passwd
+		Require valid-user
+	</Location>
 </VirtualHost>

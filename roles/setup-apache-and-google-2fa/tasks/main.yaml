@@ -91,6 +91,7 @@
     - docker_gogs
     - docker_kibana
     - rutorrent
+    - sns-callback
 
 - debug: 
     msg: "Do not forget to enable relevant apache configs with a2enconf"
