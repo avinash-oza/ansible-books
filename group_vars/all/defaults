@@ -11,3 +11,6 @@ garage_door_port: 25678
 
 local_domain_name: "{{ vault_local_domain_name }}"
 aws_sns_garage_request_arn: "{{ vault_aws_sns_garage_request_arn }}"
+
+# nagios passive checks
+nagios_passive_check_token: "{{ lookup('password', 'credentials/nagios-rdp-checks.txt length=30') }}"

@@ -38,6 +38,15 @@
     regexp: "^\\$cfg\\['cgi_base_url'\\]"
     line: "$cfg['cgi_base_url']='/tools/cgi-bin/nagios3';"
 
+- name: Add users to the nagios group
+  user:
+    name: "{{ item }}"
+    groups: nagios # for passive checks
+    append: yes
+    state: present
+  with_items:
+    - nagios
+    - www-data
 
 - name: Symlink airvpn_checker plugin with nagios plugins
   file:
@@ -110,3 +119,55 @@
     flat: yes
 
 #TODO: handle copying over apache configs
+
+# install nrdp for remote checks
+- name: Download NRDP package and extract
+  unarchive:
+    src: https://github.com/NagiosEnterprises/nrdp/releases/download/1.5.2/1.5.2.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Create dest directory
+  file:
+    path: /usr/local/nrdp
+    state: directory
+    owner: nagios
+    group: nagios
+
+- name: Copy files into /usr/local
+  shell: "cp -r clients server LICENSE* CHANGES* /usr/local/nrdp"
+  args:
+    chdir: /tmp/nrdp-1.5.2
+
+- name: copy config file
+  template:
+    backup: yes
+    src: config.inc.php.j2
+    dest: /usr/local/nrdp/server/config.inc.php
+
+- name: copy apache site config
+  template:
+    backup: yes
+    src: nrdp.conf.j2
+    dest: /etc/apache2/sites-available/nrdp.conf
+
+  register: nrdp_conf
+
+- name: Enable apache site
+  shell: "a2ensite nrdp"
+  args:
+    creates: /etc/apache2/sites-enabled/nrdp.conf
+
+- name: Restart apache2
+  systemd:
+    name: apache2
+    state: restarted
+  when: nrdp_conf.changed
+
+
+- name: set permissions on directory
+  file:
+    path: /usr/local/nrdp
+    state: directory
+    owner: nagios
+    group: nagios
