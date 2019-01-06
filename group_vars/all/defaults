@@ -14,3 +14,4 @@ aws_sns_garage_request_arn: "{{ vault_aws_sns_garage_request_arn }}"
 
 # nagios passive checks
 nagios_passive_check_token: "{{ lookup('password', 'credentials/nagios-rdp-checks.txt length=30') }}"
+nagios_passive_checks_url: "{{ vault_nagios_passive_checks_url }}"
