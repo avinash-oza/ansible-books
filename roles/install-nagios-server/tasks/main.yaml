@@ -68,6 +68,7 @@
 
 
 ###################
+# TODO: ADD COPY OF SCRIPT to /opt/nagios
 
 - name: copy over nagios commands.cfg
   tags: config
