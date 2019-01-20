@@ -76,7 +76,8 @@
 
 - name: Enable telegram-bot to run on boot and start
   become: yes
-  service:
+  systemd:
+    daemon_reload: true
     name: telegram-bot.service
     state: restarted
     enabled: true
