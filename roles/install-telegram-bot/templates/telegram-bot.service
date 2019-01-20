@@ -8,6 +8,7 @@ Group={{ telegram_user_account }}
 ExecStart={{ telegram_anaconda_path }}/envs/telegram-bot/bin/run-telegram-bot
 Restart=always
 RestartSec=10
+Environment=TELEGRAM_BOT_ADMINS={{ telegram_admin_id}}
 
 [Install]
 WantedBy=multi-user.target
