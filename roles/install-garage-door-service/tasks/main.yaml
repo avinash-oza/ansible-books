@@ -79,3 +79,5 @@
     name: garage-door-server.service
     state: restarted
     enabled: true
+
+# TODO: Add cron job to send passive alerts to the api using ansible_hostname, a lookup of the token, the submit check url and the garage endpoint
