@@ -37,7 +37,7 @@ def submit_check(vpn_api_token, expected_session_count, passive_check_endpoint, 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--vpn-api-token', type=str, help="VPN API token")
-    parser.add_argument('--expected-session-count', type=int, default=2, help="number of sessions to expect")
+    parser.add_argument('--expected-session-count', type=int, default=1, help="number of sessions to expect")
     parser.add_argument('--submit-check-url', type=str, help="Nagios passive check url")
     parser.add_argument('--token', type=str, help="Nagios passive check token")
     parser.add_argument('--hostname', type=str, help="Nagios passive check url")

@@ -48,27 +48,26 @@
     - nagios
     - www-data
 
-- name: Symlink airvpn_checker plugin with nagios plugins
-  file:
-    src: "{{ user_home_directory }}/home-projects/pi/airvpn_checker"
-    dest: /usr/lib/nagios/plugins/check_airvpn_status
-    state: link
-    owner: root
-    group: root
-
-- name: copy airvpn config
-  template:
-    src: airvpn_checker.config.j2
-    dest: "{{ user_home_directory }}/home-projects/pi/airvpn_checker/airvpn.config"
-    owner: "nagios"
-    group: "nagios"
-
-
 # TODO: ################## checkout check_sip, update perl version to lib, install libswitch-perl
+- name: Create directory for nagios checks
+  become: yes
+  file:
+    state: directory
+    path: /opt/nagios
 
+- name: copy script to directory
+  become: yes
+  template:
+    src: "{{ item }}"
+    dest: /opt/nagios
+  with_items:
+    - check_airvpn.py
 
-###################
-# TODO: ADD COPY OF SCRIPT to /opt/nagios
+- name: setup cron job for airvpn
+  cron:
+    name: "airvpn_checks"
+    minute: "*/10"
+    job: "/opt/anaconda/bin/python /opt/nagios/check_airvpn.py --vpn-api-token={{ vault_airvpn_api_key }} --submit-check-url={{ vault_nagios_submit_passive_check_ext_url }} --token={{ nagios_passive_check_token }} --hostname=reverse-proxy"
 
 - name: copy over nagios commands.cfg
   tags: config
