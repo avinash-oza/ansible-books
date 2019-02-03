@@ -42,16 +42,17 @@
     - git
     - python-pip
     - python-virtualenv
-    - python-dev
+    - python3-dev
 
 - name: Create virtual env with bottle
   pip:
     name: "{{ item }}"
-    virtualenv_python: python2.7
+    virtualenv_python: python3.4
     virtualenv: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env"
   with_items:
-    - bottle
+    - flask
     - Rpi.GPIO
+    - requests
 
 - name: Checkout microservices directory
   git:
@@ -67,7 +68,7 @@
 - name: Install extra requirements
   pip:
     requirements: "{{ additional_requirements_file.stat.path }}"
-    virtualenv_python: python2.7
+    virtualenv_python: python3.4
     virtualenv: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env"
   when: additional_requirements_file.stat.exists == True
 

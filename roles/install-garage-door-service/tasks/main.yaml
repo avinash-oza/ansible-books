@@ -80,4 +80,20 @@
     state: restarted
     enabled: true
 
-# TODO: Add cron job to send passive alerts to the api using ansible_hostname, a lookup of the token, the submit check url and the garage endpoint
+- name: Create directory for nagios checks
+  become: yes
+  file:
+    state: directory
+    path: /opt/nagios
+
+- name: copy script to directory
+  become: yes
+  template:
+    src: check_garage.py
+    dest: /opt/nagios
+
+- name: setup cron job for alerts
+  cron:
+    name: "submit garage passive checks"
+    minute: "*/2"
+    job: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/python /opt/nagios/check_garage.py --api-endpoint=http://localhost:5000/garage/status --submit-check-url={{ vault_nagios_submit_passive_check_ext_url }} --token={{ nagios_passive_check_token }} --hostname=garage-door"
