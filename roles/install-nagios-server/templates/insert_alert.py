@@ -45,4 +45,8 @@ if __name__ == '__main__':
     parser.add_argument('--api-endpoint', type=str, help="Where to sent the post request")
     args = parser.parse_args()
 
-    insert_new_entry(args.service, args.api_endpoint)
+    try:
+        insert_new_entry(args.service, args.api_endpoint)
+    except Exception as e:
+        with open('/tmp/nagios-service', 'w') as f:
+            f.write(str(e))

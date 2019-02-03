@@ -62,6 +62,7 @@
     dest: /opt/nagios
   with_items:
     - check_airvpn.py
+    - insert_alert.py
 
 - name: setup cron job for airvpn
   cron:
