@@ -18,9 +18,14 @@ def get_airvpn_status(vpn_api_token, expected_session_count):
         return message_text, exit_code
 
     data = resp.json()
-    message_text = 'Sessions currently connected: ' + ",".join([d['device_name'] for d in data['sessions']])
-    if len(data['sessions']) < expected_session_count:
+    if 'sessions' not in data:
+        message_text = "Could not find any sessions"
         exit_code = 2
+    else:
+        message_text = 'Sessions currently connected: {}. Expiration date: {}'.format(",".join([d['device_name'] for d in data['sessions']]), data['user']['expiration_date'])
+        
+        if len(data['sessions']) < expected_session_count:
+            exit_code = 2
     return message_text, exit_code
 
 def submit_check(vpn_api_token, expected_session_count, passive_check_endpoint, token, hostname):
