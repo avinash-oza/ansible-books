@@ -2,11 +2,21 @@
 # coding: utf-8
 import argparse
 import os
+import boto3
 
-import requests
+sns = boto3.client('sns')
+
+MESSAGE_TEXT = """
+***** Nagios *****
+Notification Type: {alert_type}
+
+State: {host_state}
+Address: {host_address}
+Info: {output_text}
+Date/Time: {n_datetime}"""
 
 
-def insert_new_entry(service_alert, url):
+def insert_new_entry(service_alert, sns_arn):
     env = os.environ
     # Parameters for alerts
     notification_type = env.get('NAGIOS_NOTIFICATIONTYPE')
@@ -26,7 +36,6 @@ def insert_new_entry(service_alert, url):
                  'notification_type': notification_type}
 
     if service_alert:
-        print("Service called")
         data_dict['alert_type'] = 'SERVICE'
         data_dict['output_text'] = service_output
     else:
@@ -35,18 +44,18 @@ def insert_new_entry(service_alert, url):
         data_dict['alert_type'] = 'HOST'
         data_dict['output_text'] = host_output
 
-    resp = requests.post(url, data=data_dict)
-    resp.raise_for_status()
+    response = sns.publish(TargetArn=sns_arn,
+                           Message=MESSAGE_TEXT.format(**data_dict),
+                           Subject='SNS Alert',
+                           )
+
+    print("Sent {} alert".format(data_dict['alert_type']))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--service', action='store_true', help="This is a service alert")
-    parser.add_argument('--api-endpoint', type=str, help="Where to sent the post request")
+    parser.add_argument('--sns-arn', type=str, help="SNS ARN to send meessages by")
     args = parser.parse_args()
 
-    try:
-        insert_new_entry(args.service, args.api_endpoint)
-    except Exception as e:
-        with open('/tmp/nagios-service', 'w') as f:
-            f.write(str(e))
+    insert_new_entry(args.service, args.sns_arn)
