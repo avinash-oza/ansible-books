@@ -63,6 +63,7 @@
   with_items:
     - check_airvpn.py
     - insert_alert.py
+    - send_sns_alert.py
 
 - name: setup cron job for airvpn
   cron:
