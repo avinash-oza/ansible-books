@@ -2,11 +2,20 @@
 # coding: utf-8
 import argparse
 import os
+import boto3
+import json
 
-import requests
+MESSAGE_TEXT = """
+***** Nagios *****
+Notification Type: {alert_type}
+
+State: {host_state}
+Address: {host_address}
+Info: {output_text}
+Date/Time: {n_datetime}"""
 
 
-def insert_new_entry(service_alert, url):
+def insert_new_entry(service_alert):
     env = os.environ
     # Parameters for alerts
     notification_type = env.get('NAGIOS_NOTIFICATIONTYPE')
@@ -35,18 +44,16 @@ def insert_new_entry(service_alert, url):
         data_dict['alert_type'] = 'HOST'
         data_dict['output_text'] = host_output
 
-    resp = requests.post(url, data=data_dict)
-    resp.raise_for_status()
+    data_dict['message_text'] = MESSAGE_TEXT.format(**data_dict)
+
+    sqs = boto3.resource('sqs')
+    q = sqs.get_queue_by_name(QueueName='low-pri-nagios-alerts.fifo')
+    q.send_message(MessageBody=json.dumps(data_dict), MessageGroupId='nagios-alerts')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--service', action='store_true', help="This is a service alert")
-    parser.add_argument('--api-endpoint', type=str, help="Where to sent the post request")
     args = parser.parse_args()
 
-    try:
-        insert_new_entry(args.service, args.api_endpoint)
-    except Exception as e:
-        with open('/tmp/nagios-service', 'w') as f:
-            f.write(str(e))
+    insert_new_entry(args.service)
