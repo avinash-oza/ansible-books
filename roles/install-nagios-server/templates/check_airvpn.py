@@ -26,6 +26,8 @@ def get_airvpn_status(vpn_api_token, expected_session_count):
         
         if len(data['sessions']) < expected_session_count:
             exit_code = 2
+    # at this point, we have a proper response
+    message_text += "\nDays left: {}, expiry date={}".format(data['user']['expiration_days'], data['user']['expiration_date'])
     return message_text, exit_code
 
 def submit_check(vpn_api_token, expected_session_count, passive_check_endpoint, token, hostname):
@@ -47,5 +49,4 @@ if __name__ == '__main__':
     parser.add_argument('--token', type=str, help="Nagios passive check token")
     parser.add_argument('--hostname', type=str, help="Nagios passive check url")
     args = parser.parse_args()
-
     submit_check(args.vpn_api_token, args.expected_session_count, args.submit_check_url, args.token, args.hostname)
