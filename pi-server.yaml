@@ -12,6 +12,7 @@
     - { role: install-raspberry-pi-microservice, microservice_name: temperature_sensors, microservice_port: 25002, tags: ['services']}
     - { role: checkout-home-projects, user_to_configure: nagios, user_home_directory: "/home/nagios", tags: ['nagios', 'home-projects']}
     - { role: install-nagios-server, user_home_directory: "/home/nagios", tags: ['nagios', 'install-nagios']}
+    - { role: install-and-configure-letsencrypt }
     - { role: setup-apache-and-google-2fa , tags: ['apache']} # Currently testing
     - { role: checkout-home-projects, user_to_configure: deploy, tags: ['store-temperature', 'home-projects']}
     - { role: install-sqs-temperatures, garage_door_user: deploy, tags: ['store-temperature', 'home-projects']}

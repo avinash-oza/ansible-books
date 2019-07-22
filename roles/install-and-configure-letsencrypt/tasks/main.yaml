@@ -1,0 +1,15 @@
+- name: download certbot-auto binary
+  get_url:
+    url: "https://dl.eff.org/certbot-auto"
+    dest: /usr/local/bin/certbot-auto"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: setup job to auto renew if close to expiry
+  cron:
+    name: certbot-auto renew certificate
+    special_time: weekly
+    job: "/usr/local/bin/certbot-auto certonly --domains {{ vault_local_domain_name }} -n --standalone"
+    state: present
+
