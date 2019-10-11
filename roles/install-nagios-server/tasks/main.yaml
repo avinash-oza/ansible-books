@@ -61,15 +61,8 @@
     src: "{{ item }}"
     dest: /opt/nagios
   with_items:
-    - check_airvpn.py
     - insert_alert.py
     - send_sns_alert.py
-
-- name: setup cron job for airvpn
-  cron:
-    name: "airvpn_checks"
-    minute: "*/10"
-    job: "/opt/anaconda/bin/python /opt/nagios/check_airvpn.py --vpn-api-token={{ vault_airvpn_api_key }} --submit-check-url={{ vault_nagios_submit_passive_check_ext_url }} --token={{ nagios_passive_check_token }} --hostname=reverse-proxy"
 
 - name: copy over nagios commands.cfg
   tags: config
