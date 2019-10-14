@@ -5,6 +5,6 @@
 - import_tasks: secure-server.yaml
 - import_tasks: scramble-extra-users-passwords.yaml
 
-- name: Create raid mount in fstab
-  import_tasks: add-raid-mount.yaml
-  when: raid_mount_ip_address is defined
+# name: Create raid mount in fstab
+# import_tasks: add-raid-mount.yaml
+# when: raid_mount_ip_address is defined
