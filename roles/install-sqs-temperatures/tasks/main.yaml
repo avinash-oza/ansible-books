@@ -1,69 +1,35 @@
 ---
 - name: install prereq packages
   become: true
-  apt: pkg={{item}}  state=installed update_cache=true
-  with_items:
-    - python-pip
-    - python-virtualenv
-    - python-dev
+  apt:
+    pkg: ['python-pip','python-virtualenv', 'python-dev']
+    state: present
 
-- name: Check that home-projects exists for user
-  stat:
-    path: "/home/{{ garage_door_user }}/home-projects"
-  register: home_projects_dir
+- name: create scripts directory
+  file:
+    state: directory
+    path: /opt/scripts
+    owner: root
+    group: root
 
-- fail:
-    msg: "home-projects needs to exist for user before running this role"
-  when: home_projects_dir.stat.exists == False
+- name: copy over script for temperature publishing
+  template:
+    src: report_temperatures.py
+    dest: /opt/scripts
+    owner: root
+    group: root
+
+- name: Install report temps cron job
+  cron:
+    name: report_temps_cron_job
+    minute: "*/10"
+    job: "AWS_DEFAULT_REGION={{ vault_nagios_aws_default_region}} AWS_ACCESS_KEY_ID={{ vault_nagios_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_nagios_aws_secret_access_key }} {{ python_virtual_env }}/bin/python /opt/scripts/report_temperatures.py"
+    state: present
+    user: root
 
 - name: Create virtual env for temperatures
   pip:
-    requirements: "/home/{{ garage_door_user }}/home-projects/pi/store_temperature/requirements.txt"
     virtualenv_python: python3
-    virtualenv: "/home/{{ garage_door_user }}/store-temperature-virtual-env"
-    state: forcereinstall
-
-- name: Copy config for db
-  template:
-    backup: true
-    src: "store_temperature.config.j2"
-    dest: "/home/{{ garage_door_user }}/home-projects/pi/store_temperature/store_temperature.config"
-    owner: "{{ garage_door_user }}"
-    group: "{{ garage_door_user }}"
-    mode: 0755
-
-- name: Install queue cron job
-  cron:
-    name: "store_temperature_queue_job"
-    backup: true
-    minute: "*/10"
-    job: "{{ queue_cron_job }}"
+    virtualenv: "{{ python_virtual_env }}"
     state: present
-    user: "{{ garage_door_user }}"
-
-- name: Install outdoor temperature job
-  cron:
-    name: "store_temperature_outdoor_job"
-    backup: true
-    minute: "*/10"
-    job: "{{ outdoor_cron_job }}"
-    state: present
-    user: "{{ garage_door_user }}"
-
-- name: Install store temperature mysql job
-  cron:
-    name: "store_temperature_sql_job"
-    backup: true
-    minute: "*/60"
-    job: "{{ store_cron_job }}"
-    state: present
-    user: "{{ garage_door_user }}"
-
-- name: Change ownership of all files to user
-  become: true
-  file:
-    path: "/home/{{ garage_door_user }}"
-    owner: "{{ garage_door_user }}"
-    group: "{{ garage_door_user }}"
-    state: directory
-    recurse: yes
+    name: [ 'boto3' ]

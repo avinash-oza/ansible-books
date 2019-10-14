@@ -6,7 +6,7 @@
 172.16.2.100
 
 [garage-door]
-172.16.2.102
+garage_door ansible_host=172.16.2.102
 
 [main-server]
 172.16.1.10
