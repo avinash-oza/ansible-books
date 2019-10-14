@@ -32,4 +32,4 @@
     virtualenv_python: python3
     virtualenv: "{{ python_virtual_env }}"
     state: present
-    name: [ 'boto3' ]
+    name: [ 'boto3', 'requests' ]
