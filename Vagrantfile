@@ -15,14 +15,14 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "debian/jessie64"
   # Do an apt get before running
-  config.vm.provision "shell", inline: "sudo apt-get update"
+# config.vm.provision "shell", inline: "sudo apt-get update"
 
   config.vm.provision "ansible" do |ansible|
-#     ansible.verbose = 'v'
-      ansible.playbook = 'pi-server.yaml'
-  #   ansible.groups = {
-  #      "pi-server" => ['b1']
-  #   }
+      ansible.verbose = 'v'
+      ansible.playbook = 'garage-door.yaml'
+      ansible.groups = {
+         "garage-door" => ['b1']
+      }
   #   ansible.raw_arguments= ["-C"]
   end
   config.vm.synced_folder ".", "/vagrant"

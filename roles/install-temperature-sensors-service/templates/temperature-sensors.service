@@ -1,0 +1,16 @@
+[Unit]
+Description={{ microservice_name }} on port {{ microservice_port }}
+
+[Service]
+Type=simple
+User= {{ microservice_account }}
+Group= {{ microservice_account }}
+
+Environment="TZ=America/New_York"
+#Environment="APP_SETTINGS=/etc/garage-door-service/config.config"
+ExecStart={{ virtual_env_path }}/bin/gunicorn {{ microservice_app_name }}:app -b 0.0.0.0:{{ microservice_port }}
+Restart=on-success
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
