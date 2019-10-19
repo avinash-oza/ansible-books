@@ -7,7 +7,7 @@ User= {{ microservice_account }}
 Group= {{ microservice_account }}
 
 Environment="TZ=America/New_York"
-#Environment="APP_SETTINGS=/etc/garage-door-service/config.config"
+Environment="APP_SETTINGS={{ microservices_configs_dir }}/{{ microservice_name }}.config"
 ExecStart={{ virtual_env_path }}/bin/gunicorn {{ microservice_app_name }}:app -b 0.0.0.0:{{ microservice_port }}
 Restart=on-success
 RestartSec=30

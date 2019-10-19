@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/stretch64"
   # Do an apt get before running
 # config.vm.provision "shell", inline: "sudo apt-get update"
 
@@ -28,6 +28,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant"
 
   config.vm.define "b1" do |b1|
-      b1.vm.box = "debian/jessie64"
+      b1.vm.box = "debian/stretch64"
   end
 end

@@ -1,99 +1,18 @@
 ---
-- name: Check the gpio group exists or create
-  group:
-    name: gpio
-    state: present
+# name: Create directory for nagios checks
+# become: yes
+# file:
+#   state: directory
+#   path: /opt/nagios
 
-- name: Create microservices user {{ garage_door_user }}
-  user:
-    name: "{{ garage_door_user }}"
-    groups: gpio # to allow access to sensors
-    append: yes
-    state: present
+# name: copy script to directory
+# become: yes
+# template:
+#   src: check_garage.py
+#   dest: /opt/nagios
 
-- name: install prereq packages
-  become: true
-  apt: pkg={{item}}  state=installed update_cache=true
-  with_items:
-    - git
-    - python-pip
-    - python-virtualenv
-    - python3-dev
-
-- name: Create virtual env with bottle
-  pip:
-    name: "{{ item }}"
-    virtualenv_python: python3.4
-    virtualenv: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env"
-  with_items:
-    - flask
-    - Rpi.GPIO
-    - requests
-
-- name: Checkout garage-door-service
-  git:
-    repo: https://github.com/avinash-oza/garage-door-service.git
-    dest: /tmp/garage-door-service
-
-- name: Install package and deps
-  shell: "source /home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/activate && {{ item }}"
-  args:
-    executable: /bin/bash
-    chdir: /tmp/garage-door-service
-  with_items:
-    - "pip install -r requirements.txt"
-    - "pip install ."
-
-- name: "Create config file location"
-  become: yes
-  file:
-    path: "/etc/garage-door-service/"
-    state: directory
-    owner: "{{ garage_door_user }}"
-    group: "{{ garage_door_user }}"
-    mode: 0755
-  
-- name: Create config file
-  template:
-    backup: true
-    src: config.config
-    dest: "/etc/garage-door-service/config.config"
-    owner: "{{ garage_door_user }}"
-    group: "{{ garage_door_user }}"
-    mode: 0755
-
-- name: Copy systemd file for starting service on boot
-  become: yes
-  template:
-    src: "garage-door-server.service"
-    dest: "/etc/systemd/system/garage-door-server.service"
-    mode: 0644
-
-- name: reload systemd configs
-  systemd:
-    daemon_reload: yes
-
-- name: Enable service to run on boot and start
-  become: yes
-  service:
-    name: garage-door-server.service
-    state: restarted
-    enabled: true
-
-- name: Create directory for nagios checks
-  become: yes
-  file:
-    state: directory
-    path: /opt/nagios
-
-- name: copy script to directory
-  become: yes
-  template:
-    src: check_garage.py
-    dest: /opt/nagios
-
-- name: setup cron job for alerts
-  cron:
-    name: "submit garage passive checks"
-    minute: "*/2"
-    job: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/python /opt/nagios/check_garage.py --api-endpoint=http://localhost:5000/garage/status --submit-check-url={{ vault_nagios_submit_passive_check_ext_url }} --token={{ nagios_passive_check_token }} --hostname=garage-door"
+# name: setup cron job for alerts
+# cron:
+#   name: "submit garage passive checks"
+#   minute: "*/2"
+#   job: "/home/{{ garage_door_user }}/{{ microservice_name }}/virtual-env/bin/python /opt/nagios/check_garage.py --api-endpoint=http://localhost:5000/garage/status --submit-check-url={{ vault_nagios_submit_passive_check_ext_url }} --token={{ nagios_passive_check_token }} --hostname=garage-door"

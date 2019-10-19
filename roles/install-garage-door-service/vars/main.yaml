@@ -1,0 +1,8 @@
+microservice_name: garage-door
+microservice_app_name: garage_door
+microservice_has_config: false
+microservice_port: 25678
+
+microservice_git_repo: "https://github.com/avinash-oza/garage-door-service.git"
+git_local_dest: "/tmp/{{ microservice_name }}"
+config_file_path: "/etc/{{ microservice_name }}"

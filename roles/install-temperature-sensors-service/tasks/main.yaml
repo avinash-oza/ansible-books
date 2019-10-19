@@ -11,6 +11,13 @@
     append: yes
     state: present
 
+- name: Create config directory
+  file:
+    path: "{{ microservices_configs_dir }}"
+    state: directory
+    owner: root
+    group: root
+
 - name: install prereq packages
   become: true
   apt:
@@ -43,6 +50,12 @@
     virtualenv: "{{ virtual_env_path }}"
     virtualenv_python: "{{ virtual_env_python_version }}"
     name: "{{ git_local_dest }}"
+
+- name: Copy config file template if required
+  template:
+    src: "{{ microservice_name }}.config"
+    dest: "{{ microservices_configs_dir }}/{{ microservice_name }}.config"
+  when: microservice_has_config|default(false)|bool
 
 - name: Copy systemd file for starting service on boot
   become: yes

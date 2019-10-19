@@ -1,11 +1,6 @@
-microservice_account: services-user
 microservice_name: temperature-sensors
 microservice_app_name: temperature_sensors
 microservice_port: 25002
 
 microservice_git_repo: "https://github.com/avinash-oza/temperature-sensors.git"
-git_local_dest: "/tmp/{{ microservice_name }}"
 
-
-virtual_env_python_version: python3.4
-virtual_env_path: "/opt/virtual-envs/{{ microservice_name }}"

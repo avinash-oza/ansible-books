@@ -9,6 +9,12 @@ telegram_ups_ip: 172.16.1.10
 telegram_admin_id: "{{ vault_telegram_admin_id }}"
 garage_door_port: 25678
 
+microservices_configs_dir: /etc/microservice-configs
+microservice_account: services-user
+virtual_env_python_version: python3.5
+virtual_env_path: "/opt/virtual-envs/{{ microservice_name }}"
+git_local_dest: "/tmp/{{ microservice_name }}"
+
 local_domain_name: "{{ vault_local_domain_name }}"
 aws_sns_garage_request_arn: "{{ vault_aws_sns_garage_request_arn }}"
 
