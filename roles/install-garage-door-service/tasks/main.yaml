@@ -1,4 +1,6 @@
 ---
+- include_role:
+    name: install-flask-rest-service
 # name: Create directory for nagios checks
 # become: yes
 # file:

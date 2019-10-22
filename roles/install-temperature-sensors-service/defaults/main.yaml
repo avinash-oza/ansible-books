@@ -3,4 +3,6 @@ microservice_app_name: temperature_sensors
 microservice_port: 25002
 
 microservice_git_repo: "https://github.com/avinash-oza/temperature-sensors.git"
-
+git_local_dest: "/tmp/{{ microservice_name }}"
+git_repo_tag: refactor-flask-gunicorn
+config_file_path: "/etc/{{ microservice_name }}"
