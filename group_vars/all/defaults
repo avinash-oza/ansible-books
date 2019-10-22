@@ -11,7 +11,7 @@ garage_door_port: 25678
 
 microservices_configs_dir: /etc/microservice-configs
 microservice_account: services-user
-virtual_env_python_version: python3.5
+virtual_env_python_version: python3
 virtual_env_path: "/opt/virtual-envs/{{ microservice_name }}"
 git_local_dest: "/tmp/{{ microservice_name }}"
 
