@@ -6,4 +6,4 @@
 #   - { role: common, tags: ['base'] }
     - { role: install-temperature-sensors-service }
     - { role: install-garage-door-service }
-#   - { role: install-sqs-temperatures, garage_door_user: garage-door, become: true }
+    - { role: install-aws-temp-scripts, garage_door_user: garage-door, become: true }
