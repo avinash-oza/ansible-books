@@ -4,6 +4,10 @@
     pkg: apcupsd
     state: installed
 
+- name: Install boto3 to root env
+  become: yes
+  shell: "/opt/anaconda/bin/conda install -y boto3"
+
 - name: Copy over configuration files
   tags: config
   template:
@@ -13,11 +17,18 @@
     - apcupsd.conf
     - offbattery
     - onbattery
-    - doshutdown
 
+- name: Create directory for scripts
+  become: yes
+  file:
+    state: directory
+    path: /opt/user-scripts
 
-- name: Get check_apcupsd plugin
-  get_url:
-    url: http://lancet.mit.edu/mwall/projects/nagios/check_apcupsd
-    dest: /usr/lib/nagios/plugins/check_apcupsd
-    mode: 0755
+- name: copy alert script to directory
+  become: yes
+  template:
+    src: "{{ item }}"
+    dest: /opt/user-scripts
+  loop:
+    - send_sns_alert.py
+
