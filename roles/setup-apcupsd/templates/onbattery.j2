@@ -5,11 +5,8 @@
 # goes on batteries.
 # We send an email message to root to notify him.
 #
-SYSADMIN="{{ vault_email_address }}"
-APCUPSD_MAIL="mail"
-
-HOSTNAME=`hostname`
-MSG="$HOSTNAME Power Failure !!!"
+export HOSTNAME=`hostname`
+export MSG="$HOSTNAME Power Failure !!!"
 #
 (
    echo "Subject: $MSG"
@@ -17,5 +14,6 @@ MSG="$HOSTNAME Power Failure !!!"
    echo "$MSG"
    echo " "
    /sbin/apcaccess status
-) | $APCUPSD_MAIL -s "$MSG" $SYSADMIN
-exit 0
+) 
+
+AWS_DEFAULT_REGION={{ vault_nagios_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_nagios_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_nagios_aws_secret_access_key }} /opt/anaconda/bin/python /opt/user-scripts/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}

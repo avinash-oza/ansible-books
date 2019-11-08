@@ -6,16 +6,10 @@
 
 - name: Install prerequiste packages
   apt:
-    name: "{{ item }}"
+    name: ["apt-transport-https","ca-certificates", "curl", "gnupg2", "software-properties-common","python-docker"]
     state: present
     update_cache: yes
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - gnupg2
-    - software-properties-common
-
+     
 - name: Add docker apt repository
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/debian stretch stable"
@@ -28,21 +22,59 @@
     state: present
     update_cache: yes
 
-- name: Install docker-py and docker-compose
+- name: Install python docker packages
   pip:
-    name: "{{ item }}"
+    name: ["docker-compose", "docker"]
     state: present
-  with_items:
-    - docker-compose
-#   - docker-py
 
-- name: "Copy over {{ docker_compose_file }}"
+- name: Create config directories
+  file:
+    state: directory
+    path: "{{ docker_configs_root_path }}/apache2"
+    owner: root
+    group: root
+
+- name: copy apache2 config files
   template:
-    src: "{{ docker_compose_file }}"
-    dest: /tmp/docker-compose.yaml
+    src: "docker-apache/{{ item }}"
+    dest: "{{ docker_configs_root_path }}/apache2"
+  loop:
+    - ssl-setup.conf
+    - aws_passwd
+    - httpd.conf
+    - Dockerfile
 
-- name: "Deploy {{ docker_project_name }}"
-  docker_service:
-    project_name: "{{ docker_project_name }}"
+- name: build apache2 image
+  docker_image:
+    name: docker-apache2-ssl
+    tag: "0.1b1"
     state: present
-    project_src: /tmp
+    source: build
+    build:
+      path: "{{ docker_configs_root_path }}/apache2"
+
+- name: deploy apache2 container
+  docker_container:
+    name: some-apache2-container
+    image: "docker-apache2-ssl:0.1b1"
+    state: started
+    pull: no # build locally
+    volumes:
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    published_ports:
+      - 8080:443
+
+- name: deploy telegram-bot container
+  docker_container:
+    name: some-telegram-bot
+    image: "avinashoza/telegram-bot:v0.2b9"
+    pull: yes
+    state: started
+    restart_policy: always
+    env:
+      AWS_DEFAULT_REGION: "{{ vault_nagios_aws_default_region }}"
+      AWS_ACCESS_KEY_ID : "{{ vault_nagios_aws_access_key_id }}"
+      AWS_SECRET_ACCESS_KEY: "{{ vault_nagios_aws_secret_access_key }}"
+      TELEGRAM_BOT_API_KEY: "{{ vault_telegram_api_key }}"
+      TELEGRAM_BOT_ADMINS: "{{ vault_telegram_admin_id }}"
+      TELEGRAM_GARAGE_REQUEST_ARN : "{{ vault_aws_sns_garage_request_arn }}"
