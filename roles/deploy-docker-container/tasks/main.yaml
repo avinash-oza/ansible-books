@@ -30,17 +30,14 @@
 - name: Create config directories
   file:
     state: directory
-    path: "/etc/{{ item }}"
+    path: "{{ docker_configs_root_path }}/apache2"
     owner: root
     group: root
-  loop:
-    - docker-files
-    - docker-files/docker-build/apache2
 
 - name: copy apache2 config files
   template:
     src: "docker-apache/{{ item }}"
-    dest: "/etc/docker-files/docker-build/apache2"
+    dest: "{{ docker_configs_root_path }}/apache2"
   loop:
     - ssl-setup.conf
     - aws_passwd
@@ -54,7 +51,7 @@
     state: present
     source: build
     build:
-      path: /etc/docker-files/docker-build/apache2
+      path: "{{ docker_configs_root_path }}/apache2"
 
 - name: deploy apache2 container
   docker_container:

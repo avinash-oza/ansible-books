@@ -1,2 +1,1 @@
-docker_volumes_path: /mnt/raid0/docker_data/docker_volumes
-mysql_root_password: "{{ vault_mysql_root_password }}"
+docker_configs_root_path: /etc/docker-files/docker-build
