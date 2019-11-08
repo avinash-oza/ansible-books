@@ -1,4 +1,3 @@
 ---
 - import_playbook: base-book.yaml
-- import_playbook: pi-server.yaml
 - import_playbook: garage-door.yaml
