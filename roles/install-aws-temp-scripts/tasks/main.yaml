@@ -23,7 +23,7 @@
   cron:
     name: report_temps_cron_job
     minute: "*/10"
-    job: "AWS_DEFAULT_REGION={{ vault_nagios_aws_default_region}} AWS_ACCESS_KEY_ID={{ vault_nagios_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_nagios_aws_secret_access_key }} {{ python_virtual_env }}/bin/python /opt/scripts/report_temperatures.py"
+    job: "AWS_DEFAULT_REGION={{ vault_aws_default_region}} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ python_virtual_env }}/bin/python /opt/scripts/report_temperatures.py"
     state: present
     user: root
 

@@ -7,9 +7,9 @@ User= {{ microservice_account }}
 Group= {{ microservice_account }}
 
 Environment="TZ=America/New_York"
-Environment="AWS_DEFAULT_REGION={{ vault_nagios_aws_default_region }}"
-Environment="AWS_ACCESS_KEY_ID={{ vault_nagios_aws_access_key_id }}"
-Environment="AWS_SECRET_ACCESS_KEY={{ vault_nagios_aws_secret_access_key }}"
+Environment="AWS_DEFAULT_REGION={{ vault_aws_default_region }}"
+Environment="AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }}"
+Environment="AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }}"
 Environment="APP_SETTINGS={{ microservices_configs_dir }}/{{ microservice_name }}.config"
 ExecStart={{ virtual_env_path }}/bin/gunicorn {{ microservice_app_name }}:app -b 0.0.0.0:{{ microservice_port }} -c python:{{ microservice_app_name }}.gunicorn_config
 Restart=on-success
