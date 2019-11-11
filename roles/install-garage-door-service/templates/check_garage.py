@@ -21,13 +21,13 @@ def check_garage(api_endpoint):
     status_text = ""
     status_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%m:%S %p')
     for g in resp_dict['status']:
-        garage_status_text = f"{g['status']}"
+        garage_status_text = g['status']
         if g['error'] or g['status'] == 'OPEN':
             # send alert and bold open garage
-            garage_status_text = f"*{g['status']}*"
+            garage_status_text = "*{}*".format(g['status'])
             exit_code = 2
 
-        status_text += f"{g['garage_name']}: {garage_status_text} {status_time}\n"
+        status_text += "{}: {} {}\n".format(g['garage_name'], garage_status_text, status_time)
 
     return status_text, exit_code
 
