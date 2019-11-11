@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import requests
 import argparse
+import boto3
+import datetime
+
+sns = boto3.client('sns')
 
 
 def check_garage(api_endpoint):
@@ -9,28 +13,42 @@ def check_garage(api_endpoint):
     try:
         resp.raise_for_status()
     except requests.HTTPError as e:
-        print("Exception when contacting API: {}".format(e))
-        exit_code = 2
+        msg = "Exception when contacting API: {}".format(e)
+        print(msg)
+        return msg, 2
 
     resp_dict = resp.json()
-    status_text = "".join(["{} is {}.".format(k['garage_name'], k['status']) for k in resp_dict['status']])
+    status_text = ""
+    status_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%m:%S %p')
+    for g in resp_dict['status']:
+        garage_status_text = f"{g['status']}"
+        if g['error'] or g['status'] == 'OPEN':
+            # send alert and bold open garage
+            garage_status_text = f"*{g['status']}*"
+            exit_code = 2
 
-    if any(k['error'] for k in resp_dict['status']) or any(k['status'] == 'OPEN' for k in resp_dict['status']):
-        # exit with error code if any garage is open or error
-        exit_code = 2
+        status_text += f"{g['garage_name']}: {garage_status_text} {status_time}\n"
+
     return status_text, exit_code
 
-def submit_check(api_endpoint):
+
+def submit_check(api_endpoint, sns_arn):
     status_text, exit_code = check_garage(api_endpoint)
+    # print(status_text)
     if int(exit_code):
-        # send SNS notification here
-        print(status_text, exit_code)
+        response = sns.publish(TargetArn=sns_arn,
+                               Message=status_text,
+                               Subject='SNS Alert',
+                               )
+        print(response)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--api-endpoint', type=str, default='http://localhost:25678/garage/status',
                         help="Garage status API endpoint")
+    parser.add_argument('--sns-arn', type=str, help="SNS ARN to send meessages by")
+
     args = parser.parse_args()
 
-    submit_check(args.api_endpoint)
+    submit_check(args.api_endpoint, args.sns_arn)
