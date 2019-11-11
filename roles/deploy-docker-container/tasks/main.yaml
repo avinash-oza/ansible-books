@@ -72,6 +72,7 @@
     state: started
     restart_policy: always
     env:
+      TZ: "America/New_York"
       AWS_DEFAULT_REGION: "{{ vault_aws_default_region }}"
       AWS_ACCESS_KEY_ID : "{{ vault_aws_access_key_id }}"
       AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key }}"
