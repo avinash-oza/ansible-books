@@ -58,24 +58,25 @@
     name: some-apache2-container
     image: "docker-apache2-ssl:0.1b1"
     state: started
+    restart_policy: always
     pull: no # build locally
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
     published_ports:
       - 8080:443
 
-- name: deploy telegram-bot container
-  docker_container:
-    name: some-telegram-bot
-    image: "avinashoza/telegram-bot:v0.2b9"
-    pull: yes
-    state: started
-    restart_policy: always
-    env:
-      TZ: "America/New_York"
-      AWS_DEFAULT_REGION: "{{ vault_aws_default_region }}"
-      AWS_ACCESS_KEY_ID : "{{ vault_aws_access_key_id }}"
-      AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key }}"
-      TELEGRAM_BOT_API_KEY: "{{ vault_telegram_api_key }}"
-      TELEGRAM_BOT_ADMINS: "{{ vault_telegram_admin_id }}"
-      TELEGRAM_GARAGE_REQUEST_ARN : "{{ vault_aws_sns_garage_request_arn }}"
+# name: deploy telegram-bot container
+# docker_container:
+#   name: some-telegram-bot
+#   image: "avinashoza/telegram-bot:v0.2b9"
+#   pull: yes
+#   state: started
+#   restart_policy: always
+#   env:
+#     TZ: "America/New_York"
+#     AWS_DEFAULT_REGION: "{{ vault_aws_default_region }}"
+#     AWS_ACCESS_KEY_ID : "{{ vault_aws_access_key_id }}"
+#     AWS_SECRET_ACCESS_KEY: "{{ vault_aws_secret_access_key }}"
+#     TELEGRAM_BOT_API_KEY: "{{ vault_telegram_api_key }}"
+#     TELEGRAM_BOT_ADMINS: "{{ vault_telegram_admin_id }}"
+#     TELEGRAM_GARAGE_REQUEST_ARN : "{{ vault_aws_sns_garage_request_arn }}"

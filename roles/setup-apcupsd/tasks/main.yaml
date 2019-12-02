@@ -17,6 +17,7 @@
     - apcupsd.conf
     - offbattery
     - onbattery
+    - doshutdown
 
 - name: Create directory for scripts
   become: yes
