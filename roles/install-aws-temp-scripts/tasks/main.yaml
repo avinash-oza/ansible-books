@@ -5,19 +5,24 @@
     pkg: ['python-pip','python-virtualenv', 'python-dev']
     state: present
 
-- name: create scripts directory
-  file:
-    state: directory
-    path: /opt/scripts
-    owner: root
-    group: root
+- include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: report_temperatures.py
 
-- name: copy over script for temperature publishing
-  template:
-    src: report_temperatures.py
-    dest: /opt/scripts
-    owner: root
-    group: root
+# name: create scripts directory
+# file:
+#   state: directory
+#   path: /opt/scripts
+#   owner: root
+#   group: root
+
+# name: copy over script for temperature publishing
+# template:
+#   src: report_temperatures.py
+#   dest: /opt/scripts
+#   owner: root
+#   group: root
 
 - name: Install report temps cron job
   cron:
