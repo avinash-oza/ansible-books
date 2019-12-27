@@ -2,19 +2,10 @@
 - include_role:
     name: install-flask-rest-service
 
-- name: create scripts directory
-  file:
-    state: directory
-    path: /opt/scripts
-    owner: root
-    group: root
-
-- name: copy over script for checking garage status
-  template:
-    src: check_garage.py
-    dest: /opt/scripts
-    owner: root
-    group: root
+- include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: check_garage.py
 
 - name: Install garage status cron job
   cron:

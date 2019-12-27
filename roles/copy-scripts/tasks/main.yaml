@@ -1,0 +1,16 @@
+---
+
+- name: create scripts directory
+  file:
+    state: directory
+    path: /opt/scripts
+    owner: root
+    group: root
+
+- name: copy over script
+  template:
+    src: "{{ script_to_copy }}"
+    dest: /opt/scripts
+    owner: root
+    group: root
+
