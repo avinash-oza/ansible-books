@@ -1,7 +1,7 @@
 - name: download certbot-auto binary
   get_url:
     url: "https://dl.eff.org/certbot-auto"
-    dest: /usr/local/bin/certbot-auto"
+    dest: /usr/local/bin/certbot-auto
     owner: root
     group: root
     mode: "0755"
@@ -10,6 +10,6 @@
   cron:
     name: certbot-auto renew certificate
     special_time: weekly
-    job: "/usr/local/bin/certbot-auto certonly --domains {{ vault_local_domain_name }} -n --standalone"
+    job: "/usr/local/bin/certbot-auto certonly --domains {{ vault_local_domain_name }} -n --standalone | AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} /opt/anaconda/bin/python {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }} --stdin"
     state: present
 
