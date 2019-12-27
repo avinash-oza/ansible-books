@@ -14,6 +14,7 @@ microservice_account: services-user
 virtual_env_python_version: python3
 virtual_env_path: "/opt/virtual-envs/{{ microservice_name }}"
 git_local_dest: "/tmp/{{ microservice_name }}"
+scripts_dir: /opt/scripts
 
 local_domain_name: "{{ vault_local_domain_name }}"
 aws_sns_garage_request_arn: "{{ vault_aws_sns_garage_request_arn }}"

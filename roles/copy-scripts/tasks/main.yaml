@@ -3,14 +3,14 @@
 - name: create scripts directory
   file:
     state: directory
-    path: /opt/scripts
+    path: "{{ scripts_dir }}"
     owner: root
     group: root
 
 - name: copy over script
   template:
     src: "{{ script_to_copy }}"
-    dest: /opt/scripts
+    dest: "{{ scripts_dir }}"
     owner: root
     group: root
 

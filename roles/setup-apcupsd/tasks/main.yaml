@@ -19,17 +19,22 @@
     - onbattery
     - doshutdown
 
-- name: Create directory for scripts
-  become: yes
-  file:
-    state: directory
-    path: /opt/user-scripts
+- include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: send_sns_alert.py
 
-- name: copy alert script to directory
-  become: yes
-  template:
-    src: "{{ item }}"
-    dest: /opt/user-scripts
-  loop:
-    - send_sns_alert.py
+# name: Create directory for scripts
+# become: yes
+# file:
+#   state: directory
+#   path: /opt/user-scripts
+
+# name: copy alert script to directory
+# become: yes
+# template:
+#   src: "{{ item }}"
+#   dest: /opt/user-scripts
+# loop:
+#   - send_sns_alert.py
 
