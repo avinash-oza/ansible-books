@@ -1,0 +1,41 @@
+---
+- name: Create config directories
+  file:
+    state: directory
+    path: "{{ docker_configs_root_path }}/apache2"
+    owner: root
+    group: root
+
+- name: copy apache2 config files
+  template:
+    src: "docker-apache/{{ item }}"
+    dest: "{{ docker_configs_root_path }}/apache2"
+  loop:
+    - ssl-setup.conf
+    - aws_passwd
+    - httpd.conf
+    - Dockerfile
+
+- name: build apache2 image
+  docker_image:
+    name: docker-apache2-ssl
+    tag: "0.1b9"
+    state: present
+    source: build
+    build:
+      path: "{{ docker_configs_root_path }}/apache2"
+
+- name: deploy apache2 container
+  docker_container:
+    name: some-apache2-container
+    image: "docker-apache2-ssl:0.1b9"
+    state: started
+    restart_policy: always
+    pull: no # build locally
+    networks:
+      - name: proxy_network
+    volumes:
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    published_ports:
+      - 8080:443
+ 

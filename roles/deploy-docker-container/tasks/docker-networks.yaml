@@ -1,0 +1,9 @@
+---
+- name: create proxy network
+  docker_network:
+    name: proxy_network
+
+- name: create db network
+  docker_network:
+    name: db_network
+

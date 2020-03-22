@@ -1,9 +1,5 @@
 ---
 
-- name: deploy db network
-  docker_network:
-    name: db_network
-
 - name: deploy mariadb container
   docker_container:
     name: some-mariadb-container
@@ -27,7 +23,7 @@
     restart_policy: always
     networks:
       - name: db_network
+      - name: proxy_network
     env:
       PMA_HOST: some-mariadb-container
-      PMA_USER: root
-      PMA_PASSWORD: "{{ vault_mysql_root_password }}"
+      PMA_ABSOLUTE_URI: "https://{{ local_domain_name }}/tools/phpmyadmin"
