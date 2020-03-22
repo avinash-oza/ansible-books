@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+input=$1
+
+export MSG=`cat ${input}`
+# send telegram alert
+AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} /opt/anaconda/bin/python {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}

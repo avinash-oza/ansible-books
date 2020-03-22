@@ -1,0 +1,30 @@
+
+- include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: send_sns_alert.py
+
+
+- name: copy over telegram alert script
+  template:
+    src: 10send_sns_alert
+    dest: /etc/smartmontools/run.d
+    owner: root
+    group: root
+    mode: "0744"
+
+- name: copy over smartd config
+  template:
+    src: smartd.conf.j2
+    dest: /etc/smartd.conf
+    owner: root
+    group: root
+    mode: "0744"
+
+- name: Enable service to run on boot and start
+  become: yes
+  service:
+    name: "smartmontools"
+    state: restarted
+    enabled: true
+
