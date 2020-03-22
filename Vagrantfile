@@ -14,14 +14,16 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.box = "debian/stretch64"
+  config.vm.network "forwarded_port", guest: 9100, host: 8111
+  config.vm.network "forwarded_port", guest: 9101, host: 8112
   # Do an apt get before running
-# config.vm.provision "shell", inline: "sudo apt-get update"
+  config.vm.provision "shell", inline: "sudo apt-get update; sudo apt-get install -y python-pip"
 
   config.vm.provision "ansible" do |ansible|
       ansible.verbose = 'v'
-      ansible.playbook = 'garage-door.yaml'
+      ansible.playbook = 'main-server.yaml'
       ansible.groups = {
-         "garage-door" => ['b1']
+         "main-server" => ['b1']
       }
   #   ansible.raw_arguments= ["-C"]
   end

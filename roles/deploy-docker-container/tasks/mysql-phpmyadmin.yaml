@@ -1,0 +1,33 @@
+---
+
+- name: deploy db network
+  docker_network:
+    name: db_network
+
+- name: deploy mariadb container
+  docker_container:
+    name: some-mariadb-container
+    image: "mariadb:10.5"
+    state: started
+    restart_policy: always
+    volumes:
+      - "{{ docker_data_path }}/mysql:/var/lib/mysql"
+    networks:
+      - name: db_network
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ vault_mysql_root_password }}"
+
+- name: deploy phpmyadmin container
+  docker_container:
+    name: some-phpmyadmin-container
+    image: "phpmyadmin/phpmyadmin:5.0"
+    state: started
+    published_ports:
+      - 9101:80
+    restart_policy: always
+    networks:
+      - name: db_network
+    env:
+      PMA_HOST: some-mariadb-container
+      PMA_USER: root
+      PMA_PASSWORD: "{{ vault_mysql_root_password }}"

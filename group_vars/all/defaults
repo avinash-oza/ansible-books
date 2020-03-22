@@ -1,3 +1,4 @@
+docker_data_path: /mnt/raid0/docker-data
 github_api_key: "{{ vault_github_api_key }}"
 sudo_user_to_configure: deploy
 user_to_configure: "{{ sudo_user_to_configure }}"
