@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+docker exec some-mariadb-container mysqldump -u root -p{{ vault_mysql_root_password }} --all-databases > /tmp/mariadb_backup.sql
+
+AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} \
+ /opt/anaconda/bin/python {{ scripts_dir }}/upload_to_s3.py \
+  --upload-file /tmp/mariadb_backup.sql \
+  --bucket-name {{ vault_aws_projects_bucket }} \
+  --dest-key backups/db/mariadb_backup.sql
+
+rm /tmp/mariadb_backup.sql

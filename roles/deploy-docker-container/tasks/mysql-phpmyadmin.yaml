@@ -13,11 +13,22 @@
     env:
       MYSQL_ROOT_PASSWORD: "{{ vault_mysql_root_password }}"
 
-- name: add backup script for db
+- include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: backup_mysql_server
+
+- include_role:
+
+    name: copy-scripts
+  vars:
+    script_to_copy: upload_to_s3.py
+
+- name: add backup job for db
   cron:
     name: "backup sql db"
     special_time: daily
-    job: "docker exec some-mariadb-container mysqldump -u root -p{{ vault_mysql_root_password }} --all-databases > /mnt/raid0/Homes/backups/mysql/mariadb_`date +\"%Y%m%d\"`.sql"
+    job: "{{ scripts_dir }}/backup_mysql_server"
 
 - name: deploy phpmyadmin container
   docker_container:
