@@ -18,6 +18,13 @@
   vars:
     script_to_copy: backup_mysql_server
 
+- name: set permissions for backup
+  file:
+    path: "{{ scripts_dir }}/backup_mysql_server"
+    owner: root
+    group: root
+    mode: "0700"
+
 - include_role:
 
     name: copy-scripts
