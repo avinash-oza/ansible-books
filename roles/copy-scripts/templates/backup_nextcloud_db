@@ -1,11 +1,11 @@
 #!/usr/bin/bash -e
 
-/usr/bin/docker exec some-mariadb-container mysqldump -u root -p{{ vault_mysql_root_password }} --all-databases | gzip -9 > /tmp/mariadb_backup.gz
+/usr/bin/docker exec some-mariadb-container mysqldump --single-transaction -u root -p{{ vault_mysql_root_password }} nextcloud | gzip -9 > /tmp/nextcloud_backup.gz
 
 AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} \
  /opt/anaconda/bin/python {{ scripts_dir }}/upload_to_s3.py \
-  --upload-file /tmp/mariadb_backup.gz \
+  --upload-file /tmp/nextcloud_backup.gz \
   --bucket-name {{ vault_aws_projects_bucket }} \
-  --dest-key backups/db/mariadb_backup.gz
+  --dest-key backups/db/nextcloud_backup.gz
 
-rm /tmp/mariadb_backup.gz
+rm /tmp/nextcloud_backup.gz
