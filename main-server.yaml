@@ -2,9 +2,9 @@
 ---
 - hosts: main-server
 # remote_user: deploy
-  become: true
   roles:
-    - common
+    - { role: base-setup, become: yes }
+    - { role: add-and-setup-deploy-user, become: yes }
     - { role: install-and-configure-vim-for-user, user_to_configure: deploy }
     - { role: install-and-configure-ssmtp, tags: ['ssmtp'] }
     - { role: install-and-configure-letsencrypt }

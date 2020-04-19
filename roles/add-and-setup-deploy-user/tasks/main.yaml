@@ -1,0 +1,65 @@
+---
+# configure sudo for other operations
+- name: Check for sudo group
+  group:
+    name: sudo
+    state: present
+
+- name: Allow sudo group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: create deploy user and add to sudo group
+  user:
+    name: deploy
+    password: "{{ vault_deploy_password | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    state: present
+
+- name: Add authorized keys for SSH deploy user
+  authorized_key:
+    user: deploy
+    state: present
+    key: "{{ item }}"
+  with_file:
+    - id_rsa.pub
+    - ansible_tower.pub
+
+# Configure vim with plugins and dotfiles
+- name: checkout dotfiles
+  become_user: deploy
+  git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ user_home_directory }}/dotfiles"
+
+- name: Remove old config files
+  become_user: deploy
+  file:
+    path: "{{ user_home_directory }}/{{ item }}"
+    state: absent
+  with_items:
+    - .bashrc
+    - .bash_aliases
+    - .screenrc
+    - .gitconfig
+
+- name: stow config files
+  become_user: deploy
+  shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
+  with_items:
+    - bash
+    - git
+    - screen
+
+- name: setup vim
+  include_role:
+    name: install-and-configure-vim-for-user
+  vars:
+    user_to_configure: deploy
+

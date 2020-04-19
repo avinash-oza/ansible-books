@@ -1,0 +1,50 @@
+---
+- name: install useful packages
+  apt: 
+    name: ['curl', 'git', 'ntp', 'screen', 'stow']
+    state: present
+  when: ansible_distribution == "Debian" # freepbx is centos
+
+- name: Set machine time to EST
+  register: tz
+  timezone:
+    name: America/New_York
+
+- name: Restart cron
+  service:
+    name: cron
+    state: restarted
+  when: tz.changed
+
+- name: scramble root password
+  user:
+    name: root 
+    password: "{{ vault_root_password | password_hash('sha512') }}"
+
+- name: Disable password based login
+  notify:
+    - restart sshd
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+
+- name: Disable root login
+  notify:
+    - restart sshd
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+
+# scramble any extra common accounts
+- name: Register current users
+  getent:
+      database: passwd
+
+- name: Scramble extra user passwords
+  user:
+    name: "{{ item }}"
+    password: "{{ lookup('password', '/dev/null length=40') | password_hash('sha512') }}"
+  with_items: "{{ users_to_scramble }}"
+  when: item in getent_passwd
