@@ -1,11 +1,9 @@
 ---
 - name: install vim
   become: yes
-  apt:
+  package:
     name: vim
     state: present
-    update_cache: true
-  when: ansible_distribution == "Debian" # freepbx is centos
 
 # Configure vim with plugins and dotfiles
 - name: checkout vundle
