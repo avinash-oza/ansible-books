@@ -7,6 +7,7 @@
 #   group: www-data
 
 - name: deploy nextcloud container
+  become: true
   docker_container:
     name: some-nextcloud-container
     image: "nextcloud:16-apache"
@@ -28,24 +29,32 @@
       NEXTCLOUD_ADMIN_USER: "{{ vault_nextcloud_admin_user }}"
       NEXTCLOUD_ADMIN_PASSWORD: "{{ vault_nextcloud_admin_password }}"
 
-- include_role:
+- name: copy over backup script
+  include_role:
     name: copy-scripts
+    apply:
+      become: yes
   vars:
     script_to_copy: backup_nextcloud_db
 
 - name: set permissions for backup
+  become: yes
   file:
     path: "{{ scripts_dir }}/backup_nextcloud_db"
     owner: root
     group: root
     mode: "0700"
 
-- include_role:
+- name: copy over upload script
+  include_role:
     name: copy-scripts
+    apply:
+      become: yes
   vars:
     script_to_copy: upload_to_s3.py
 
 - name: add backup job for db
+  become: yes
   cron:
     name: "backup sql db"
     special_time: daily
