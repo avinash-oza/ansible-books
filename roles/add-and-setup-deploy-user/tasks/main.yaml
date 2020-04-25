@@ -29,6 +29,14 @@
     key: "{{ item }}"
   with_file: "{{ deploy_user_public_keys }}"
 
+- name: remove old keys
+  authorized_key:
+    user: deploy
+    state: absent
+    key: "{{ item }}"
+  with_file:
+    - ansible_tower.pub
+
 # Configure vim with plugins and dotfiles
 - name: checkout dotfiles
   become_user: deploy
