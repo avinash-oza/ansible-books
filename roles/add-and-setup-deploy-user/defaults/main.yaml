@@ -5,3 +5,4 @@ vundle_repo: https://github.com/VundleVim/Vundle.vim.git
 deploy_user_public_keys:
   - apt-desktop.pub
   - id_rsa.pub
+  - laptop.pub
