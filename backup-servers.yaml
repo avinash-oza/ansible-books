@@ -1,8 +1,0 @@
----
-# The remote user may need to be changed
-#
-- hosts: all
-# become: true 
-# remote_user: deploy
-  roles:
-      - backup-server

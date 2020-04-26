@@ -2,6 +2,7 @@
 - include_tasks: mysql-phpmyadmin.yaml
 - include_tasks: apache2.yaml
 - include_tasks: nextcloud.yaml
+- include_tasks: homer.yaml
 
 # name: deploy telegram-bot container
 # docker_container:
