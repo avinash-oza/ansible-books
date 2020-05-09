@@ -1,5 +1,9 @@
 airvpn_api_key: "{{ vault_airvpn_api_key }}"
 
+nagios_command_group: nagcmd
+nagios_command_file_path: "/var/lib/nagios4/rw/nagios.cmd"
+nagios_results_file_path: "/var/lib/nagios4/spool/checkresults"
+
 nagios_contact_name: "{{ vault_nagios_contact_name }}"
 nagios_contact_alias: "{{ vault_nagios_contact_alias }}"
 nagios_contact_email: "{{ vault_nagios_contact_email }}"

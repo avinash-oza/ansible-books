@@ -2,6 +2,7 @@
 - name: install nagios and plugins
   apt: 
     name: ['nagios4', 'nagios-plugins-contrib']
+    cache_valid_time: 1440
 
 - name: Enable nagios external commands
   lineinfile:
@@ -19,11 +20,22 @@
     regexp: '^log_passive_checks'
     line: "log_passive_checks=0"
 
+- name: delete stock config includes
+  lineinfile:
+    backup: true
+    dest: /etc/nagios4/nagios.cfg
+    regexp: '^cfg_file='
+    state: absent
+
+- name: add group for external commands
+  group:
+    name: "{{ nagios_command_group }}"
+    state: present
 
 - name: Add users to the nagcmd group
   user:
     name: "{{ item }}"
-    groups: nagcmd # for passive checks
+    groups: "{{ nagios_command_group }}" # for passive checks
     append: yes
     state: present
   with_items:
@@ -46,7 +58,6 @@
 #   - insert_alert.py
 #   - send_sns_alert.py
 
-# TODO: delete lines of cfg_file=commands.cfg,contacts.cfg,timeperiods.cfg,templates.cfg,localhost.cfg
 - name: copy over nagios configs
   tags: config
   template:
@@ -55,6 +66,29 @@
     dest: "/etc/nagios4/conf.d/{{ item | basename | regex_replace('\\.j2', '') }}"
   with_fileglob:
     - ../templates/conf.d/*
+
+- name: Enable required apache modules
+  command: "a2enmod {{ item }}"
+  with_items:
+    - auth_digest
+    - authz_groupfile
+
+# name: set proper permissions on socket
+# file:
+#   state: file
+#   path: "{{ nagios_command_file_path }}"
+#   owner: nagios
+#   group: "{{ nagios_command_group }}"
+#   mode: "0770"
+
+- name: set proper permissions on checkresults
+  file:
+    state: directory
+    recurse: yes
+    path: "{{ nagios_results_file_path }}"
+    owner: nagios
+    group: "{{ nagios_command_group }}"
+    mode: "0770"
 
 # name: copy over web config
 # tags: config
