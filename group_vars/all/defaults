@@ -10,6 +10,8 @@ telegram_ups_ip: 172.16.1.10
 telegram_admin_id: "{{ vault_telegram_admin_id }}"
 garage_door_port: 25678
 
+python_root: /opt/anaconda/bin
+
 microservices_configs_dir: /etc/microservice-configs
 microservice_account: services-user
 virtual_env_python_version: python3

@@ -6,7 +6,7 @@
 
 - name: Install boto3 to root env
   become: yes
-  shell: "/opt/anaconda/bin/conda install -y boto3"
+  shell: "{{ python_root }}/conda install -y boto3"
 
 - name: Copy over configuration files
   tags: config
