@@ -1,1 +1,0 @@
-raid_mount_ip_address: "{{ vault_main_server }}"
