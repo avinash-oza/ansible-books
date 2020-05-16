@@ -42,21 +42,17 @@
     - nagios
     - www-data
 
-# TODO: add copy script calls here
-# name: Create directory for nagios checks
-# become: yes
-# file:
-#   state: directory
-#   path: /opt/nagios
+- name: copy over send_nagios_alert.sh
+  include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: send_nagios_alert.sh
 
-# name: copy script to directory
-# become: yes
-# template:
-#   src: "{{ item }}"
-#   dest: /opt/nagios
-# with_items:
-#   - insert_alert.py
-#   - send_sns_alert.py
+- name: copy over send_sns_alert.py
+  include_role:
+    name: copy-scripts
+  vars:
+    script_to_copy: send_sns_alert.py
 
 - name: copy over nagios configs
   tags: config
