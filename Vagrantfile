@@ -13,15 +13,17 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "debian/stretch64"
-  config.vm.network "forwarded_port", guest: 9100, host: 8111
-  config.vm.network "forwarded_port", guest: 9101, host: 8112
+  config.vm.network "forwarded_port", guest: 80, host: 8108
+  config.vm.network "forwarded_port", guest: 9100, host: 8109
+  config.vm.network "forwarded_port", guest: 9101, host: 8110
+  config.vm.network "forwarded_port", guest: 9102, host: 8111
+  config.vm.network "forwarded_port", guest: 9103, host: 8112
   # Do an apt get before running
-  config.vm.provision "shell", inline: "sudo apt-get update; sudo apt-get install -y python-pip"
+  config.vm.provision "shell", inline: "sudo apt-get update; sudo apt-get install -y python-minimal"
 
   config.vm.provision "ansible" do |ansible|
       ansible.verbose = 'v'
-      ansible.playbook = 'main-server.yaml'
+      ansible.playbook = 'TEST_NAGIOS.yaml'
       ansible.groups = {
          "main-server" => ['b1']
       }
@@ -30,6 +32,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant"
 
   config.vm.define "b1" do |b1|
-      b1.vm.box = "debian/stretch64"
+      b1.vm.box = "debian/buster64"
   end
 end
