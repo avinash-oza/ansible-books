@@ -1,7 +1,7 @@
 ---
 - name: install nagios and plugins
   apt: 
-    name: ['nagios4', 'nagios-plugins-contrib']
+    name: ['nagios4', 'nagios-plugins-contrib', 'python3-boto3']
     cache_valid_time: 1440
 
 - name: Enable nagios external commands
@@ -19,6 +19,15 @@
     state: present
     regexp: '^log_passive_checks'
     line: "log_passive_checks=0"
+
+- name: Pass environment macros
+  lineinfile:
+    backup: true
+    dest: /etc/nagios4/nagios.cfg
+    state: present
+    regexp: '^enable_environment_macros'
+    line: "enable_environment_macros=1"
+
 
 - name: delete stock config includes
   lineinfile:

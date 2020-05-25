@@ -5,8 +5,9 @@ export MSG=""
 # service
 if [ $# -gt 0 ]; then
     MSG=$(cat <<END
-***** Nagios *****
+*****Nagios*****
 Notification Type: ${NAGIOS_NOTIFICATIONTYPE}
+Host: ${NAGIOS_HOSTDISPLAYNAME}
 State: ${NAGIOS_HOSTSTATE}
 Address: ${NAGIOS_HOSTADDRESS}
 Info: ${NAGIOS_SERVICEOUTPUT}
@@ -16,8 +17,9 @@ END
 
 else
     MSG=$(cat <<END
-***** Nagios *****
+*****Nagios*****
 Notification Type: ${NAGIOS_NOTIFICATIONTYPE}
+Host: ${NAGIOS_HOSTDISPLAYNAME}
 State: ${NAGIOS_HOSTSTATE}
 Address: ${NAGIOS_HOSTADDRESS}
 Info: ${NAGIOS_HOSTOUTPUT}
@@ -27,4 +29,5 @@ END
 
 fi
 
+AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} /usr/bin/python3 {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}
 #AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ python_root }}/python {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}
