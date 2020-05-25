@@ -11,6 +11,7 @@ user_to_configure: "{{ sudo_user_to_configure }}"
 garage_door_port: 25678
 
 python_root: /opt/anaconda/bin
+python_bin: python
 
 microservices_configs_dir: /etc/microservice-configs
 microservice_account: services-user
