@@ -1,4 +1,10 @@
 # install nrdp for remote checks
+- name: install php xml
+  apt: 
+    name: ['php-xml']
+    cache_valid_time: 1440
+  register: nrdp_php_xml
+
 - name: Download NRDP package and extract
   unarchive:
     src: https://github.com/NagiosEnterprises/nrdp/archive/2.0.3.tar.gz
@@ -41,7 +47,7 @@
   systemd:
     name: apache2
     state: restarted
-  when: nrdp_conf.changed
+  when: nrdp_conf.changed or nrdp_php_xml.changed
 
 
 - name: set permissions on directory
