@@ -1,0 +1,12 @@
+
+- name: Add check for uptime
+  cron:
+    name: "Nagios: Uptime"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=Uptime CHECK_CMD=check_uptime {{ scripts_dir }}/submit_nagios_check.sh"
+
+- name: Add check for Root Partition
+  cron:
+    name: "Nagios: Root Partition"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w 20% -c 10%\" {{ scripts_dir }}/submit_nagios_check.sh"

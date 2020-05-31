@@ -20,6 +20,8 @@
     group: root
     mode: '0744'
 
+- include_tasks: basic.yaml
+
 
 
 # name: Edit config to allow NRPE server to connect to this host
