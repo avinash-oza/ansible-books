@@ -7,9 +7,8 @@ garage-door-1 ansible_host=172.16.2.102
 [main-server]
 main-server-1 ansible_host=172.16.1.10
 
-# todo: update with proper ip
 [nagios-server]
-nagios-1 ansible_host=172.16.222.123
+nagios-1 ansible_host=172.16.222.118
 
 [centos-servers]
 centos-1 ansible_host=172.16.222.78
