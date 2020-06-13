@@ -13,4 +13,5 @@
     dest: "{{ scripts_dir }}"
     owner: root
     group: root
+    mode: "{{ file_permissions }}"
 
