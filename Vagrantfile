@@ -22,12 +22,13 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: "sudo apt-get update; sudo apt-get install -y python-minimal"
 
   config.vm.provision "ansible" do |ansible|
-      ansible.verbose = 'v'
+  #   ansible.verbose = 'v'
       ansible.playbook = 'TEST_NAGIOS.yaml'
       ansible.groups = {
-         "main-server" => ['b1']
+         "nagios-server" => ['b1']
       }
-  #   ansible.raw_arguments= ["-C"]
+#     ansible.raw_arguments= ["-v", "--tags", "untagged,garage"]
+      ansible.raw_arguments= ["-v", "--tags", "untagged"]
   end
   config.vm.synced_folder ".", "/vagrant"
 
