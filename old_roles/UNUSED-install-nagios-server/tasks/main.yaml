@@ -51,6 +51,14 @@
     - nagios
     - www-data
 
+- name: set permissions for nagios4 spool
+  file:
+    path: /var/lib/nagios4/spool/
+    state: directory
+    owner: nagios
+    group: "{{ nagios_command_group }}"
+
+# TODO: Set permissions
 - name: copy over send_nagios_alert.sh
   include_role:
     name: copy-scripts
