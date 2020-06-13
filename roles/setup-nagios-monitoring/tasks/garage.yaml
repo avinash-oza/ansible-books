@@ -4,4 +4,4 @@
   cron:
     name: "Nagios: Garage Door"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=\"Garage Door\" CHECK_SCRIPT={{ virtual_env_path }}/bin/python /opt/scripts/check_garage.py {{ scripts_dir }}/submit_nagios_check.sh"
+    job: "SERVICE_NAME=\"Garage Door\" CHECK_SCRIPT={{ virtual_env_path }}/bin/python /opt/scripts/check_garage.py {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

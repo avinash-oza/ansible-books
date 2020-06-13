@@ -70,6 +70,7 @@
     name: copy-scripts
   vars:
     script_to_copy: send_sns_alert.py
+    file_permissions: '0644'
 
 - name: copy over nagios configs
   tags: config
