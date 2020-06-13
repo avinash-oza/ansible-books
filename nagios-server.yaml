@@ -1,0 +1,8 @@
+
+- hosts: nagios-server
+  remote_user: deploy
+  roles:
+      - { role: base-setup, become: yes }
+      - { role: add-and-setup-deploy-user, become: yes }
+      - { role: UNUSED-install-nagios-server, become: yes }
+      - { role: setup-nagios-monitoring, become: yes }

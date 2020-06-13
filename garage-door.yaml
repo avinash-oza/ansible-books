@@ -1,9 +1,9 @@
 ---
 - hosts: garage-door
-# remote_user: deploy
+  remote_user: deploy
   become: true
   roles:
-#   - { role: common, tags: ['base'] }
+    - { role: base-setup, become: yes }
     - { role: install-temperature-sensors-service }
     - { role: install-garage-door-service }
     - { role: install-aws-temp-scripts, become: true }

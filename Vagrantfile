@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible" do |ansible|
   #   ansible.verbose = 'v'
-      ansible.playbook = 'TEST_NAGIOS.yaml'
+      ansible.playbook = 'nagios-server.yaml'
       ansible.groups = {
          "nagios-server" => ['b1']
       }
