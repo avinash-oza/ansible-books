@@ -37,5 +37,5 @@
     volumes:
       - "/etc/letsencrypt:/etc/letsencrypt"
     published_ports:
-      - 8080:443
+      - 443:443
  
