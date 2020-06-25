@@ -1,0 +1,17 @@
+- name: deploy unifi container
+  become: true
+  docker_container:
+    name: some-unifi-container
+    image: "linuxserver/unifi-controller:5.9"
+    state: started
+    restart_policy: always
+    networks:
+      - name: proxy_network
+    volumes:
+      - "{{ docker_data_path }}/unifi:/config"
+    published_ports:
+      - 3478:3478/udp
+      - 10001:10001/udp
+      - 8080:8080
+      - 8443:8443
+      - 1900:1900/udp #optional

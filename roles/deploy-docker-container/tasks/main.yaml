@@ -3,6 +3,7 @@
 - include_tasks: apache2.yaml
 - include_tasks: nextcloud.yaml
 - include_tasks: homer.yaml
+- include_tasks: unifi.yaml
 
 # name: deploy telegram-bot container
 # docker_container:
