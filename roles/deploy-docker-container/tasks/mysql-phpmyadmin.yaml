@@ -18,8 +18,6 @@
     name: some-phpmyadmin-container
     image: "phpmyadmin/phpmyadmin:5.0"
     state: started
-    published_ports:
-      - 9101:80
     restart_policy: always
     networks:
       - name: db_network

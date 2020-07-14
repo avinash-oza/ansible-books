@@ -18,8 +18,6 @@
       - name: proxy_network
     volumes:
       - "{{ docker_data_path }}/nextcloud:/var/www/html"
-    published_ports:
-      - 9100:80
     # comment for first run setup
     env:
       MYSQL_DATABASE: nextcloud
