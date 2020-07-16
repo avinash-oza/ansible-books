@@ -36,6 +36,8 @@
     key: "{{ item }}"
   with_file:
     - ansible_tower.pub
+    - id_rsa.pub
+    - laptop.pub
 
 # Configure vim with plugins and dotfiles
 - name: checkout dotfiles
