@@ -2,3 +2,4 @@ python_root: /usr/bin
 python_bin: python3
 
 nagios_host_name: localhost
+nagios_submit_passive_check_url: "http://localhost/{{ vault_nagios_passive_checks_url }}"
