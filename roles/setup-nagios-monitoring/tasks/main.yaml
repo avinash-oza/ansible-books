@@ -1,6 +1,6 @@
 - name: install nagios nrpe plugins
   apt: 
-    name: nagios-plugins
+    name: ['nagios-plugins', 'nagios-plugins-contrib']
     state: present
 
 # need to set permissions here so role is not used
