@@ -1,16 +1,3 @@
 ---
 - include_role:
     name: install-flask-rest-service
-
-- include_role:
-    name: copy-scripts
-  vars:
-    script_to_copy: check_garage.py
-
-- name: Install garage status cron job
-  cron:
-    name: garage_status_cron_job
-    minute: "*/5"
-    job: "AWS_DEFAULT_REGION={{ vault_aws_default_region}} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ virtual_env_path }}/bin/python /opt/scripts/check_garage.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}"
-    state: present
-    user: root
