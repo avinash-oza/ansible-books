@@ -58,12 +58,14 @@
     owner: nagios
     group: "{{ nagios_command_group }}"
 
-# TODO: Set permissions
 - name: copy over send_nagios_alert.sh
   include_role:
     name: copy-scripts
   vars:
     script_to_copy: send_nagios_alert.sh
+    file_permissions: '0770'
+    file_owner: nagios
+    file_group: "{{ nagios_command_group }}"
 
 - name: copy over send_sns_alert.py
   include_role:
@@ -71,6 +73,8 @@
   vars:
     script_to_copy: send_sns_alert.py
     file_permissions: '0644'
+    file_owner: nagios
+    file_group: "{{ nagios_command_group }}"
 
 - name: copy over nagios configs
   tags: config
@@ -82,7 +86,10 @@
     - ../templates/conf.d/*
 
 - name: Enable required apache modules
-  command: "a2enmod {{ item }}"
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+    
   with_items:
     - auth_digest
     - authz_groupfile
