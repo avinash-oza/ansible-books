@@ -1,1 +1,2 @@
 docker_configs_root_path: /etc/docker-files/docker-build
+apache_image_version: 0.1b11

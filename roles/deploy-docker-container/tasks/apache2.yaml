@@ -19,7 +19,7 @@
 - name: build apache2 image
   docker_image:
     name: docker-apache2-ssl
-    tag: "0.1b9"
+    tag: "{{ apache_image_version }}"
     state: present
     source: build
     build:
@@ -28,7 +28,7 @@
 - name: deploy apache2 container
   docker_container:
     name: some-apache2-container
-    image: "docker-apache2-ssl:0.1b9"
+    image: "docker-apache2-ssl:{{ apache_image_version }}"
     state: started
     restart_policy: always
     pull: no # build locally
