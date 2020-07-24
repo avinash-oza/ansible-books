@@ -7,3 +7,6 @@
   docker_network:
     name: db_network
 
+- name: create cache network
+  docker_network:
+    name: cache_network
