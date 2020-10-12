@@ -7,7 +7,7 @@
 
 - name: copy over telegram alert script
   template:
-    src: 10send_sns_alert
+    src: 10sendsnsalert
     dest: /etc/smartmontools/run.d
     owner: root
     group: root
