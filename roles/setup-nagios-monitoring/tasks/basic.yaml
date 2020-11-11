@@ -5,6 +5,12 @@
     minute: "{{ check_interval_mins }}"
     job: "SERVICE_NAME=Uptime CHECK_CMD=check_uptime {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
+- name: Add check for total procs
+  cron:
+    name: "Nagios: Total Processes"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Total Processes\" CHECK_CMD=check_procs {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+
 - name: Add check for Root Partition
   cron:
     name: "Nagios: Root Partition"
