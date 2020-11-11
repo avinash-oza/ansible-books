@@ -4,3 +4,24 @@
     minute: "{{ check_interval_mins }}"
     job: "SERVICE_NAME=\"HTTPS\" CHECK_CMD=check_http CHECK_ARGS=\"-H localhost -p 443 -e 400\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
+- name: Add check for raid status
+  cron:
+    name: "Nagios: RAID Status"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Raid Status\" CHECK_CMD=check_raid {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+
+- name: Add checks for disk space
+  cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"{{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ disks | dict2items }}"
+  vars:
+    disks:
+      mnt-docker_data: "/mnt/docker_data"
+      mnt-downloads: "/mnt/downloads"
+      mnt-vm_drives: "/mnt/vm_drives"
+      mnt-raid_backup: "/mnt/raid_backup"
+      mnt-raid0: "/mnt/raid0"
+      mnt-other_data: "/mnt/other_data"
+
