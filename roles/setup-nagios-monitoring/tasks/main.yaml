@@ -29,3 +29,10 @@
       tags:
         - garage
         - never
+
+- include_tasks:
+    file: main-server.yaml
+    apply:
+      tags:
+        - main-server
+        - never

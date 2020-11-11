@@ -1,0 +1,6 @@
+- name: Add check for HTTPS
+  cron:
+    name: "Nagios: HTTPS"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"HTTPS\" CHECK_CMD=check_http CHECK_ARGS=\"-H localhost -p 443 -e 400\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+
