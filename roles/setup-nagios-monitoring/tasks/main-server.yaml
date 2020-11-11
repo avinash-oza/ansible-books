@@ -1,3 +1,11 @@
+- name: download check_docker plugin
+  get_url:
+    url: "https://raw.githubusercontent.com/timdaman/check_docker/master/check_docker/check_docker.py"
+    dest: /usr/lib/nagios/plugins/check_docker
+    owner: root
+    group: root
+    mode: "0755"
+
 - name: Add check for HTTPS
   cron:
     name: "Nagios: HTTPS"
@@ -25,3 +33,15 @@
       mnt-raid0: "/mnt/raid0"
       mnt-other_data: "/mnt/other_data"
 
+- name: Add checks for containers
+  cron:
+    name: "Nagios: {{ item }}"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Docker {{ item }}\" CHECK_CMD=check_docker CHECK_ARGS=\"--status=running --containers {{ item }} --present\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop:
+    - some-apache2-container
+    - some-homer-container
+    - some-phpmyadmin-container
+    - some-nextcloud-container
+    - some-redis-container
+    - some-mariadb-container
