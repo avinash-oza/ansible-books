@@ -6,6 +6,17 @@
     group: root
     mode: "0755"
 
+- name: install libvirt perl plugin
+  apt:
+    name: libsys-virt-perl
+    state: present
+
+- name: Add check for libvirt vms
+  cron:
+    name: "Nagios: libvirt"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"libvirt\" CHECK_CMD=check_libvirt CHECK_ARGS=\"-H qemu:///system  -l list\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+
 - name: Add check for HTTPS
   cron:
     name: "Nagios: HTTPS"
