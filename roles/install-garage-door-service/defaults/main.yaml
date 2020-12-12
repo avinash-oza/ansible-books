@@ -5,4 +5,4 @@ microservice_port: 25678
 
 microservice_git_repo: "https://github.com/avinash-oza/garage-door-service.git"
 git_local_dest: "/tmp/{{ microservice_name }}"
-git_repo_tag: master
+git_repo_tag: 0.2b15
