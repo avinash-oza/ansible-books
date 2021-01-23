@@ -4,5 +4,7 @@
   roles:
       - { role: base-setup, become: yes }
       - { role: add-and-setup-deploy-user, become: yes }
+      - { role: install-temperature-sensors-service ,become: true }
+      - { role: install-aws-temp-scripts, become: true }
       - { role: install-nagios-server, become: yes }
       - { role: setup-nagios-monitoring, become: yes }
