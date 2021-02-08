@@ -36,3 +36,10 @@
       tags:
         - main-server
         - never
+
+- include_tasks:
+    file: nagios-server.yaml
+    apply:
+      tags:
+        - nagios-server
+        - never

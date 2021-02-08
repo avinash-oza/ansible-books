@@ -36,6 +36,13 @@
     regexp: '^log_external_commands'
     line: "log_external_commands=0"
 
+- name: disable notification logging
+  lineinfile:
+    backup: true
+    dest: /etc/nagios4/nagios.cfg
+    state: present
+    regexp: '^log_notifications'
+    line: "log_notifications=0"
 
 - name: Pass environment macros
   lineinfile:
