@@ -1,0 +1,9 @@
+- name: Add checks for disk space
+  cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"{{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ disks | dict2items }}"
+  vars:
+    disks:
+      data: "/data"

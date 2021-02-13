@@ -12,3 +12,9 @@ nagios-1 ansible_host=172.16.74.74
 
 [centos-servers]
 centos-1 ansible_host=172.16.222.78
+
+[centos-servers]
+centos-1 ansible_host=172.16.222.78
+
+[main-node]
+main-node-1 ansible_host=172.16.56.107 ansible_ssh_private_key_file=~/.ssh/deploy_id_rsa
