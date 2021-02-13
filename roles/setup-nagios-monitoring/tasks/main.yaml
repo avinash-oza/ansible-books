@@ -7,7 +7,7 @@
 - name: copy over nrdp client scripts
   copy:
     src: send_nrdp.sh
-    dest: "{{ scripts_dir }}"
+    dest: "{{ scripts_dir }}/"
     owner: root
     group: root
     mode: '0744'
@@ -15,7 +15,7 @@
 - name: copy over nrdp client scripts
   template:
     src: submit_nagios_check.sh
-    dest: "{{ scripts_dir }}"
+    dest: "{{ scripts_dir }}/"
     owner: root
     group: root
     mode: '0744'
