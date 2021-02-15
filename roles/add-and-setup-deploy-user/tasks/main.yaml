@@ -38,6 +38,7 @@
     - ansible_tower.pub
     - id_rsa.pub
     - laptop.pub
+    - win-desktop.pub
 
 # Configure vim with plugins and dotfiles
 - name: checkout dotfiles
