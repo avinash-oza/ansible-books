@@ -3,28 +3,28 @@
   cron:
     name: "Nagios: Uptime"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=Uptime CHECK_CMD=check_uptime {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=Uptime CHECK_CMD=check_uptime {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for total procs
   cron:
     name: "Nagios: Total Processes"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=\"Total Processes\" CHECK_CMD=check_procs {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Total Processes\" CHECK_CMD=check_procs {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Root Partition
   cron:
     name: "Nagios: Root Partition"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w {{ nagios_disk_critical_thresh }}\\% -c {{ nagios_disk_critical_thresh }}\\% -p / \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w {{ nagios_disk_critical_thresh }}\\% -c {{ nagios_disk_critical_thresh }}\\% -p / \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Load
   cron:
     name: "Nagios: Current Load"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=\"Current Load\" CHECK_CMD=check_load CHECK_ARGS=\"-w 5.0,4.0,3.0 -c 10.0,6.0,4.0 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Load\" CHECK_CMD=check_load CHECK_ARGS=\"-w 5.0,4.0,3.0 -c 10.0,6.0,4.0 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Users
   cron:
     name: "Nagios: Current Users"
     minute: "{{ check_interval_mins }}"
-    job: "SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w 5 -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w 5 -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

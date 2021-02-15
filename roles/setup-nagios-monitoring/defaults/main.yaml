@@ -1,2 +1,4 @@
 check_interval_mins: "*/5"
 nagios_disk_critical_thresh: 20
+
+nagios_cron_randomizer: "python3 -c 'import time;import random;time.sleep(random.randint(1, 5))'"
