@@ -1,3 +1,15 @@
+- name: "Add check for additional services"
+  cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "SERVICE_NAME=\"{{ item.key }}\" CHECK_CMD=check_procs CHECK_ARGS=\"-w {{ item.value }}: -c {{ item.value }}: -C {{ item.key }} \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ services | dict2items }}"
+  vars:
+    services: # number of expected services
+      geth: 1
+      lighthouse: 2
+
+
 - name: Add checks for disk space
   cron:
     name: "Nagios: {{ item.key }}"
