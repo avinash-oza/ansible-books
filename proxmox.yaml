@@ -1,0 +1,8 @@
+
+- hosts: proxmox
+  remote_user: deploy
+  roles:
+      - { role: base-setup, become: yes }
+      - { role: add-and-setup-deploy-user, become: yes }
+      # needs tags=all,proxmox to add proper monitoring
+      - { role: setup-nagios-monitoring, become: yes }
