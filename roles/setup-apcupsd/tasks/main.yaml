@@ -1,12 +1,14 @@
 
 - name: Install apcupsd
   apt:
-    pkg: apcupsd
-    state: installed
+    name: apcupsd
+    state: present
 
 - name: Install boto3 to root env
   become: yes
-  shell: "{{ python_root }}/conda install -y boto3"
+  apt:
+    name: python3-boto3
+    state: present
 
 - name: Copy over configuration files
   tags: config

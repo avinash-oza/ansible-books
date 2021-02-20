@@ -4,5 +4,6 @@
   roles:
       - { role: base-setup, become: yes }
       - { role: add-and-setup-deploy-user, become: yes }
+      - { role: setup-apcupsd, become: true }
       # needs tags=all,proxmox to add proper monitoring
       - { role: setup-nagios-monitoring, become: yes }
