@@ -1,1 +1,4 @@
+python_root: /usr/bin
+python_bin: python3
+
 nagios_host_name: proxmox
