@@ -10,7 +10,9 @@
 // a client request must contain a valid token in order for the NRDP to response or honor the request
 // NOTE: Tokens are just alphanumeric strings - make them hard to guess!
 $cfg['authorized_tokens'] = array(
-      "{{ vault_nagios_passive_checks_api_key }}",
+  {% for item in vault_nagios_passive_checks_api_keys %}
+    "{{ item.api_key }}",
+  {% endfor %}
     //"mysecrettoken",  // <-- not a good token
     //"90dfs7jwn3",   // <-- a better token (don't use this exact one, make your own)
 );
