@@ -9,7 +9,8 @@
 - name: deploy redis container
   docker_container:
     name: some-redis-container
-    image: "redis:latest"
+    image: "redis:6.0"
+    command: "redis-server --requirepass {{ redis_password }}"
     state: started
     restart: yes
     restart_policy: always
