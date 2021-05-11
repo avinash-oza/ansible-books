@@ -1,2 +1,3 @@
 docker_configs_root_path: /etc/docker-files/docker-build
 apache_image_version: 0.1b13
+redis_password: "{{ vault_redis_password }}"

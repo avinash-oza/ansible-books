@@ -10,7 +10,7 @@
   become: true
   docker_container:
     name: some-nextcloud-container
-    image: "nextcloud:18-apache"
+    image: "nextcloud:21-apache"
     state: started
     restart_policy: always
     networks:
@@ -30,6 +30,7 @@
       NEXTCLOUD_ADMIN_PASSWORD: "{{ vault_nextcloud_admin_password }}"
 
       REDIS_HOST: some-redis-container
+      REDIS_HOST_PASSWORD: "{{ redis_password }}"
 
 - name: copy over backup script
   include_role:
