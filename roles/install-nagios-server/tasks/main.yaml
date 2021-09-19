@@ -149,6 +149,21 @@
     name: nagios4
     state: restarted
 
+- name: Add cron weekly message for uptime
+  cron:
+      name: "Weekly uptime"
+      job: 'echo $(hostname) $(uptime) | AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }} --stdin'
+      special_time: weekly
+      state: present
+
+- name: Add job to clean up archive logs
+  cron:
+      name: "Weekly nagios log archive cleanup"
+      job: '/bin/rm -Rvf /var/log/nagios4/archives; service nagios4 restart'
+      special_time: weekly
+      state: present
+
+
 # name: Generate ssh key for nagios user
 # user:
 #   name: nagios
