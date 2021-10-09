@@ -1,0 +1,6 @@
+---
+- hosts: local-pc
+  become: yes
+  roles:
+  - { role: setup-local-pc }
+

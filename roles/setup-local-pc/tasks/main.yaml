@@ -1,0 +1,16 @@
+
+
+- name: Install miniconda
+  include_role: 
+    name: andrewrothstein.miniconda
+  vars:
+    miniconda_ver: '4.8.2'
+    miniconda_python_ver: '37'
+    miniconda_parent_dir: /opt
+
+- name: Install conda packages
+  become: yes
+  shell:
+    cmd: "/opt/anaconda/bin/conda install -y {{ item }} -c conda-forge"
+  loop:
+    - ansible
