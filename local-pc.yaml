@@ -1,6 +1,6 @@
 ---
 - hosts: local-pc
-  become: yes
   roles:
-  - { role: setup-local-pc }
+    - { role: setup-dotfiles , user_to_configure: vagrant }
+    - { role: setup-local-pc }
 
