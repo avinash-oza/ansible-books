@@ -1,24 +1,5 @@
 ---
 
-- name: install useful packages debian
-  apt: 
-    name: ['curl', 'git', 'ntp', 'screen', 'stow']
-    state: present
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" 
-
-- name: enable epel centos
-  yum: 
-    name: "epel-release"
-    state: present
-  when: ansible_distribution == "CentOS"
-
-- name: install useful packages centos
-  yum: 
-    name: ['crontabs', 'curl', 'git', 'chrony', 'screen', 'stow']
-    state: present
-    enablerepo: "epel"
-  when: ansible_distribution == "CentOS"
-
 - name: Set machine time to EST
   register: tz
   timezone:
