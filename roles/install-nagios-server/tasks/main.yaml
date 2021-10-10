@@ -4,6 +4,17 @@
     name: ['nagios4', 'nagios-plugins-contrib', 'python3-boto3']
     cache_valid_time: 1440
 
+- name: Enable required apache modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+    force: yes
+    ignore_configcheck: yes
+    
+  with_items:
+    - auth_digest
+    - authz_groupfile
+
 - name: Enable nagios external commands
   lineinfile:
     dest: /etc/nagios4/nagios.cfg
@@ -103,15 +114,6 @@
   with_fileglob:
     - ../templates/conf.d/*
 
-- name: Enable required apache modules
-  apache2_module:
-    name: "{{ item }}"
-    state: present
-    
-  with_items:
-    - auth_digest
-    - authz_groupfile
-
 # name: set proper permissions on socket
 # file:
 #   state: file
@@ -159,7 +161,7 @@
 - name: Add job to clean up archive logs
   cron:
       name: "Weekly nagios log archive cleanup"
-      job: '/bin/rm -Rvf /var/log/nagios4/archives; service nagios4 restart'
+      job: '/bin/rm -Rvf /var/log/nagios4/archives/*; service nagios4 restart'
       special_time: weekly
       state: present
 
