@@ -14,3 +14,6 @@
     cmd: "/opt/anaconda/bin/conda install -y {{ item }} -c conda-forge"
   loop:
     - ansible
+    - molecule
+    - ipython
+    - boto3
