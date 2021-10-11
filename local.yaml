@@ -1,0 +1,11 @@
+
+- hosts: all
+# remote_user: deploy
+  roles:
+      - { role: add-and-setup-deploy-user, become: yes }
+      - { role: base-setup, become: yes }
+#     - { role: install-temperature-sensors-service ,become: true }
+#     - { role: install-aws-temp-scripts, become: true }
+      - { role: install-nagios-server, become: yes }
+      # needs tags=all,nagios-server to add proper monitoring
+      - { role: setup-nagios-monitoring, become: yes }
