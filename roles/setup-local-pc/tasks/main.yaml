@@ -1,4 +1,10 @@
 
+- name: Install docker
+  include_role:
+    name: geerlingguy.docker
+
+    apply:
+      become: yes
 
 - name: Install miniconda
   include_role: 
