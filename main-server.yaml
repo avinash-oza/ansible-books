@@ -12,6 +12,7 @@
   - { role: setup-apcupsd, tags: ['apcupsd']}
   - { role: install-rsnapshot }
   - { role: install-samba }
+  - { role: setup-aws-traffic-shaping, interface_name: enp4s0 }
 
   - { role: deploy-docker-container }
   # needs tags=all,main-server to add proper monitoring
