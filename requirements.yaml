@@ -1,6 +1,12 @@
 
-- src: andrewrothstein.miniconda
-  version: v6.1.2
+roles:
+  - src: andrewrothstein.miniconda
+    version: v6.1.2
 
-- src: geerlingguy.docker
-  version: 4.1.1
+  - src: geerlingguy.docker
+    version: 4.1.1
+
+collections:
+  - name: amazon.aws
+    version: 2.0.0
+    source: https://galaxy.ansible.com

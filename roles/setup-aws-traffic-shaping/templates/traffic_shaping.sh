@@ -2,6 +2,9 @@
 
 # taken from https://irulan.net/throttling-linux-network-bandwidth-by-ip-address-and-time-of-day/
 
+# cleanup existing shaping rules
+tc qdisc del dev {{ interface_name }} root
+
 tc qdisc add dev {{ interface_name }} root handle 1: cbq avpkt 1000 bandwidth 1000mbit
 
 # max at 300KB/s * 8 = 2400kbit
