@@ -161,7 +161,7 @@
 - name: Add job to clean up archive logs
   cron:
       name: "Weekly nagios log archive cleanup"
-      job: '/bin/rm -Rvf /var/log/nagios4/archives/*; service nagios4 restart'
+      job: '/bin/rm -Rvf /var/log/nagios4/archives/*'
       special_time: weekly
       state: present
 
