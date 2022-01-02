@@ -19,17 +19,20 @@
 - name: build apache2 image
   docker_image:
     name: docker-apache2-ssl
-    tag: "{{ apache_image_version }}"
+    tag: "latest"
     state: present
     source: build
+    force_source: yes
     build:
       path: "{{ docker_configs_root_path }}/apache2"
+      pull: yes
 
 - name: deploy apache2 container
   docker_container:
     name: some-apache2-container
-    image: "docker-apache2-ssl:{{ apache_image_version }}"
+    image: "docker-apache2-ssl:latest"
     state: started
+    recreate: yes
     restart_policy: always
     pull: no # build locally
     networks:
