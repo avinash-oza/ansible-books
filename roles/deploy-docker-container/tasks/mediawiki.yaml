@@ -1,0 +1,21 @@
+- name: deploy mediawiki container
+  become: true
+  docker_container:
+    name: some-mediawiki-container
+    image: "mediawiki:1.37.1"
+    state: started
+    restart_policy: always
+    networks:
+      - name: db_network
+    volumes:
+      - "{{ docker_data_path }}/mediawiki/images:/var/www/html/images"
+      # comment for first run setup
+#     - "{{ docker_data_path }}/mediawiki/LocalSettings.php:/var/www/html/LocalSettings.php"
+    env:
+      MYSQL_DATABASE: mediawiki
+      MYSQL_USER: mediawiki
+      MYSQL_PASSWORD: "{{ vault_mysql_mediawiki_password }}"
+      MYSQL_HOST: some-mariadb-container
+      
+# TODO: add backups
+
