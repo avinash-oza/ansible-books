@@ -1,0 +1,22 @@
+#!/usr/bin/bash -e
+
+tar czf /tmp/mediawiki_images.tgz -C {{ docker_data_path }}/mediawiki/images .
+
+AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_keys.mediawiki.key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_keys.mediawiki.access_key }} \
+ {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/upload_to_s3.py \
+  --upload-file /tmp/mediawiki_images.tgz \
+  --bucket-name {{ vault_aws_projects_bucket }} \
+  --dest-key backups/mediawiki/mediawiki_images.tgz
+
+# upload db backup
+
+/usr/bin/docker exec some-mariadb-container mysqldump --single-transaction -u root -p{{ vault_mysql_root_password }} mediawiki | gzip -9 > /tmp/mediawiki_backup.gz
+
+AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_keys.mediawiki.key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_keys.mediawiki.access_key }} \
+ {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/upload_to_s3.py \
+  --upload-file /tmp/mediawiki_backup.gz \
+  --bucket-name {{ vault_aws_projects_bucket }} \
+  --dest-key backups/db/mediawiki_backup.gz
+
+rm /tmp/mediawiki_backup.gz
+rm /tmp/mediawiki_images.tgz
