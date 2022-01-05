@@ -1,0 +1,56 @@
+- name: deploy bookstack container
+  become: true
+  docker_container:
+    name: some-bookstack-container
+    image: "linuxserver/bookstack:latest"
+    restart: yes
+    state: started
+    restart_policy: always
+    networks:
+      - name: db_network
+      - name: proxy_network
+    volumes:
+#     - "{{ docker_data_path }}/mediawiki/images:/var/www/html/images"
+      # comment for first run setup
+#     - "{{ docker_data_path }}/mediawiki/LocalSettings.php:/var/www/html/LocalSettings.php"
+#   published_ports:
+#     - 6875:80
+    env:
+      APP_URL: "https://{{ vault_local_domain_name }}/tools/bookstack/"
+      DB_HOST: some-mariadb-container
+      DB_USER: bookstack
+      DB_PASS: "{{ vault_mysql_bookstack_password }}"
+      DB_DATABASE: bookstack
+      
+# name: copy over backup script
+# include_role:
+#   name: copy-scripts
+#   apply:
+#     become: yes
+# vars:
+#   script_to_copy: backup_mediawiki_db
+
+# name: set permissions for backup
+# become: yes
+# file:
+#   path: "{{ scripts_dir }}/backup_mediawiki_db"
+#   owner: root
+#   group: root
+#   mode: "0700"
+
+# name: copy over upload script
+# include_role:
+#   name: copy-scripts
+#   apply:
+#     become: yes
+# vars:
+#   script_to_copy: upload_to_s3.py
+
+# name: add backup job for db
+# become: yes
+# cron:
+#   name: "backup mediawiki db"
+#   special_time: weekly
+#   job: "{{ scripts_dir }}/backup_mediawiki_db"
+
+
