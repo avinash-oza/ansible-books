@@ -18,35 +18,35 @@
       DB_PASS: "{{ vault_mysql_bookstack_password }}"
       DB_DATABASE: bookstack
       
-# name: copy over backup script
-# include_role:
-#   name: copy-scripts
-#   apply:
-#     become: yes
-# vars:
-#   script_to_copy: backup_mediawiki_db
+- name: copy over backup script
+  include_role:
+    name: copy-scripts
+    apply:
+      become: yes
+  vars:
+    script_to_copy: backup_bookstack_db
 
-# name: set permissions for backup
-# become: yes
-# file:
-#   path: "{{ scripts_dir }}/backup_mediawiki_db"
-#   owner: root
-#   group: root
-#   mode: "0700"
+- name: set permissions for backup
+  become: yes
+  file:
+    path: "{{ scripts_dir }}/backup_bookstack_db"
+    owner: root
+    group: root
+    mode: "0700"
 
-# name: copy over upload script
-# include_role:
-#   name: copy-scripts
-#   apply:
-#     become: yes
-# vars:
-#   script_to_copy: upload_to_s3.py
+- name: copy over upload script
+  include_role:
+    name: copy-scripts
+    apply:
+      become: yes
+  vars:
+    script_to_copy: upload_to_s3.py
 
-# name: add backup job for db
-# become: yes
-# cron:
-#   name: "backup mediawiki db"
-#   special_time: weekly
-#   job: "{{ scripts_dir }}/backup_mediawiki_db"
+- name: add backup job for db
+  become: yes
+  cron:
+    name: "backup bookstack db"
+    special_time: weekly
+    job: "{{ scripts_dir }}/backup_bookstack_db"
 
 

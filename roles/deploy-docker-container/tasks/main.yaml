@@ -4,5 +4,8 @@
 - include_tasks: mysql-phpmyadmin.yaml
 - include_tasks: apache2.yaml
 - include_tasks: nextcloud.yaml
+# unused for now
+# include_tasks: mediawiki.yaml
+- include_tasks: bookstack.yaml
 - include_tasks: homer.yaml
 - include_tasks: unifi.yaml
