@@ -10,11 +10,7 @@
       - name: db_network
       - name: proxy_network
     volumes:
-#     - "{{ docker_data_path }}/mediawiki/images:/var/www/html/images"
-      # comment for first run setup
-#     - "{{ docker_data_path }}/mediawiki/LocalSettings.php:/var/www/html/LocalSettings.php"
-#   published_ports:
-#     - 6875:80
+      - "{{ docker_data_path }}/bookstack:/config"
     env:
       APP_URL: "https://{{ vault_local_domain_name }}/tools/bookstack/"
       DB_HOST: some-mariadb-container
