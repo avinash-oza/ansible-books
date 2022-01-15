@@ -15,47 +15,25 @@
     - auth_digest
     - authz_groupfile
 
-- name: Enable nagios external commands
+- name: set options to values
   lineinfile:
     dest: /etc/nagios4/nagios.cfg
     state: present
-    regexp: '^check_external_commands'
-    line: "check_external_commands=1"
+    regexp: "^{{ item.key }}"
+    line: "{{ item.value }}"
+  loop: "{{ options_to_values | dict2items }}"
 
-- name: Disable logging of passive checks
-  lineinfile:
-    dest: /etc/nagios4/nagios.cfg
-    state: present
-    regexp: '^log_passive_checks'
-    line: "log_passive_checks=0"
-
-- name: rotate logs hourly
-  lineinfile:
-    dest: /etc/nagios4/nagios.cfg
-    state: present
-    regexp: '^log_rotation_method'
-    line: "log_rotation_method=h"
-
-- name: do not log external commands
-  lineinfile:
-    dest: /etc/nagios4/nagios.cfg
-    state: present
-    regexp: '^log_external_commands'
-    line: "log_external_commands=0"
-
-- name: disable notification logging
-  lineinfile:
-    dest: /etc/nagios4/nagios.cfg
-    state: present
-    regexp: '^log_notifications'
-    line: "log_notifications=0"
-
-- name: Pass environment macros
-  lineinfile:
-    dest: /etc/nagios4/nagios.cfg
-    state: present
-    regexp: '^enable_environment_macros'
-    line: "enable_environment_macros=1"
+  vars:
+    options_to_values:
+      use_syslog: "use_syslog=0"
+      check_external_commands: "check_external_commands=1"
+      log_passive_checks: "log_passive_checks=0"
+      log_rotation_method: "log_rotation_method=d"
+      log_external_commands: "log_external_commands=0"
+      log_notifications: "log_notifications=0"
+      log_event_handlers: "log_event_handlers=0"
+      log_current_states: "log_current_states=0"
+      enable_environment_macros: "enable_environment_macros=1"
 
 # keep only one backup of the file
 - name: delete stock config includes
@@ -164,13 +142,6 @@
       job: '/bin/rm -Rvf /var/log/nagios4/archives/*'
       special_time: weekly
       state: present
-
-
-# name: Generate ssh key for nagios user
-# user:
-#   name: nagios
-#   generate_ssh_key: yes
-#   ssh_key_comment: "nagios@{{ ansible_hostname }}"
 
 # name: Fetch public key to local machine
 # fetch:
