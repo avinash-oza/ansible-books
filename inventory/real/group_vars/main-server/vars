@@ -1,0 +1,2 @@
+nagios_host_name: main-server
+nagios_disk_critical_threshold: 10
