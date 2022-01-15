@@ -15,13 +15,13 @@
   cron:
     name: "Nagios: Root Partition"
     minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w {{ nagios_disk_critical_thresh }}\\% -c {{ nagios_disk_critical_thresh }}\\% -p / \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w {{ nagios_disk_critical_threshold }}\\% -c {{ nagios_disk_critical_threshold }}\\% -p / \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Load
   cron:
     name: "Nagios: Current Load"
     minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Load\" CHECK_CMD=check_load CHECK_ARGS=\"-w 5.0,4.0,3.0 -c 10.0,6.0,4.0 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Load\" CHECK_CMD=check_load CHECK_ARGS=\"-w {{ nagios_load_thresholds }} -c {{ nagios_load_thresholds }} \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Users
   cron:
