@@ -1,4 +1,10 @@
-# # WIP. DOES NOT WORK YET
+- name: create mount directories
+  become: true
+  file:
+    path: "{{ item.value }}"
+    state: directory
+  loop: "{{ mount_points|dict2items }}"
+
 - name: add other mounts
   become: true
   mount:
@@ -6,13 +12,5 @@
     path: "{{ item.value }}"
     fstype: ext4
     opts: "rw,user,noatime,nofail"
-    state: present
+    state: mounted
   loop: "{{ mount_points|dict2items }}"
-  vars:
-      mount_points:
-        '/dev/mapper/raid0--vg-home_dirs': '/mnt/raid0'
-        '/dev/mapper/raid0--vg-backups': '/mnt/raid_backup'
-        '/dev/mapper/raid0--vg-other_data': '/mnt/other_data'
-        '/dev/mapper/raid0--vg-vm_drives': '/mnt/vm_drives'
-        '/dev/mapper/raid0--vg-docker_data': '/mnt/docker_data'
-        '/dev/mapper/raid0--vg-downloads': '/mnt/downloads'

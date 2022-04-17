@@ -1,0 +1,7 @@
+mount_points:
+    '/dev/mapper/raid0--vg-home_dirs': '/mnt/raid0'
+    '/dev/mapper/raid0--vg-backups': '/mnt/raid_backup'
+    '/dev/mapper/raid0--vg-other_data': '/mnt/other_data'
+    '/dev/mapper/raid0--vg-vm_drives': '/mnt/vm_drives'
+    '/dev/mapper/raid0--vg-docker_data': '/mnt/docker_data'
+    '/dev/mapper/raid0--vg-downloads': '/mnt/downloads'
