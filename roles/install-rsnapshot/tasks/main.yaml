@@ -11,7 +11,7 @@
     dest: /etc/rsnapshot.conf
     owner: root
     group: root
-    validate: "rsnapshot configtest"
+    validate: "echo %s; rsnapshot configtest"
 
 - name: Copy cron config file
   template:

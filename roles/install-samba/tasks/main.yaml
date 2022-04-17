@@ -12,6 +12,8 @@
     owner: root
     group: root
 
+  register: samba_config
+
 - name: Add users for samba access
   become: yes
   command: "smbpasswd -a -s {{ item.key }}"
@@ -19,6 +21,9 @@
     stdin: "{{ item.value}}\n{{ item.value }}"
   with_dict: "{{ vault_samba_passwords }}"
 
-
-
-
+- name: restart samba
+  become: yes
+  systemd:
+    name: smbd
+    state: restarted
+  when: samba_config.changed

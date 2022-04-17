@@ -1,11 +1,11 @@
 - name: Add docker gpg keys
   apt_key:
-    url: https://download.docker.com/linux/debian/gpg
+    url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Install prerequiste packages
   apt:
-    name: ["apt-transport-https","ca-certificates", "curl", "gnupg2", "software-properties-common"]
+    name: ["apt-transport-https","ca-certificates", "curl", "gnupg2", "software-properties-common", "python3-pip"]
     state: present
     update_cache: yes
      
@@ -20,6 +20,11 @@
     name: docker-ce
     state: present
     update_cache: yes
+
+- name: Start docker
+  systemd:
+    name: docker
+    state: started
 
 - name: Install python docker packages
   pip:
