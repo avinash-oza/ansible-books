@@ -1,10 +1,21 @@
-- name: download certbot-auto binary
-  get_url:
-    url: "https://dl.eff.org/certbot-auto"
-    dest: /usr/local/bin/certbot-auto
-    owner: root
-    group: root
-    mode: "0755"
+# name: download certbot-auto binary
+# get_url:
+#   url: "https://dl.eff.org/certbot-auto"
+#   dest: /usr/local/bin/certbot-auto
+#   owner: root
+#   group: root
+#   mode: "0755"
+- name: Install snap for cerbot
+  become: true
+  snap:
+    name: certbot
+    classic: yes
+
+- name: Symlink certbot
+  file:
+    state: link
+    src: /snap/bin/certbot
+    path: /usr/bin/certbot-auto
 
 - name: setup job to auto renew if close to expiry
   cron:
