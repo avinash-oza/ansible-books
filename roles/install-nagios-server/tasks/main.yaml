@@ -110,12 +110,21 @@
     group: "{{ nagios_command_group }}"
     mode: "0770"
 
-# name: copy over web config
-# tags: config
-# template:
-#   backup: true
-#   src: nagios3.conf.j2
-#   dest: /etc/apache2/conf-available/nagios3.conf
+- name: copy over web config
+  tags: config
+  template:
+    backup: true
+    src: nagios4-cgi.conf.j2
+    dest: /etc/apache2/conf-available/nagios4-cgi.conf
+
+- name: copy over users file
+  tags: config
+  copy:
+    src: htdigest.users
+    dest: /etc/nagios4/htdigest.users
+    user: nagios
+    group: www-data
+
 
 # name: Allow nagios user sudo access for plugins
 # lineinfile:
