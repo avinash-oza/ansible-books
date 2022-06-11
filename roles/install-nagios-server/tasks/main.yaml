@@ -66,6 +66,10 @@
     owner: nagios
     group: "{{ nagios_command_group }}"
 
+- name: install apprise
+  include_role:
+    name: install-apprise
+
 - name: copy over send_nagios_alert.sh
   include_role:
     name: copy-scripts
