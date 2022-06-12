@@ -14,7 +14,6 @@ git_local_dest: "/tmp/{{ microservice_name }}"
 scripts_dir: /opt/scripts
 
 local_domain_name: "{{ vault_local_domain_name }}"
-aws_sns_garage_request_arn: "{{ vault_aws_sns_garage_request_arn }}"
 
 # nagios passive checks
 nagios_passive_checks_url: "{{ vault_nagios_passive_checks_url }}"
