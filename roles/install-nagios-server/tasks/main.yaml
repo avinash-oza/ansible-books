@@ -70,7 +70,7 @@
   include_role:
     name: install-apprise
   vars:
-    apprise_group: nagcmd
+    apprise_group: "{{ nagios_command_group }}"
 
 - name: copy over send_nagios_alert.sh
   include_role:
@@ -78,15 +78,6 @@
   vars:
     script_to_copy: send_nagios_alert.sh
     file_permissions: '0770'
-    file_owner: nagios
-    file_group: "{{ nagios_command_group }}"
-
-- name: copy over send_sns_alert.py
-  include_role:
-    name: copy-scripts
-  vars:
-    script_to_copy: send_sns_alert.py
-    file_permissions: '0644'
     file_owner: nagios
     file_group: "{{ nagios_command_group }}"
 
@@ -148,7 +139,7 @@
 - name: Add cron weekly message for uptime
   cron:
       name: "Weekly uptime"
-      job: 'echo $(hostname) $(uptime) | AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }} --stdin'
+      job: 'echo $(hostname) $(uptime) | apprise --config /opt/scripts/apprise.conf --tag default'
       special_time: weekly
       state: present
 
