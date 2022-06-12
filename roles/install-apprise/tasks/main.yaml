@@ -12,6 +12,6 @@
   template:
     src: apprise.conf.j2
     dest: "{{ scripts_dir }}/apprise.conf"
-    user: root
-    group: nagcmd
-    mode: '0750'
+    owner: "{{ apprise_owner }}"
+    group: "{{ apprise_group }}"
+    mode: "{{ apprise_config_mode }}"

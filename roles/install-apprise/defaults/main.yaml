@@ -1,0 +1,3 @@
+apprise_owner: root
+apprise_group: root
+apprise_config_mode: '0750'

@@ -69,6 +69,8 @@
 - name: install apprise
   include_role:
     name: install-apprise
+  vars:
+    apprise_group: nagcmd
 
 - name: copy over send_nagios_alert.sh
   include_role:

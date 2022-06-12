@@ -5,16 +5,20 @@
 #   owner: root
 #   group: root
 #   mode: "0755"
-- name: Install snap for cerbot
+- name: Install snap for certbot
   become: true
   snap:
     name: certbot
     classic: yes
 
+- name: install apprise
+  include_role: 
+    name: install-apprise
+
 - name: setup job to auto renew if close to expiry
   cron:
     name: certbot-auto renew certificate
     special_time: weekly
-    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\"| AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_keys.telegram_notify.key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_keys.telegram_notify.access_key }} {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }} --stdin > /dev/null 2>&1"
+    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\"| apprise --config /opt/scripts/apprise.conf --tag default > /dev/null 2>&1"
     state: present
 
