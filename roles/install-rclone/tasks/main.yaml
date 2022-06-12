@@ -1,0 +1,12 @@
+
+- name: Install latest rclone
+  apt:
+    deb: https://downloads.rclone.org/rclone-current-linux-amd64.deb
+
+- name: Copy config file
+  template:
+    src: rclone.conf.j2
+    dest: "{{ scripts_dir }}/rclone.conf"
+    owner: "{{ rclone_owner }}"
+    group: "{{ rclone_group }}"
+    mode: "{{ rclone_config_mode }}"
