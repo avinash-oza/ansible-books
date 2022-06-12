@@ -4,12 +4,6 @@
     name: apcupsd
     state: present
 
-- name: Install boto3 to root env
-  become: yes
-  apt:
-    name: python3-boto3
-    state: present
-
 - name: Copy over configuration files
   tags: config
   template:
@@ -20,8 +14,3 @@
     - offbattery
     - onbattery
     - doshutdown
-
-- include_role:
-    name: copy-scripts
-  vars:
-    script_to_copy: send_sns_alert.py

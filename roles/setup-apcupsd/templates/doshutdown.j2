@@ -7,5 +7,5 @@
 export HOSTNAME=`hostname`
 export MSG="$HOSTNAME IS SHUTTING DOWN !!!"
 
-AWS_DEFAULT_REGION={{ vault_aws_default_region }} AWS_ACCESS_KEY_ID={{ vault_aws_access_key_id }} AWS_SECRET_ACCESS_KEY={{ vault_aws_secret_access_key }} {{ python_root }}/{{ python_bin }} {{ scripts_dir }}/send_sns_alert.py --sns-arn={{ vault_nagios_alert_sns_endpoint }}
+printf "$MSG" | apprise --config /opt/scripts/apprise.conf --tag default
 /sbin/shutdown -h now
