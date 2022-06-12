@@ -1,9 +1,7 @@
-
-- include_role:
-    name: copy-scripts
-  vars:
-    script_to_copy: send_sns_alert.py
-
+- name: Install smartmontools
+  apt:
+    name: smartmontools
+    state: present
 
 - name: copy over telegram alert script
   template:
