@@ -34,14 +34,6 @@
     group: root
     mode: "0700"
 
-- name: copy over upload script
-  include_role:
-    name: copy-scripts
-    apply:
-      become: yes
-  vars:
-    script_to_copy: upload_to_s3.py
-
 - name: add backup job for db
   become: yes
   cron:
