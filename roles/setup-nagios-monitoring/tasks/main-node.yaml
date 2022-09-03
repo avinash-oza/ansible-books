@@ -6,7 +6,7 @@
   loop: "{{ services | dict2items }}"
   vars:
     services: # number of expected services
-      geth: 1
+      besu: 1
       lighthouse: 2
 
 
