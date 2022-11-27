@@ -47,3 +47,5 @@
     password: "{{ lookup('password', '/dev/null length=40') | password_hash('sha512') }}"
   with_items: "{{ users_to_scramble }}"
   when: item in getent_passwd
+
+# TODO: add step to remove /etc/sudo.d/10-install from setup if it exists
