@@ -33,5 +33,3 @@
     volumes:
       - "{{ docker_data_path }}/homer/config.yaml:/www/config.yml"
       - "{{ docker_data_path }}/homer/assets:/www/assets"
-    published_ports:
-      - 9103:8080
