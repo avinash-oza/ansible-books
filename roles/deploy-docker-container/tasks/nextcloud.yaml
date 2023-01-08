@@ -10,7 +10,7 @@
   become: true
   docker_container:
     name: some-nextcloud-container
-    image: "nextcloud:23-apache"
+    image: "nextcloud:25-apache"
     state: started
     restart_policy: always
     networks:
