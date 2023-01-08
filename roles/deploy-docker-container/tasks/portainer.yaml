@@ -1,0 +1,13 @@
+- name: Deploy portainer
+  docker_container:
+    name: some-portainer-container
+    image: "portainer/portainer-ce:latest"
+    state: started
+    restart_policy: always
+    volumes:
+      - "{{ docker_data_path }}/portainer:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - name: proxy_network
+    published_ports:
+      - 9443:9443
