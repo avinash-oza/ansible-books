@@ -1,5 +1,5 @@
-- include_tasks: docker-base.yaml
-- include_tasks: docker-networks.yaml
+- include_role: install-docker-base
+
 - include_tasks: redis.yaml
 - include_tasks: mysql-phpmyadmin.yaml
 - include_tasks: apache2.yaml
