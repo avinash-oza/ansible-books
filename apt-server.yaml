@@ -1,10 +1,12 @@
 
 ---
 - hosts: localhost
-# remote_user: deploy
+  remote_user: deploy
   become: yes
   roles:
-# - { role: add-and-setup-deploy-user}
-# - { role: base-setup}
-# - { role: setup-smartmontools }
+  - { role: add-and-setup-deploy-user}
+  - { role: base-setup}
+  - { role: setup-smartmontools }
   - { role: install-docker-base }
+  - { role: deploy-docker-redis }
+  - { role: deploy-docker-mysql-phpmyadmin }

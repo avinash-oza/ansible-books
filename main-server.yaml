@@ -15,6 +15,8 @@
   - { role: install-samba }
   - { role: setup-aws-traffic-shaping, interface_name: enp4s0 }
 
+  - { role: install-docker-base }
+  - { role: deploy-docker-redis }
   - { role: deploy-docker-container }
   # needs tags=all,main-server to add proper monitoring
   - { role: setup-nagios-monitoring }
