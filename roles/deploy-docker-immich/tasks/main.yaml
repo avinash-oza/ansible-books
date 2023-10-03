@@ -1,0 +1,30 @@
+- name: make data dir
+  file:
+    path: "{{ docker_data_path }}/immich"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: deploy immich container
+  docker_container:
+    name: some-immich-container
+    image: "ghcr.io/imagegenius/immich:1.80.0"
+    state: started
+    restart: yes
+    restart_policy: always
+    volumes:
+      - "{{ docker_data_path }}/immich/config:/config"
+      - "{{ docker_data_path }}/immich/photos:/photos"
+      - "{{ docker_data_path }}/immich/ml:/config/machine-learning"
+      - "{{ docker_data_path }}/immich/imports:/import"
+    networks:
+      - name: cache_network
+      - name: db_network
+    env:
+      DB_HOSTNAME: some-postgres-container
+      DB_USERNAME: postgres
+      DB_PASSWORD: "{{ vault_postgres_root_password }}"
+      DB_DATABASE_NAME: immich
+      REDIS_HOSTNAME: some-redis-container
+      REDIS_PASSWORD: "{{ vault_redis_password }}"

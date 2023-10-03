@@ -10,3 +10,5 @@
   - { role: install-docker-base }
   - { role: deploy-docker-redis }
   - { role: deploy-docker-mysql-phpmyadmin }
+  - { role: deploy-docker-postgres-adminer }
+  - { role: deploy-docker-immich }
