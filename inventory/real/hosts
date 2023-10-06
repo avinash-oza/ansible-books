@@ -1,5 +1,5 @@
 [apt-server]
-apt-server-1 ansible_host=192.168.1.114
+apt-server-1 ansible_host=192.168.1.187
 
 [garage-door]
 garage-door-1 ansible_host=172.16.2.102

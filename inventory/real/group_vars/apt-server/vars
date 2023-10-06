@@ -1,2 +1,1 @@
-sensor_names: APARTMENT1                                                                                                                                                                 
-sensor_ids: 28-05167128feff                                                                                                                                                              
+docker_data_path: /mnt/nas-disk/docker-data
