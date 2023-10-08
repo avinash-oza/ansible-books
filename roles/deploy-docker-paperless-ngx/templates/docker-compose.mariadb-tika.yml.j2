@@ -55,6 +55,8 @@ services:
       - "{{ docker_data_path }}/paperless-ngx/media:/usr/src/paperless/media"
       - "{{ docker_data_path }}/paperless-ngx/export:/usr/src/paperless/export"
       - "{{ docker_data_path }}/paperless-ngx/consume:/usr/src/paperless/consume"
+    ports:
+      - 8099:8000
     networks:
       - proxy_network
       - cache_network

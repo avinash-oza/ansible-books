@@ -21,6 +21,9 @@
     networks:
       - name: cache_network
       - name: db_network
+      - name: proxy_network
+    ports:
+      - 8098:8080
     env:
       DB_HOSTNAME: some-postgres-container
       DB_USERNAME: postgres
