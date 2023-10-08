@@ -1,0 +1,22 @@
+- name: make data dir
+  file:
+    path: "{{ docker_data_path }}/nexus"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: deploy nexus container
+  docker_container:
+    name: some-nexus-container
+    image: "sonatype/nexus3:3.61.0"
+    volumes:
+      - "{{ docker_data_path }}/nexus:/nexus-data"
+    state: started
+    restart: yes
+    restart_policy: always
+    networks:
+      - name: proxy_network
+    # TODO: REVERT
+    ports:
+      - 8081:8081
