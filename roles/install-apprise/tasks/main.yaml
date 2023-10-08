@@ -9,9 +9,12 @@
     name: apprise
 
 - name: Copy config file
-  template:
-    src: apprise.conf.j2
-    dest: "{{ scripts_dir }}/apprise.conf"
-    owner: "{{ apprise_owner }}"
-    group: "{{ apprise_group }}"
-    mode: "{{ apprise_config_mode }}"
+  include_role:
+    name: copy-scripts
+    apply:
+      become: yes
+  vars:
+      script_to_copy: apprise.conf
+      file_owner: "{{ apprise_owner }}"
+      file_group: "{{ apprise_group }}"
+      file_permissions: "{{ apprise_config_mode }}"

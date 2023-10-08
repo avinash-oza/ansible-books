@@ -1,0 +1,11 @@
+FROM httpd:latest
+
+COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+RUN mkdir /usr/local/apache2/conf/additional-conf
+COPY aws_passwd /usr/local/apache2/conf/additional-conf/
+COPY ssl-setup.conf /usr/local/apache2/conf/additional-conf/
+
+
+EXPOSE 80
+
+CMD ["httpd", "-D", "FOREGROUND"]
