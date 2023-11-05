@@ -4,15 +4,20 @@
   remote_user: deploy
   become: yes
   roles:
-# - { role: add-and-setup-deploy-user}
-# - { role: base-setup}
-# - { role: install-and-configure-letsencrypt }
+  - { role: add-and-setup-deploy-user}
+  - { role: base-setup}
+  - { role: install-and-configure-letsencrypt }
   - { role: setup-smartmontools }
-# - { role: install-docker-base }
-# - { role: deploy-docker-redis }
+  - { role: install-docker-base }
+  - { role: deploy-docker-redis }
   - { role: deploy-docker-apache }
-# - { role: deploy-docker-mysql-phpmyadmin }
-# - { role: deploy-docker-postgres-adminer }
+  - { role: deploy-docker-mysql-phpmyadmin }
+  - { role: deploy-docker-postgres-adminer }
   - { role: deploy-docker-immich }
-# - { role: deploy-docker-nexus }
-# - { role: deploy-docker-paperless-ngx }
+  - { role: deploy-docker-nexus }
+  - { role: deploy-docker-paperless-ngx }
+  - { role: deploy-docker-emby }
+  - { role: deploy-docker-homer }
+  # needs tags=all,apt-server to add proper monitoring
+  - { role: setup-nagios-monitoring, become: yes }
+  - { role: install-samba, become: yes }
