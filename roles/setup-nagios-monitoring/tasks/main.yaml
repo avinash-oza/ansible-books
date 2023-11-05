@@ -50,3 +50,10 @@
       tags:
         - main-node
         - never
+
+- include_tasks:
+    file: apt-server.yaml
+    apply:
+      tags:
+        - apt-server
+        - never
