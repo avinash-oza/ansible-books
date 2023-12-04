@@ -1,0 +1,15 @@
+- name: deploy apache2 container with SSL
+  docker_container:
+    name: some-apache2-container
+    image: "docker-apache2-ssl:latest"
+    state: started
+    recreate: yes
+    restart_policy: always
+    pull: no # build locally
+    networks:
+      - name: proxy_network
+    volumes:
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    published_ports:
+      - 443:443
+ 

@@ -27,16 +27,12 @@
       path: "{{ docker_data_path }}/apache2"
       pull: yes
 
-- name: deploy apache2 container
-  docker_container:
-    name: some-apache2-container
-    image: "docker-apache2-ssl:latest"
-    state: started
-    recreate: yes
-    restart_policy: always
-    pull: no # build locally
-    networks:
-      - name: proxy_network
-    published_ports:
-      - 80:80
- 
+- name: use non ssl container
+  include_tasks:
+    file: no-ssl.yaml
+  when: not apache_is_ssl
+
+- name: use ssl container
+  include_tasks:
+    file: ssl.yaml
+  when: apache_is_ssl
