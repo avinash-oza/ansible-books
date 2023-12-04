@@ -9,6 +9,7 @@
   - { role: install-and-configure-letsencrypt }
   - { role: setup-smartmontools }
   - { role: install-docker-base }
+  - { role: install-samba, become: yes }
   - { role: deploy-docker-redis }
   - { role: deploy-docker-apache }
   - { role: deploy-docker-mysql-phpmyadmin }
@@ -18,6 +19,5 @@
   - { role: deploy-docker-paperless-ngx }
   - { role: deploy-docker-emby }
   - { role: deploy-docker-homer }
-  # needs tags=all,apt-server to add proper monitoring
+# # needs tags=all,apt-server to add proper monitoring
   - { role: setup-nagios-monitoring, become: yes }
-  - { role: install-samba, become: yes }
