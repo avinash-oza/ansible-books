@@ -13,7 +13,9 @@
   - { role: install-rsnapshot }
   - { role: setup-smartmontools }
   - { role: install-samba }
+  - { role: install-rclone }
   - { role: install-docker-base }
+  - { role: deploy-docker-homer }
   - { role: deploy-docker-redis }
   - { role: deploy-docker-apache }
   - { role: deploy-docker-mysql-phpmyadmin }
