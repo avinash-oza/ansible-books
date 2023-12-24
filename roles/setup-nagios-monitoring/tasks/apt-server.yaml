@@ -16,7 +16,8 @@
     disks:
       mnt-nas_disk: "/mnt/nas-disk"
       mnt-vm_drives: "/mnt/vm-drives"
-      mnt-nas_backup: "/mnt/nas_backup"
+      mnt-nas_backup: "/mnt/nas-backup"
+      mnt-backups: "/mnt/backups"
 
 - name: Add checks for containers
   cron:
