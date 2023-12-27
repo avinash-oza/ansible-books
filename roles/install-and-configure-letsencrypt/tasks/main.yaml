@@ -1,10 +1,3 @@
-# name: download certbot-auto binary
-# get_url:
-#   url: "https://dl.eff.org/certbot-auto"
-#   dest: /usr/local/bin/certbot-auto
-#   owner: root
-#   group: root
-#   mode: "0755"
 - name: Install snap for certbot
   become: true
   snap:

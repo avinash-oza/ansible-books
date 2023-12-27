@@ -1,0 +1,23 @@
+- name: make data dir
+  file:
+    path: "{{ docker_data_path }}/emby"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: deploy emby container
+  docker_container:
+    name: some-emby-container
+    image: "emby/embyserver:4.8.0.52"
+    state: started
+    restart: yes
+    restart_policy: always
+    volumes: "{{ vault_emby_mount_points }}"
+    ports:
+      - 8096:8096
+      - 8920:8920
+    devices:
+      - /dev/dri:/dev/dri
+    env:
+      GIDLIST: "100,44"

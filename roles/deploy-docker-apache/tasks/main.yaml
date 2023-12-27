@@ -1,0 +1,38 @@
+---
+- name: Create config directories
+  file:
+    state: directory
+    path: "{{ docker_data_path }}/apache2"
+    owner: root
+    group: root
+
+- name: copy apache2 config files
+  template:
+    src: "{{ apache_config_files_directory }}/{{ item }}"
+    dest: "{{ docker_data_path }}/apache2"
+  loop:
+    - ssl-setup.conf
+    - httpd.conf
+    - aws_passwd
+    - Dockerfile
+
+- name: build apache2 image
+  docker_image:
+    name: docker-apache2-ssl
+    tag: "latest"
+    state: present
+    source: build
+    force_source: yes
+    build:
+      path: "{{ docker_data_path }}/apache2"
+      pull: yes
+
+- name: use non ssl container
+  include_tasks:
+    file: no-ssl.yaml
+  when: not apache_is_ssl
+
+- name: use ssl container
+  include_tasks:
+    file: ssl.yaml
+  when: apache_is_ssl

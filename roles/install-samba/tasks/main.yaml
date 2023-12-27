@@ -7,7 +7,7 @@
 - name: Copy smbd.conf
   template:
     backup: yes
-    src: smb.conf.j2
+    src: "smb-{{ group_names[0] }}.conf.j2"
     dest: /etc/samba/smb.conf
     owner: root
     group: root

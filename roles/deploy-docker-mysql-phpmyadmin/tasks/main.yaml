@@ -3,7 +3,7 @@
 - name: deploy mariadb container
   docker_container:
     name: some-mariadb-container
-    image: "mariadb:10.5.1"
+    image: "mariadb:10.11.4"
     state: started
     restart_policy: always
     volumes:
@@ -24,4 +24,4 @@
       - name: proxy_network
     env:
       PMA_HOST: some-mariadb-container
-      PMA_ABSOLUTE_URI: "https://{{ local_domain_name }}/tools/phpmyadmin"
+      PMA_ABSOLUTE_URI: "{{ vault_local_domain_name_scheme }}://{{ local_domain_name }}/tools/phpmyadmin"

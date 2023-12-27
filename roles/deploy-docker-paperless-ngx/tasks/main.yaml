@@ -1,0 +1,18 @@
+- name: make data dir
+  file:
+    path: "{{ docker_data_path }}/paperless-ngx"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: Copy docker-compose file for paperless
+  template:
+    src: docker-compose.mariadb-tika.yml.j2
+    dest: "{{ docker_data_path }}/paperless-ngx/docker-compose.yml"
+
+- name: deploy paperless setup
+  become: True
+  shell:
+    cmd: "docker compose -f docker-compose.yml up -d"
+    chdir: "{{ docker_data_path }}/paperless-ngx"

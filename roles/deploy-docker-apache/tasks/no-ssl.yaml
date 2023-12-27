@@ -1,0 +1,13 @@
+- name: deploy apache2 container without SSL
+  docker_container:
+    name: some-apache2-container-nossl
+    image: "docker-apache2-ssl:latest"
+    state: started
+    recreate: yes
+    restart_policy: always
+    pull: no # build locally
+    networks:
+      - name: proxy_network
+    published_ports:
+      - 80:80
+ 

@@ -1,0 +1,43 @@
+- name: "Remove current assets directory (prevent caching)"
+  file:
+    path: "{{ docker_data_path }}/homer/assets"
+    state: absent
+
+- name: make assets/root directory
+  file:
+    path: "{{ docker_data_path }}/homer/assets"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: copy over logos
+  copy:
+    src: "{{ item }}"
+    dest: "{{ docker_data_path }}/homer/assets/{{ item }}"
+  loop:
+    - "homer.png"
+
+- name: copy over homer config
+  template:
+    src: "config-{{ group_names[0] }}.yaml"
+    dest: "{{ docker_data_path }}/homer/assets/config.yml"
+    mode: "0755"
+    owner: root
+    group: root
+  register: homer_config
+
+- name: deploy homer container
+  docker_container:
+    name: some-homer-container
+    image: "b4bz/homer:latest"
+    state: started
+    recreate: yes
+    restart: yes
+    restart_policy: always
+    networks:
+      - name: proxy_network
+    env:
+      INIT_ASSETS: "0"
+    volumes:
+      - "{{ docker_data_path }}/homer/assets:/www/assets"
