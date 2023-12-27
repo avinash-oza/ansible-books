@@ -27,4 +27,4 @@ proxmox-1 ansible_host=192.168.1.100
 
 [pi-hole]
 pi-hole-1 ansible_host=192.168.1.120
-pi-hole-2 ansible_host=192.168.1.30
+pi-hole-2 ansible_host=192.168.1.193
