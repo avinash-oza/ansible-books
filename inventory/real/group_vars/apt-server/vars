@@ -2,3 +2,4 @@ docker_data_path: /mnt/nas-disk/docker-data
 apache_config_files_directory: "apt-server"
 
 nagios_host_name: apt-server
+apache_is_ssl: false
