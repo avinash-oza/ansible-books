@@ -1,0 +1,13 @@
+[Interface]
+Address = 10.0.0.1/24
+ListenPort = {{ vault_wireguard_listen_port }}
+PrivateKey = {{ vault_wireguard_private_key }}
+PostUp =  /etc/wireguard/postup.sh
+PostDown = /etc/wireguard/postdown.sh
+
+{% for item in vault_wireguard_client_configs.values() %}
+[Peer]
+# {{ item.comment }}
+PublicKey={{ item.public_key }}
+AllowedIPs={{ item.allowed_ips }}
+{% endfor %}
