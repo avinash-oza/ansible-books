@@ -25,7 +25,7 @@
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Docker {{ item }}\" CHECK_CMD=check_docker CHECK_ARGS=\"--status=running --containers {{ item }} --present\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
   loop:
-    - some-apache2-container
+    - some-apache2-container-nossl
     - some-homer-container
     - some-phpmyadmin-container
     - some-redis-container
