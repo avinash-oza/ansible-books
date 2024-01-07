@@ -21,7 +21,7 @@
 
 - name: Copy over post up/post down files
   become: yes
-  copy:
+  template:
     src: "{{ item }}"
     dest: "/etc/wireguard/{{ item }}"
     mode: "0755"
