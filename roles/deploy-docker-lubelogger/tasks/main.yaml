@@ -1,0 +1,27 @@
+- name: make data dir
+  file:
+    path: "{{ docker_data_path }}/lubelogger"
+    recurse: yes
+    state: directory
+    owner: root
+    group: root
+
+- name: deploy lubelogger container
+  docker_container:
+    name: some-lubelogger-container
+    image: "ghcr.io/hargata/lubelogger:latest"
+    volumes:
+      - "{{ docker_data_path }}/lubelogger/config:/App/config"
+      - "{{ docker_data_path }}/lubelogger/data:/App/data"
+      - "{{ docker_data_path }}/lubelogger/documents:/App/wwwroot/documents"
+      - "{{ docker_data_path }}/lubelogger/images:/App/wwwroot/images"
+      - "{{ docker_data_path }}/lubelogger/temp:/App/wwwroot/temp"
+      - "{{ docker_data_path }}/lubelogger/log:/App/log"
+      - "{{ docker_data_path }}/lubelogger/keys:/root/.aspnet/DataProtection-Keys"
+    state: started
+    restart: yes
+    restart_policy: always
+    networks:
+      - name: proxy_network
+    ports:
+      - 8094:8080
