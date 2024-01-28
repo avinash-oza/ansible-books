@@ -3,7 +3,8 @@
 - name: deploy postgres container
   docker_container:
     name: some-postgres-container
-    image: "postgres:16"
+#   image: "postgres:16"
+    image: "tensorchord/pgvecto-rs:pg16-v0.1.11"
     state: started
     restart_policy: always
     volumes:
