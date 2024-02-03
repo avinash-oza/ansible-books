@@ -1,7 +1,0 @@
-#!/usr/bin/bash -e
-
-/usr/bin/docker exec some-mariadb-container mysqldump --single-transaction -u root -p{{ vault_mysql_root_password }} nextcloud | gzip -9 > /tmp/nextcloud_backup.gz
-
-rclone --config {{ scripts_dir }}/rclone.conf copy /tmp/nextcloud_backup.gz {{ vault_rclone_remote_name }}:/db/
-
-rm /tmp/nextcloud_backup.gz

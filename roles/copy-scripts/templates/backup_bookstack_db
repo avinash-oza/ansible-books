@@ -4,10 +4,4 @@ tar czf /tmp/bookstack_images.tgz -C {{ docker_data_path }}/bookstack/ .
 
 rclone --config {{ scripts_dir }}/rclone.conf copy /tmp/bookstack_images.tgz {{ vault_rclone_remote_name }}:/bookstack/
 
-# upload db backup
-
-/usr/bin/docker exec some-mariadb-container mysqldump --single-transaction -u root -p{{ vault_mysql_root_password }} bookstack | gzip -9 > /tmp/bookstack_backup.gz
-rclone --config {{ scripts_dir }}/rclone.conf copy /tmp/bookstack_backup.gz {{ vault_rclone_remote_name }}:/db/
-
-rm /tmp/bookstack_backup.gz
 rm /tmp/bookstack_images.tgz
