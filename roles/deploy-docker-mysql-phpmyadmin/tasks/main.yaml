@@ -16,7 +16,7 @@
 - name: deploy phpmyadmin container
   docker_container:
     name: some-phpmyadmin-container
-    image: "phpmyadmin/phpmyadmin:5.0"
+    image: "phpmyadmin/phpmyadmin:5.2"
     state: started
     restart_policy: always
     networks:
@@ -25,3 +25,27 @@
     env:
       PMA_HOST: some-mariadb-container
       PMA_ABSOLUTE_URI: "{{ vault_local_domain_name_scheme }}://{{ local_domain_name }}/tools/phpmyadmin"
+#
+- name: deploy backup container
+  docker_container:
+    name: some-mariadb-backup-container
+    image: "tiredofit/db-backup:4.0.35"
+    state: started
+    restart_policy: always
+    networks:
+      - name: db_network
+    env:
+      CONTAINER_ENABLE_MONITORING: "FALSE"
+      DEFAULT_BACKUP_LOCATION: "S3"
+      DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
+      DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
+      DEFAULT_S3_PATH: "backups/db"
+      DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
+      DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
+
+      DB01_TYPE: "mysql"
+      DB01_HOST: "some-mariadb-container"
+      DB01_NAME: "{{ docker_db_backup_mysql_dbs }}"
+      DB01_SPLIT_DB: "TRUE"
+      DB01_USER: root
+      DB01_PASS: "{{ vault_mysql_root_password }}"

@@ -15,6 +15,30 @@
       POSTGRES_DB: immich
       POSTGRES_PASSWORD: "{{ vault_postgres_root_password }}"
 
+- name: deploy postgres backup container
+  docker_container:
+    name: some-postgres-backup-container
+    image: "tiredofit/db-backup:4.0.35"
+    state: started
+    restart_policy: always
+    networks:
+      - name: db_network
+    env:
+      CONTAINER_ENABLE_MONITORING: "FALSE"
+      DEFAULT_BACKUP_LOCATION: "S3"
+      DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
+      DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
+      DEFAULT_S3_PATH: "backups/db"
+      DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
+      DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
+
+      DB01_TYPE: "pgsql"
+      DB01_HOST: "some-postgres-container"
+      DB01_NAME: "immich"
+      DB01_SPLIT_DB: "TRUE"
+      DB01_USER: postgres
+      DB01_PASS: "{{ vault_postgres_root_password }}"
+
 - name: deploy adminer
   docker_container:
     name: some-adminer-container
