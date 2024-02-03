@@ -7,7 +7,7 @@
 - name: Copy config file
   template:
     backup: yes
-    src: rsnapshot.conf.j2
+    src: "rsnapshot-{{ group_names[0] }}.conf.j2"
     dest: /etc/rsnapshot.conf
     owner: root
     group: root
