@@ -49,3 +49,5 @@
       DB01_SPLIT_DB: "TRUE"
       DB01_USER: root
       DB01_PASS: "{{ vault_mysql_root_password }}"
+      # 20 days
+      DB01_CLEANUP_TIME: "28800"

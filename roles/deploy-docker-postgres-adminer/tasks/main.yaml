@@ -38,6 +38,8 @@
       DB01_SPLIT_DB: "TRUE"
       DB01_USER: postgres
       DB01_PASS: "{{ vault_postgres_root_password }}"
+      # 20 days
+      DB01_CLEANUP_TIME: "28800"
 
 - name: deploy adminer
   docker_container:
