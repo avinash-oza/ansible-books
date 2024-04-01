@@ -4,7 +4,7 @@
   docker_container:
     name: some-postgres-container
 #   image: "postgres:16"
-    image: "tensorchord/pgvecto-rs:pg16-v0.1.11"
+    image: "tensorchord/pgvecto-rs:pg16-v0.2.0"
     state: started
     restart_policy: always
     volumes:
