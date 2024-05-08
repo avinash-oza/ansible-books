@@ -4,4 +4,4 @@ apache_config_files_directory: "apt-server"
 nagios_host_name: apt-server
 apache_is_ssl: false
 
-docker_db_backup_mysql_dbs: "paperless"
+docker_db_backup_mysql_dbs: "paperless,nextcloud"
