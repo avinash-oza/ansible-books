@@ -28,28 +28,3 @@
       MYSQL_USER: mediawiki
       MYSQL_PASSWORD: "{{ vault_mysql_mediawiki_password }}"
       MYSQL_HOST: some-mariadb-container
-      
-- name: copy over backup script
-  include_role:
-    name: copy-scripts
-    apply:
-      become: yes
-  vars:
-    script_to_copy: backup_mediawiki_db
-
-- name: set permissions for backup
-  become: yes
-  file:
-    path: "{{ scripts_dir }}/backup_mediawiki_db"
-    owner: root
-    group: root
-    mode: "0700"
-
-- name: add backup job for db
-  become: yes
-  cron:
-    name: "backup mediawiki db"
-    special_time: weekly
-    job: "{{ scripts_dir }}/backup_mediawiki_db"
-
-
