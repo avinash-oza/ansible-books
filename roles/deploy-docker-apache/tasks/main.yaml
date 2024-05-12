@@ -13,7 +13,6 @@
   loop:
     - ssl-setup.conf
     - httpd.conf
-    - aws_passwd
     - Dockerfile
 
 - name: build apache2 image
