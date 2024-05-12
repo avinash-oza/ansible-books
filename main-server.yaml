@@ -16,9 +16,7 @@
   - { role: install-rclone }
   - { role: install-docker-base }
   - { role: deploy-docker-homer }
-  - { role: deploy-docker-redis }
   - { role: deploy-docker-apache }
-  - { role: deploy-docker-mysql-phpmyadmin }
   - { role: deploy-docker-container }
   - { role: deploy-wireguard }
 # # needs tags=all,main-server to add proper monitoring
