@@ -2,4 +2,4 @@ nagios_host_name: main-server
 nagios_disk_critical_threshold: 10
 apache_config_files_directory: "main-server"
 
-docker_db_backup_mysql_dbs: "bookstack"
+docker_db_backup_mysql_dbs: ""
