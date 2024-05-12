@@ -1,6 +1,0 @@
----
-- hosts: local-pc
-  roles:
-    - { role: setup-dotfiles , user_to_configure: vagrant }
-    - { role: setup-local-pc }
-
