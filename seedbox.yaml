@@ -1,8 +1,0 @@
-
-- hosts: seedbox
-  remote_user: deploy
-  roles:
-      - { role: base-setup, become: yes }
-      - { role: add-and-setup-deploy-user, become: yes }
-      - { role: install-qbittorrent-nox, become: true }
-      # needs tags=all,main-node to add proper monitoring
