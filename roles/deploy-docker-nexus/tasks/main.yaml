@@ -9,7 +9,7 @@
 - name: deploy nexus container
   docker_container:
     name: some-nexus-container
-    image: "sonatype/nexus3:latest"
+    image: "sonatype/nexus3:3.68.1"
     volumes:
       - "{{ docker_data_path }}/nexus:/nexus-data"
     state: started
@@ -17,6 +17,5 @@
     restart_policy: always
     networks:
       - name: proxy_network
-    # TODO: REVERT
     ports:
       - 8081:8081
