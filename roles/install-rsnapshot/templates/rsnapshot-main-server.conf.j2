@@ -57,7 +57,7 @@ cmd_rsync	/usr/bin/rsync
 
 # Uncomment this to enable remote ssh backups over rsync.
 #
-#cmd_ssh	/usr/bin/ssh
+cmd_ssh	/usr/bin/ssh
 
 # Comment this out to disable syslog support.
 #
@@ -114,7 +114,7 @@ retain		monthly	5
 # 4     Extra Verbose   Show extra verbose information
 # 5     Debug mode      Everything
 #
-verbose		2
+verbose		3
 
 # Same as "verbose" above, but controls the amount of data sent to the
 # logfile, if one is being used. The default is 3.
@@ -124,7 +124,7 @@ loglevel	3
 # If you enable this, data will be written to the file you specify. The
 # amount of data written is controlled by the "loglevel" parameter.
 #
-#logfile	/var/log/rsnapshot.log
+logfile	/var/log/rsnapshot.log
 
 # If enabled, rsnapshot will write a lockfile to prevent two instances
 # from running simultaneously (and messing up the snapshot_root).
@@ -231,6 +231,11 @@ lockfile	/var/run/rsnapshot.pid
 
 # Home directories
 backup	/mnt/raid0/Homes/	homes/
+
+backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/immich/	immich/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/lubelogger/	lubelogger/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/nextcloud/	nextcloud/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
 
 # LOCALHOST
 #backup	/home/		localhost/

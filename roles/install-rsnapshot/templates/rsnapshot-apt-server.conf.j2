@@ -57,7 +57,7 @@ cmd_rsync	/usr/bin/rsync
 
 # Uncomment this to enable remote ssh backups over rsync.
 #
-#cmd_ssh	/usr/bin/ssh
+cmd_ssh	/usr/bin/ssh
 
 # Comment this out to disable syslog support.
 #
@@ -233,6 +233,7 @@ backup	/mnt/nas-disk/docker-data/immich/	immich/
 backup	/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/
 backup	/mnt/nas-disk/docker-data/lubelogger/	lubelogger/
 backup	/mnt/nas-disk/docker-data/nextcloud/	nextcloud/
+backup	rsnapshotuser@172.16.1.10:/mnt/raid0/Homes	homes/	+rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
 
 # LOCALHOST
 #backup	/home/		localhost/

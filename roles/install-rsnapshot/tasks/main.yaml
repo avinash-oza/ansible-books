@@ -1,8 +1,25 @@
 ---
 - name: Install rsnapshot
   apt:
-      name: rsnapshot
-      state: present
+    name: rsnapshot
+    state: present
+
+- name: Create user for pull backups
+  user:
+    name: rsnapshotuser
+    shell: "/bin/bash"
+    state: present
+
+- name: Allow rsync access for backups
+  blockinfile:
+    path: /etc/sudoers
+    marker: "# {mark} rsnapshotuser sudo"
+    block: "rsnapshotuser ALL=(root) NOPASSWD:/usr/bin/rsync"
+    validate: 'visudo -cf %s'
+
+- name: Print warning about keys
+  debug:
+    msg: "Copy root's ssh pub key under the rsnapshotuser"
 
 - name: Copy config file
   template:
@@ -20,6 +37,3 @@
     dest: /etc/cron.d/rsnapshot
     owner: root
     group: root
-
-
-
