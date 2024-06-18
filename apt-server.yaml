@@ -12,7 +12,6 @@
   - { role: install-rclone }
   - { role: install-docker-base }
   - { role: install-samba, become: yes }
-  - { role: deploy-wireguard }
   - { role: deploy-docker-redis }
   - { role: deploy-docker-apache }
   - { role: deploy-docker-mysql-phpmyadmin }
