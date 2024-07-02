@@ -1,3 +1,12 @@
+---
+- name: copy over check script for airvpn
+  copy:
+    src: check_airvpn.py
+    dest: "{{ scripts_dir }}"
+    owner: root
+    group: root
+    mode: '0744'
+
 - name: Add checks for disk space
   cron:
     name: "Nagios: {{ item.key }}"
@@ -7,3 +16,9 @@
   vars:
     disks:
       var-log: "/var/log"
+
+- name: Add check for airvpn
+  cron:
+    name: "Nagios: AirVPN"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && EXPECTED_SESSION_COUNT=4 AIRVPN_TOKEN={{ vault_airvpn_api_key }} SERVICE_NAME=\"AIRVPN\" CHECK_SCRIPT=\"/usr/bin/python3 {{ scripts_dir }}/check_airvpn.py\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
