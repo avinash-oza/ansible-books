@@ -9,7 +9,7 @@
 - name: deploy immich container
   docker_container:
     name: some-immich-container
-    image: "ghcr.io/imagegenius/immich:1.112.1"
+    image: "ghcr.io/imagegenius/immich:1.114.0"
     state: started
     restart: yes
     restart_policy: always
@@ -25,6 +25,8 @@
     ports:
       - 8098:8080
     env:
+      PUID: "911"
+      PGID: "911"
       DB_HOSTNAME: some-postgres-container
       DB_USERNAME: postgres
       DB_PASSWORD: "{{ vault_postgres_root_password }}"
