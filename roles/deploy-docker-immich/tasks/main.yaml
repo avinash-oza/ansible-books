@@ -3,13 +3,13 @@
     path: "{{ docker_data_path }}/immich"
     recurse: yes
     state: directory
-    owner: root
-    group: root
+    owner: "911"
+    group: "911"
 
 - name: deploy immich container
   docker_container:
     name: some-immich-container
-    image: "ghcr.io/imagegenius/immich:1.115.0"
+    image: "ghcr.io/imagegenius/immich:1.118.1"
     state: started
     restart: yes
     restart_policy: always
