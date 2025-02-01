@@ -40,8 +40,8 @@ networks:
         external: true
 services:
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
-    restart: unless-stopped
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.14.6
+    restart: always
     depends_on:
       - gotenberg
       - tika
@@ -75,8 +75,8 @@ services:
       PAPERLESS_ADMIN_PASSWORD: "{{ vault_paperless_admin_password }}"
 
   gotenberg:
-    image: docker.io/gotenberg/gotenberg:7.8
-    restart: unless-stopped
+    image: docker.io/gotenberg/gotenberg:8.7
+    restart: always
     # The gotenberg chromium route is used to convert .eml files. We do not
     # want to allow external content like tracking pixels or even javascript.
     command:
