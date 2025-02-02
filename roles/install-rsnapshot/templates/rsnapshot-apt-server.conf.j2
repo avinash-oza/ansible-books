@@ -229,7 +229,7 @@ lockfile	/var/run/rsnapshot.pid
 ### BACKUP POINTS / SCRIPTS ###
 ###############################
 
-backup	/mnt/nas-disk/docker-data/immich/	immich/
+backup	{{ docker_immich_data_path }}/	immich/
 backup	/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/
 backup	/mnt/nas-disk/docker-data/lubelogger/	lubelogger/
 backup	/mnt/nas-disk/docker-data/nextcloud/	nextcloud/

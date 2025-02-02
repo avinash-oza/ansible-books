@@ -1,6 +1,6 @@
 - name: make data dir
   file:
-    path: "{{ docker_data_path }}/nexus"
+    path: "{{ docker_nexus_data_path }}"
     recurse: yes
     state: directory
     owner: root
@@ -11,7 +11,7 @@
     name: some-nexus-container
     image: "sonatype/nexus3:3.69.0"
     volumes:
-      - "{{ docker_data_path }}/nexus:/nexus-data"
+      - "{{ docker_nexus_data_path }}:/nexus-data"
     state: started
     restart: yes
     restart_policy: always

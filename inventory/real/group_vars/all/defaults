@@ -1,4 +1,6 @@
 docker_data_path: /mnt/docker_data
+docker_immich_data_path: /mnt/immich-storage
+docker_nexus_data_path: /mnt/nexus-storage
 sudo_user_to_configure: deploy
 user_to_configure: "{{ sudo_user_to_configure }}"
 garage_door_port: 25678

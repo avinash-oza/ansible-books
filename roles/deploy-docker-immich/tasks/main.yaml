@@ -1,6 +1,6 @@
 - name: make data dir
   file:
-    path: "{{ docker_data_path }}/immich"
+    path: "{{ docker_immich_data_path }}"
     recurse: yes
     state: directory
     owner: "911"
@@ -14,10 +14,10 @@
     restart: yes
     restart_policy: always
     volumes:
-      - "{{ docker_data_path }}/immich/config:/config"
-      - "{{ docker_data_path }}/immich/photos:/photos"
-      - "{{ docker_data_path }}/immich/ml:/config/machine-learning"
-      - "{{ docker_data_path }}/immich/imports:/import"
+      - "{{ docker_immich_data_path }}/config:/config"
+      - "{{ docker_immich_data_path }}/photos:/photos"
+      - "{{ docker_immich_data_path }}/ml:/config/machine-learning"
+      - "{{ docker_immich_data_path }}/imports:/import"
     networks:
       - name: cache_network
       - name: db_network

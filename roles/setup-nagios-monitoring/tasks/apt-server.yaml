@@ -18,6 +18,7 @@
       mnt-vm_drives: "/mnt/vm-drives"
       mnt-nas_backup: "/mnt/nas-backup"
       mnt-backups: "/mnt/backups"
+      mnt-immich-storage: "/mnt/immich-storage"
 
 - name: Add checks for containers
   cron:
