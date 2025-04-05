@@ -1,12 +1,12 @@
 
-- name: Install python3-pip
+- name: Install pip and apprise
   apt:
-    name: python3-pip
+    name: ["python3-pip", "apprise"]
     state: present
 
-- name: Install apprise
-  pip:
-    name: apprise
+# name: Install apprise
+# pip:
+#   name: apprise
 
 - name: Copy config file
   include_role:
