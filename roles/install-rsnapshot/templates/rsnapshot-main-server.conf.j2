@@ -232,7 +232,7 @@ lockfile	/var/run/rsnapshot.pid
 # Home directories
 backup	/mnt/raid0/Homes/	homes/
 
-backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/immich/	immich/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@192.168.0.187:/mnt/immich-storage/	immich/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
 backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
 backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/lubelogger/	lubelogger/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
 backup	rsnapshotuser@192.168.0.187:/mnt/nas-disk/docker-data/nextcloud/	nextcloud/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
