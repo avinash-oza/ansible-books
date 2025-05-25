@@ -36,6 +36,18 @@
       log_current_states: "log_current_states=0"
       enable_environment_macros: "enable_environment_macros=1"
 
+- name: set options in cgi.cfg
+  lineinfile:
+    dest: /etc/nagios4/cgi.cfg
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.value }}"
+  loop: "{{ options_to_values | dict2items }}"
+  vars:
+    options_to_values:
+      use_authentication: "use_authentication=1"
+      default_user_name: "default_user_name=nagiosadmin"
+
 # keep only one backup of the file
 - name: delete stock config includes
   lineinfile:
