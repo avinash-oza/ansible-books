@@ -119,7 +119,7 @@
   copy:
     src: htdigest.users
     dest: /etc/nagios4/htdigest.users
-    user: nagios
+    owner: nagios
     group: www-data
 
 
@@ -132,9 +132,10 @@
 #   validate: 'visudo -cf %s'
 
 - name: Restart nagios server
-  service:
+  systemd:
     name: nagios4
     state: restarted
+    enabled: true
 
 - name: Add cron weekly message for uptime
   cron:
