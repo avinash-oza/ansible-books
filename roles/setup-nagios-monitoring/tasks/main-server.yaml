@@ -6,29 +6,6 @@
     group: root
     mode: "0755"
 
-- name: install libvirt perl plugin
-  apt:
-    name: libsys-virt-perl
-    state: present
-
-- name: Add check for libvirt vms
-  cron:
-    name: "Nagios: libvirt"
-    minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"libvirt\" CHECK_CMD=check_libvirt CHECK_ARGS=\"-H qemu:///system  -l list\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
-
-- name: Add check for HTTPS
-  cron:
-    name: "Nagios: HTTPS"
-    minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"HTTPS\" CHECK_CMD=check_http CHECK_ARGS=\"-H localhost -p 443 -e 400\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
-
-- name: Add check for raid status
-  cron:
-    name: "Nagios: RAID Status"
-    minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Raid Status\" CHECK_CMD=check_raid {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
-
 - name: Add checks for disk space
   cron:
     name: "Nagios: {{ item.key }}"
@@ -37,12 +14,12 @@
   loop: "{{ disks | dict2items }}"
   vars:
     disks:
+      mnt-raid0: "/mnt/raid0"
+      mnt-raid_backup: "/mnt/raid_backup"
+      mnt-other_data: "/mnt/other_data"
+      mnt-vm_drives: "/mnt/vm_drives"
       mnt-docker_data: "/mnt/docker_data"
       mnt-downloads: "/mnt/downloads"
-      mnt-vm_drives: "/mnt/vm_drives"
-      mnt-raid_backup: "/mnt/raid_backup"
-      mnt-raid0: "/mnt/raid0"
-      mnt-other_data: "/mnt/other_data"
 
 - name: Add checks for containers
   cron:
@@ -51,8 +28,3 @@
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Docker {{ item }}\" CHECK_CMD=check_docker CHECK_ARGS=\"--status=running --containers {{ item }} --present\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
   loop:
     - some-apache2-container
-    - some-homer-container
-    - some-phpmyadmin-container
-    - some-nextcloud-container
-    - some-redis-container
-    - some-mariadb-container
