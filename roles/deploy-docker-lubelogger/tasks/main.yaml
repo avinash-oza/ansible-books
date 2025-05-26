@@ -9,7 +9,7 @@
 - name: deploy lubelogger container
   docker_container:
     name: some-lubelogger-container
-    image: "ghcr.io/hargata/lubelogger:latest"
+    image: "ghcr.io/hargata/lubelogger:v1.4.7"
     volumes:
       - "{{ docker_data_path }}/lubelogger/config:/App/config"
       - "{{ docker_data_path }}/lubelogger/data:/App/data"
