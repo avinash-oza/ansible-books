@@ -2,6 +2,7 @@ docker_data_path: /mnt/nas-disk/docker-data
 apache_config_files_directory: "apt-server"
 
 nagios_host_name: apt-server
+nagios_load_thresholds: "10.0,8.0,6.0"
 apache_is_ssl: false
 
 docker_db_backup_mysql_dbs: "paperless,nextcloud,bookstack"
