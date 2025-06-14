@@ -4,7 +4,8 @@
   docker_container:
     name: some-postgres-container
 #   image: "postgres:16"
-    image: "tensorchord/pgvecto-rs:pg16-v0.2.0"
+#   image: "tensorchord/pgvecto-rs:pg16-v0.2.0"
+    image: "ghcr.io/immich-app/postgres:16-vectorchord0.3.0-pgvectors0.2.0"
     state: started
     restart_policy: always
     volumes:
@@ -14,6 +15,7 @@
     env:
       POSTGRES_DB: immich
       POSTGRES_PASSWORD: "{{ vault_postgres_root_password }}"
+      DB_STORAGE_TYPE: "HDD"
 
 - name: deploy postgres backup container
   docker_container:
