@@ -20,7 +20,7 @@
 - name: deploy postgres backup container
   docker_container:
     name: some-postgres-backup-container
-    image: "tiredofit/db-backup:4.0.35"
+    image: "tiredofit/db-backup:4.1.19"
     state: started
     restart_policy: always
     networks:
@@ -33,6 +33,9 @@
       DEFAULT_S3_PATH: "backups/db"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
+      DEFAULT_BACKUP_BEGIN: "2355" # 11:55 PM GMT
+      # 20 days
+      DEFAULT_CLEANUP_TIME: "28800"
 
       DB01_TYPE: "pgsql"
       DB01_HOST: "some-postgres-container"
@@ -40,8 +43,6 @@
       DB01_SPLIT_DB: "TRUE"
       DB01_USER: postgres
       DB01_PASS: "{{ vault_postgres_root_password }}"
-      # 20 days
-      DB01_CLEANUP_TIME: "28800"
 
 - name: deploy adminer
   docker_container:
