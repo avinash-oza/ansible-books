@@ -1,5 +1,6 @@
 check_interval_mins: "*/5"
 nagios_disk_critical_threshold: 20
 nagios_load_thresholds: "10.0,6.0,4.0"
+nagios_max_users: "5"
 
 nagios_cron_randomizer: "python3 -c 'import time;import random;time.sleep(random.randint(1, 5))'"

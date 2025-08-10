@@ -27,4 +27,4 @@
   cron:
     name: "Nagios: Current Users"
     minute: "{{ check_interval_mins }}"
-    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w 5 -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w {{ nagios_max_users }} -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

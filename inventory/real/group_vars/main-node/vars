@@ -1,1 +1,2 @@
 nagios_host_name: main-node
+nagios_max_users: "7"
