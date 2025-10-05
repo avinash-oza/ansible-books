@@ -3,13 +3,13 @@
     path: "{{ docker_nexus_data_path }}"
     recurse: yes
     state: directory
-    owner: root
-    group: root
+    owner: "200"
+    group: "200"
 
 - name: deploy nexus container
   docker_container:
     name: some-nexus-container
-    image: "sonatype/nexus3:3.69.0"
+    image: "sonatype/nexus3:3.75.0-alpine"
     volumes:
       - "{{ docker_nexus_data_path }}:/nexus-data"
     state: started
