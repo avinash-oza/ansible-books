@@ -14,11 +14,13 @@
   loop: "{{ disks | dict2items }}"
   vars:
     disks:
-      mnt-nas_disk: "/mnt/nas-disk"
-      mnt-vm_drives: "/mnt/vm-drives"
-      mnt-nas_backup: "/mnt/nas-backup"
       mnt-backups: "/mnt/backups"
-      mnt-immich-storage: "/mnt/immich-storage"
+      mnt-downloads: "/mnt/downloads"
+      mnt-immich_storage: "/mnt/immich-storage"
+      mnt-media: "/mnt/media"
+      mnt-nas_disk: "/mnt/nas-disk"
+      mnt-nexus_storage: "/mnt/nexus-storage"
+      mnt-vm_drives: "/mnt/vm-drives"
 
 - name: Add checks for containers
   cron:
