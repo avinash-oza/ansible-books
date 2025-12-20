@@ -9,7 +9,7 @@
 - name: deploy immich container
   docker_container:
     name: some-immich-container
-    image: "ghcr.io/imagegenius/immich:2.0.1"
+    image: "ghcr.io/imagegenius/immich:2.3.1"
     state: started
     restart: yes
     restart_policy: always

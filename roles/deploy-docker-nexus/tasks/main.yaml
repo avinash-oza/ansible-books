@@ -9,7 +9,7 @@
 - name: deploy nexus container
   docker_container:
     name: some-nexus-container
-    image: "sonatype/nexus3:3.75.0-alpine"
+    image: "sonatype/nexus3:3.87.1-alpine"
     volumes:
       - "{{ docker_nexus_data_path }}:/nexus-data"
     state: started
