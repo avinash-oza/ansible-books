@@ -9,4 +9,17 @@
 # - { role: deploy-wireguard }
   # needs tags=all to add proper monitoring
   - { role: setup-nagios-monitoring, become: yes }
+  tasks:
+    - name: Add weekly update run for pi-hole
+      cron:
+        name: "Update pi-hole every Wed at 3:23 AM"
+        minute: "23"
+        hour: "3"
+        day: "3"
+        job: "/usr/local/bin/pihole -up > /dev/null"
 
+    - name: Add monthly update lists for pi-hole
+      cron:
+        name: "Update pi-hole lists monthly"
+        special_time: "monthly"
+        job: "/usr/local/bin/pihole -g > /dev/null"
