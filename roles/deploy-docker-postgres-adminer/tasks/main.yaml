@@ -30,7 +30,7 @@
       DEFAULT_BACKUP_LOCATION: "S3"
       DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
       DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
-      DEFAULT_S3_PATH: "backups/db"
+      DEFAULT_S3_PATH: "backups/db/postgres"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
       DEFAULT_BACKUP_BEGIN: "2355" # 11:55 PM GMT

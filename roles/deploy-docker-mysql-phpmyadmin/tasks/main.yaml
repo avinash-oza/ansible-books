@@ -3,7 +3,7 @@
 - name: deploy mariadb container
   docker_container:
     name: some-mariadb-container
-    image: "mariadb:10.11.4"
+    image: "mariadb:10.11.15"
     state: started
     restart_policy: always
     volumes:
@@ -12,6 +12,7 @@
       - name: db_network
     env:
       MYSQL_ROOT_PASSWORD: "{{ vault_mysql_root_password }}"
+      MARIADB_AUTO_UPGRADE: "TRUE"
 
 - name: deploy phpmyadmin container
   docker_container:
@@ -39,7 +40,7 @@
       DEFAULT_BACKUP_LOCATION: "S3"
       DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
       DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
-      DEFAULT_S3_PATH: "backups/db"
+      DEFAULT_S3_PATH: "backups/db/mariadb"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
       # 7 days
