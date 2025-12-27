@@ -20,7 +20,7 @@
 - name: deploy postgres backup container
   docker_container:
     name: some-postgres-backup-container
-    image: "tiredofit/db-backup:4.1.19"
+    image: "tiredofit/db-backup:4.1.21"
     state: started
     restart_policy: always
     networks:
@@ -36,7 +36,8 @@
       DEFAULT_BACKUP_BEGIN: "2355" # 11:55 PM GMT
       # 20 days
       DEFAULT_CLEANUP_TIME: "28800"
-
+      # 7 days
+      DEFAULT_BACKUP_INTERVAL: "10080"
       DB01_TYPE: "pgsql"
       DB01_HOST: "some-postgres-container"
       DB01_NAME: "immich"

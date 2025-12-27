@@ -29,7 +29,7 @@
 - name: deploy backup container
   docker_container:
     name: some-mariadb-backup-container
-    image: "tiredofit/db-backup:4.0.35"
+    image: "tiredofit/db-backup:4.1.21"
     state: started
     restart_policy: always
     networks:
@@ -42,7 +42,8 @@
       DEFAULT_S3_PATH: "backups/db"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
-
+      # 7 days
+      DEFAULT_BACKUP_INTERVAL: "10080"
       DB01_TYPE: "mysql"
       DB01_HOST: "some-mariadb-container"
       DB01_NAME: "{{ docker_db_backup_mysql_dbs }}"
