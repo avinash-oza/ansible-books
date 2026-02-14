@@ -1,6 +1,10 @@
 #!/bin/bash -e
 
 export MSG=""
+export AWS_ACCESS_KEY_ID={{ vault_aws_keys['nagios-sns'].key_id }}
+export AWS_SECRET_ACCESS_KEY={{ vault_aws_keys['nagios-sns'].access_key }}
+export TOPIC_ARN={{ vault_nagios_alert_sns_endpoint }}
+export AWS_DEFAULT_REGION={{ vault_aws_default_region }}
 
 # service
 if [ $# -gt 0 ]; then
@@ -29,4 +33,4 @@ END
 
 fi
 
-printf "$MSG" | apprise --config {{ scripts_dir }}/apprise.conf --tag default
+aws sns publish --topic-arn ${TOPIC_ARN} --message "${MSG}" > /dev/null

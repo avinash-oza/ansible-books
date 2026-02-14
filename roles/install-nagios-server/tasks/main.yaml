@@ -78,11 +78,24 @@
     owner: nagios
     group: "{{ nagios_command_group }}"
 
-- name: install apprise
-  include_role:
-    name: install-apprise
-  vars:
-    apprise_group: "{{ nagios_command_group }}"
+- name: Check if awscli exists
+  stat:
+    path: /usr/local/bin/aws
+  register: awscli_result
+
+- name: download and decompress awscli
+  unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/tmp/"
+    remote_src: yes
+    owner: root
+    group: root
+  when: not awscli_result.stat.exists
+
+- name: run awscli installer
+  shell:
+    cmd: "/tmp/aws/install"
+  when: not awscli_result.stat.exists
 
 - name: copy over send_nagios_alert.sh
   include_role:
