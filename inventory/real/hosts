@@ -7,12 +7,6 @@ main-server-1 ansible_host=172.16.1.10
 [nagios-server]
 nagios-1 ansible_host=172.16.74.74
 
-[centos-servers]
-centos-1 ansible_host=172.16.222.78
-
-[centos-servers]
-centos-1 ansible_host=172.16.222.78
-
 [main-node]
 main-node-1 ansible_host=192.168.0.70
 
@@ -20,8 +14,5 @@ main-node-1 ansible_host=192.168.0.70
 proxmox-1 ansible_host=192.168.0.74
 
 [pi-hole]
-pi-hole-2 ansible_host=192.168.0.120
-pi-hole-3 ansible_host=192.168.0.193
-
-[seedbox]
-seedbox-1 ansible_host=192.168.0.223
+pi-hole-02 ansible_host=192.168.0.120
+pi-hole-03 ansible_host=192.168.0.193
