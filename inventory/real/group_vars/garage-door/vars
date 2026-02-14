@@ -1,2 +1,0 @@
-nagios_host_name: garage-door
-nagios_disk_critical_thresh: 10
