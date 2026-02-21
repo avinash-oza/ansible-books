@@ -1,0 +1,11 @@
+#!/usr/bin/bash -e
+
+export AWS_ACCESS_KEY_ID={{ vault_aws_keys['db-backup'].key_id }}
+export AWS_SECRET_ACCESS_KEY={{ vault_aws_keys['db-backup'].access_key }}
+export AWS_DEFAULT_REGION={{ vault_aws_default_region }}
+
+tar czf /tmp/bookstack_images.tgz -C {{ docker_data_path }}/bookstack/ .
+
+aws s3 cp --quiet /tmp/bookstack_images.tgz s3://{{ vault_aws_projects_bucket }}/backups/bookstack/bookstack_images.tgz
+
+rm /tmp/bookstack_images.tgz
