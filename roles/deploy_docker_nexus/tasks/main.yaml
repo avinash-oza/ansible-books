@@ -7,7 +7,7 @@
     group: "200"
 
 - name: deploy nexus container
-  docker_container:
+  community.docker.docker_container:
     name: some-nexus-container
     image: "sonatype/nexus3:3.89.1-alpine"
     volumes:

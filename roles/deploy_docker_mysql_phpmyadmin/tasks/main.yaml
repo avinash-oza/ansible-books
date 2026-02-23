@@ -1,7 +1,7 @@
 ---
 
 - name: deploy mariadb container
-  docker_container:
+  community.docker.docker_container:
     name: some-mariadb-container
     image: "mariadb:11.8.5"
     state: started
@@ -15,7 +15,7 @@
       MARIADB_AUTO_UPGRADE: "TRUE"
 
 - name: deploy phpmyadmin container
-  docker_container:
+  community.docker.docker_container:
     name: some-phpmyadmin-container
     image: "phpmyadmin/phpmyadmin:5.2.3"
     state: started
@@ -28,7 +28,7 @@
       PMA_ABSOLUTE_URI: "{{ vault_local_domain_name_scheme }}://{{ local_domain_name }}/tools/phpmyadmin"
 #
 - name: deploy backup container
-  docker_container:
+  community.docker.docker_container:
     name: some-mariadb-backup-container
     image: "tiredofit/db-backup:4.1.21"
     state: started

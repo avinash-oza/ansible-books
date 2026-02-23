@@ -28,7 +28,7 @@
   register: homer_config
 
 - name: deploy homer container
-  docker_container:
+  community.docker.docker_container:
     name: some-homer-container
     image: "b4bz/homer:latest"
     state: started

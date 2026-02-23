@@ -16,7 +16,7 @@
     - Dockerfile
 
 - name: build apache2 image
-  docker_image:
+  community.docker.docker_image:
     name: docker-apache2-ssl
     tag: "latest"
     state: present

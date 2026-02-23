@@ -7,7 +7,7 @@
     group: root
 
 - name: deploy emby container
-  docker_container:
+  community.docker.docker_container:
     name: some-emby-container
     image: "emby/embyserver:4.8.0.52"
     state: started

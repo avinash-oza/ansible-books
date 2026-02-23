@@ -1,6 +1,6 @@
 - name: deploy bookstack container
   become: true
-  docker_container:
+  community.docker.docker_container:
     name: some-bookstack-container
     image: "linuxserver/bookstack:25.12.7"
     restart: true

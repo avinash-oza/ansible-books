@@ -1,5 +1,5 @@
 - name: deploy apache2 container with SSL
-  docker_container:
+  community.docker.docker_container:
     name: some-apache2-container
     image: "docker-apache2-ssl:latest"
     state: started

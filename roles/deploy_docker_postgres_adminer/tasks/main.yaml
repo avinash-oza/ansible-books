@@ -1,7 +1,7 @@
 ---
 
 - name: deploy postgres container
-  docker_container:
+  community.docker.docker_container:
     name: some-postgres-container
 #   image: "postgres:16"
 #   image: "tensorchord/pgvecto-rs:pg16-v0.2.0"
@@ -18,7 +18,7 @@
       DB_STORAGE_TYPE: "HDD"
 
 - name: deploy postgres backup container
-  docker_container:
+  community.docker.docker_container:
     name: some-postgres-backup-container
     image: "tiredofit/db-backup:4.1.21"
     state: started
@@ -46,7 +46,7 @@
       DB01_PASS: "{{ vault_postgres_root_password }}"
 
 - name: deploy adminer
-  docker_container:
+  community.docker.docker_container:
     name: some-adminer-container
     image: "adminer:4.8.1"
     state: started

@@ -10,7 +10,7 @@
 
 - name: deploy mediawiki container
   become: true
-  docker_container:
+  community.docker.docker_container:
     name: some-mediawiki-container
     image: "mediawiki:1.37.1"
     restart: true

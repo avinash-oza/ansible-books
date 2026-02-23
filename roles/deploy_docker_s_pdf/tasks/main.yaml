@@ -1,5 +1,5 @@
 - name: deploy s-pdf container
-  docker_container:
+  community.docker.docker_container:
     name: some-s-pdf-container
     image: "frooodle/s-pdf:latest"
     state: started

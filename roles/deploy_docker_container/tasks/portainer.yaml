@@ -1,5 +1,5 @@
 - name: Deploy portainer
-  docker_container:
+  community.docker.docker_container:
     name: some-portainer-container
     image: "portainer/portainer-ce:latest"
     state: started

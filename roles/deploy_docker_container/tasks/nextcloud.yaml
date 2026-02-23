@@ -8,7 +8,7 @@
 
 - name: deploy nextcloud container
   become: true
-  docker_container:
+  community.docker.docker_container:
     name: some-nextcloud-container
     image: "nextcloud:32-apache"
     state: started

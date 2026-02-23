@@ -2,7 +2,7 @@
 
 - name: Set machine time to EST
   register: tz
-  timezone:
+  community.general.timezone:
     name: America/New_York
 
 - name: install cront

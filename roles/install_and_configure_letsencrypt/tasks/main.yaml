@@ -1,6 +1,6 @@
 - name: Install snap for certbot
   become: true
-  snap:
+  community.general.snap:
     name: certbot
     classic: true
 

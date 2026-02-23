@@ -7,7 +7,7 @@
     group: root
 
 - name: deploy lubelogger container
-  docker_container:
+  community.docker.docker_container:
     name: some-lubelogger-container
     image: "ghcr.io/hargata/lubelogger:v1.4.7"
     volumes:
