@@ -1,3 +1,3 @@
-- include_tasks: nextcloud.yaml
+- ansible.builtin.include_tasks: nextcloud.yaml
 # include_tasks: portainer.yaml
-- include_tasks: bookstack.yaml
+- ansible.builtin.include_tasks: bookstack.yaml

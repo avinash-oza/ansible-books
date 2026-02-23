@@ -1,5 +1,5 @@
 - name: "Add check for additional services"
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: {{ item.key }}"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"{{ item.key }}\" CHECK_CMD=check_procs CHECK_ARGS=\"-w {{ item.value }}: -c {{ item.value }}: -a {{ item.key }} \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
@@ -11,7 +11,7 @@
 
 
 - name: Add checks for disk space
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: {{ item.key }}"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"-w 20\\% -c 10\\% -p {{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

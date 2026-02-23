@@ -1,6 +1,6 @@
 - name: copy over mediawiki config
   become: true
-  template:
+  ansible.builtin.template:
     src: mediawiki/LocalSettings.php.j2
     dest: "{{ docker_data_path }}/mediawiki/LocalSettings.php"
 #   mode: "0640"

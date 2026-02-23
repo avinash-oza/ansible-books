@@ -1,30 +1,30 @@
 
 - name: Add check for uptime
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: Uptime"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=Uptime CHECK_CMD=check_uptime {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for total procs
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: Total Processes"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Total Processes\" CHECK_CMD=check_procs {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Root Partition
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: Root Partition"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Root Partition\" CHECK_CMD=check_disk CHECK_ARGS=\"-w {{ nagios_disk_critical_threshold }}\\% -c {{ nagios_disk_critical_threshold }}\\% -p / \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Load
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: Current Load"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Load\" CHECK_CMD=check_load CHECK_ARGS=\"-w {{ nagios_load_thresholds }} -c {{ nagios_load_thresholds }} \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
 
 - name: Add check for Current Users
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: Current Users"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w {{ nagios_max_users }} -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

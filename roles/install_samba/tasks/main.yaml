@@ -1,11 +1,11 @@
 ---
 - name: Install samba
-  apt:
+  ansible.builtin.apt:
       name: samba
       state: present
 
 - name: Copy smbd.conf
-  template:
+  ansible.builtin.template:
     backup: true
     src: "smb-{{ group_names[0] }}.conf.j2"
     dest: /etc/samba/smb.conf
@@ -16,14 +16,14 @@
 
 - name: Add users for samba access
   become: true
-  command: "smbpasswd -a -s {{ item.key }}"
+  ansible.builtin.command: "smbpasswd -a -s {{ item.key }}"
   args:
     stdin: "{{ item.value}}\n{{ item.value }}"
   with_dict: "{{ vault_samba_passwords }}"
 
 - name: restart samba
   become: true
-  systemd:
+  ansible.builtin.systemd:
     name: smbd
     state: restarted
   when: samba_config.changed

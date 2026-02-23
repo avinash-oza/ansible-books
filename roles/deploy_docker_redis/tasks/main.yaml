@@ -1,5 +1,5 @@
 - name: make data dir
-  file:
+  ansible.builtin.file:
     path: "{{ docker_data_path }}/redis"
     recurse: true
     state: directory
@@ -10,7 +10,7 @@
   docker_container:
     name: some-redis-container
     image: "redis:7.2"
-    command: "redis-server --requirepass {{ vault_redis_password }}"
+    ansible.builtin.command: "redis-server --requirepass {{ vault_redis_password }}"
     state: started
     restart: true
     restart_policy: always

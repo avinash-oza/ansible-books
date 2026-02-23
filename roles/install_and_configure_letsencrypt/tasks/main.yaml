@@ -5,11 +5,11 @@
     classic: true
 
 - name: install apprise
-  include_role:
+  ansible.builtin.include_role:
     name: install_apprise
 
 - name: setup job to auto renew if close to expiry
-  cron:
+  ansible.builtin.cron:
     name: certbot-auto renew certificate
     special_time: weekly
     job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\"| apprise --config /opt/scripts/apprise.conf --tag default > /dev/null 2>&1"

@@ -1,5 +1,5 @@
 - name: make data dir
-  file:
+  ansible.builtin.file:
     path: "{{ docker_data_path }}/paperless-ngx"
     recurse: true
     state: directory
@@ -7,12 +7,12 @@
     group: root
 
 - name: Copy docker-compose file for paperless
-  template:
+  ansible.builtin.template:
     src: docker-compose.mariadb-tika.yml.j2
     dest: "{{ docker_data_path }}/paperless-ngx/docker-compose.yml"
 
 - name: deploy paperless setup
   become: True
-  shell:
+  ansible.builtin.shell:
     cmd: "docker compose -f docker-compose.yml up -d"
     chdir: "{{ docker_data_path }}/paperless-ngx"

@@ -1,6 +1,6 @@
 ---
 - name: install nagios and plugins
-  apt:
+  ansible.builtin.apt:
     name: ['nagios4', 'nagios-plugins-contrib', 'python3-boto3']
     cache_valid_time: 1440
 
@@ -17,7 +17,7 @@
     - cgi
 
 - name: set options to values
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/nagios4/nagios.cfg
     state: present
     regexp: "^{{ item.key }}"
@@ -37,7 +37,7 @@
       enable_environment_macros: "enable_environment_macros=1"
 
 - name: set options in cgi.cfg
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/nagios4/cgi.cfg
     state: present
     regexp: "^{{ item.key }}"
@@ -50,19 +50,19 @@
 
 # keep only one backup of the file
 - name: delete stock config includes
-  lineinfile:
+  ansible.builtin.lineinfile:
     backup: true
     dest: /etc/nagios4/nagios.cfg
     regexp: '^cfg_file='
     state: absent
 
 - name: add group for external commands
-  group:
+  ansible.builtin.group:
     name: "{{ nagios_command_group }}"
     state: present
 
 - name: Add users to the nagcmd group
-  user:
+  ansible.builtin.user:
     name: "{{ item }}"
     groups: "{{ nagios_command_group }}" # for passive checks
     append: true
@@ -72,19 +72,19 @@
     - www-data
 
 - name: set permissions for nagios4 spool
-  file:
+  ansible.builtin.file:
     path: /var/lib/nagios4/spool/
     state: directory
     owner: nagios
     group: "{{ nagios_command_group }}"
 
 - name: Check if awscli exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/aws
   register: awscli_result
 
 - name: download and decompress awscli
-  unarchive:
+  ansible.builtin.unarchive:
     src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
     dest: "/tmp/"
     remote_src: true
@@ -93,12 +93,12 @@
   when: not awscli_result.stat.exists
 
 - name: run awscli installer
-  shell:
+  ansible.builtin.shell:
     cmd: "/tmp/aws/install"
   when: not awscli_result.stat.exists
 
 - name: copy over send_nagios_alert.sh
-  include_role:
+  ansible.builtin.include_role:
     name: copy_scripts
   vars:
     script_to_copy: send_nagios_alert.sh
@@ -108,7 +108,7 @@
 
 - name: copy over nagios configs
   tags: config
-  template:
+  ansible.builtin.template:
     backup: true
     src: "{{ item }}"
     dest: "/etc/nagios4/conf.d/{{ item | basename | regex_replace('\\.j2', '') }}"
@@ -124,7 +124,7 @@
 #   mode: "0770"
 
 - name: set proper permissions on checkresults
-  file:
+  ansible.builtin.file:
     state: directory
     recurse: true
     path: "{{ nagios_results_file_path }}"
@@ -134,14 +134,14 @@
 
 - name: copy over web config
   tags: config
-  template:
+  ansible.builtin.template:
     backup: true
     src: nagios4-cgi.conf.j2
     dest: /etc/apache2/conf-available/nagios4-cgi.conf
 
 - name: copy over users file
   tags: config
-  copy:
+  ansible.builtin.copy:
     src: htdigest.users
     dest: /etc/nagios4/htdigest.users
     owner: nagios
@@ -157,20 +157,20 @@
 #   validate: 'visudo -cf %s'
 
 - name: Restart nagios server
-  systemd:
+  ansible.builtin.systemd:
     name: nagios4
     state: restarted
     enabled: true
 
 - name: Add cron weekly message for uptime
-  cron:
+  ansible.builtin.cron:
       name: "Weekly uptime"
       job: 'echo $(hostname) $(uptime) | apprise --config /opt/scripts/apprise.conf --tag default'
       special_time: weekly
       state: present
 
 - name: Add job to clean up archive logs
-  cron:
+  ansible.builtin.cron:
       name: "Weekly nagios log archive cleanup"
       job: '/bin/rm -Rvf /var/log/nagios4/archives/*'
       special_time: weekly
@@ -184,4 +184,4 @@
 #   flat: true
 
 #TODO: handle copying over apache configs
-- include_tasks: install-nrdp.yaml
+- ansible.builtin.include_tasks: install-nrdp.yaml

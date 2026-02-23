@@ -1,14 +1,14 @@
 ---
 
 - name: create scripts directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ scripts_dir }}"
     owner: root
     group: root
 
 - name: copy over script
-  template:
+  ansible.builtin.template:
     src: "{{ script_to_copy }}"
     dest: "{{ scripts_dir }}"
     owner: "{{ file_owner }}"

@@ -1,37 +1,37 @@
 ---
 - name: Create qbtuser user
-  user:
+  ansible.builtin.user:
     name: qbtuser
     password: '!'
     state: present
     system: true
 
 - name: Install package
-  apt:
+  ansible.builtin.apt:
       name: "qbittorrent-nox"
       state: present
 
 - name: Create config dir
-  file:
+  ansible.builtin.file:
     path: "/home/qbtuser/.config/qBittorrent"
     state: directory
     owner: qbtuser
     group: qbtuser
 
 - name: Copy config file
-  template:
+  ansible.builtin.template:
     src: "qBittorrent.conf.j2"
     dest: "/home/qbtuser/.config/qBittorrent/qBittorrent.conf"
     owner: qbtuser
     group: qbtuser
 
 - name: Copy systemd file
-  template:
+  ansible.builtin.template:
     src: "qbittorrent-nox@.service.j2"
     dest: "/etc/systemd/system/qbittorrent-nox@.service"
 
 - name: Enable service for user
-  systemd:
+  ansible.builtin.systemd:
     name: "qbittorrent-nox@qbtuser"
     state: started
     enabled: true

@@ -1,12 +1,12 @@
 
 - name: Install apcupsd
-  apt:
+  ansible.builtin.apt:
     name: apcupsd
     state: present
 
 - name: Copy over configuration files
   tags: config
-  template:
+  ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/etc/apcupsd/{{ item }}"
   with_items:

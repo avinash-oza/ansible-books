@@ -5,14 +5,14 @@
     state: present
 
 - name: Create user {{ microservice_account }}
-  user:
+  ansible.builtin.user:
     name: "{{ microservice_account }}"
     groups: gpio # to allow access to sensors
     append: true
     state: present
 
 - name: Create config directory
-  file:
+  ansible.builtin.file:
     path: "{{ microservices_configs_dir }}"
     state: directory
     owner: root
@@ -20,7 +20,7 @@
 
 - name: install prereq packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
     update_cache: true
@@ -32,44 +32,44 @@
       - python3-dev
 
 - name: "checkout {{ microservice_name }}"
-  git:
+  ansible.builtin.git:
     version: "{{ git_repo_tag }}"
     repo: "{{ microservice_git_repo }}"
     dest: "{{ git_local_dest }}"
 
 - name: Create virtual env at {{ virtual_env_path }} with requirements.txt"
-  pip:
+  ansible.builtin.pip:
     chdir: "{{ git_local_dest }}"
     virtualenv: "{{ virtual_env_path }}"
     virtualenv_python: "{{ virtual_env_python_version }}"
     requirements: requirements.txt
 
 - name: install package into virtual-env
-  pip:
+  ansible.builtin.pip:
     virtualenv: "{{ virtual_env_path }}"
     virtualenv_python: "{{ virtual_env_python_version }}"
     name: "{{ git_local_dest }}"
 
 - name: Copy config file template if required
-  template:
+  ansible.builtin.template:
     src: "{{ microservice_name }}.config"
     dest: "{{ microservices_configs_dir }}/{{ microservice_name }}.config"
   when: microservice_has_config|default(false)|bool
 
 - name: Copy systemd file for starting service on boot
   become: true
-  template:
+  ansible.builtin.template:
     src: "{{ microservice_name }}.service"
     dest: "/etc/systemd/system/{{ microservice_name }}.service"
     mode: 0644
 
 - name: reload systemd configs
-  systemd:
+  ansible.builtin.systemd:
     daemon_reload: true
 
 - name: Enable service to run on boot and start
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ microservice_name }}.service"
     state: restarted
     enabled: true

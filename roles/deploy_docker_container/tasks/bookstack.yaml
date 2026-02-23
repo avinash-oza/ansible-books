@@ -20,12 +20,12 @@
 
 # TODO: REFACTOR TO ROLE WITH NAGIOS VERSION
 - name: Check if awscli exists
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/bin/aws
   register: awscli_result
 
 - name: download and decompress awscli
-  unarchive:
+  ansible.builtin.unarchive:
     src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
     dest: "/tmp/"
     remote_src: true
@@ -34,11 +34,11 @@
   when: not awscli_result.stat.exists
 
 - name: run awscli installer
-  shell:
+  ansible.builtin.shell:
     cmd: "/tmp/aws/install"
   when: not awscli_result.stat.exists
 - name: copy over backup script
-  include_role:
+  ansible.builtin.include_role:
     name: copy_scripts
     apply:
       become: true
@@ -47,7 +47,7 @@
 
 - name: set permissions for backup
   become: true
-  file:
+  ansible.builtin.file:
     path: "{{ scripts_dir }}/backup_bookstack_db"
     owner: root
     group: root
@@ -55,7 +55,7 @@
 
 - name: add backup job for db
   become: true
-  cron:
+  ansible.builtin.cron:
     name: "backup bookstack db"
     special_time: weekly
     job: "{{ scripts_dir }}/backup_bookstack_db"

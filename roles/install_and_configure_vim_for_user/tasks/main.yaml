@@ -1,7 +1,7 @@
 ---
 - name: install vim
   become: true
-  package:
+  ansible.builtin.package:
     name: vim
     state: present
 
@@ -9,19 +9,19 @@
 - name: checkout vundle
   become: true
   become_user: "{{ user_to_configure }}"
-  git:
+  ansible.builtin.git:
     repo: "{{ vundle_repo }}"
     dest: '{{ user_home_directory  }}/.vim/bundle/Vundle.vim'
 
 - name: stow vimrc file
   become: true
   become_user: "{{ user_to_configure }}"
-  shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
+  ansible.builtin.shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
   with_items:
     - vim
 
 - name: install vim plugins
   become: true
   become_user: "{{ user_to_configure }}"
-  shell: vim -E -s -c "source ~/.vimrc" +PluginInstall +qall
+  ansible.builtin.shell: vim -E -s -c "source ~/.vimrc" +PluginInstall +qall
   ignore_errors: true

@@ -1,28 +1,28 @@
 ---
 - name: Install rsnapshot
-  apt:
+  ansible.builtin.apt:
     name: rsnapshot
     state: present
 
 - name: Create user for pull backups
-  user:
+  ansible.builtin.user:
     name: rsnapshotuser
     shell: "/bin/bash"
     state: present
 
 - name: Allow rsync access for backups
-  blockinfile:
+  ansible.builtin.blockinfile:
     path: /etc/sudoers
     marker: "# {mark} rsnapshotuser sudo"
     block: "rsnapshotuser ALL=(root) NOPASSWD:/usr/bin/rsync"
     validate: 'visudo -cf %s'
 
 - name: Print warning about keys
-  debug:
+  ansible.builtin.debug:
     msg: "Copy root's ssh pub key under the rsnapshotuser"
 
 - name: Copy config file
-  template:
+  ansible.builtin.template:
     backup: true
     src: "rsnapshot-{{ group_names[0] }}.conf.j2"
     dest: /etc/rsnapshot.conf
@@ -31,7 +31,7 @@
     validate: "echo %s; rsnapshot configtest"
 
 - name: Copy cron config file
-  template:
+  ansible.builtin.template:
     backup: true
     src: rsnapshot.j2
     dest: /etc/cron.d/rsnapshot

@@ -1,5 +1,5 @@
 - name: make data dir
-  file:
+  ansible.builtin.file:
     path: "{{ docker_data_path }}/lubelogger"
     recurse: true
     state: directory

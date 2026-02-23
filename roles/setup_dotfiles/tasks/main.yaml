@@ -1,21 +1,21 @@
 
 - name: install useful packages debian
   become: true
-  apt:
+  ansible.builtin.apt:
     name: ['curl', 'git', 'ntp', 'screen', 'stow']
     state: present
   when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
 - name: enable epel centos
   become: true
-  yum:
+  ansible.builtin.dnf:
     name: "epel-release"
     state: present
   when: ansible_distribution == "CentOS"
 
 - name: install useful packages centos
   become: true
-  yum:
+  ansible.builtin.dnf:
     name: ['crontabs', 'curl', 'git', 'chrony', 'screen', 'stow']
     state: present
     enablerepo: "epel"
@@ -23,13 +23,13 @@
 
 - name: checkout dotfiles
   become_user: "{{ user_to_configure }}"
-  git:
+  ansible.builtin.git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ user_home_directory }}/dotfiles"
 
 - name: Remove old config files
   become_user: "{{ user_to_configure }}"
-  file:
+  ansible.builtin.file:
     path: "{{ user_home_directory }}/{{ item }}"
     state: absent
   with_items:
@@ -40,7 +40,7 @@
 
 - name: stow config files
   become_user: "{{ user_to_configure }}"
-  shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
+  ansible.builtin.shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
   with_items:
     - bash
     - git

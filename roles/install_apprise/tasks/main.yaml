@@ -1,12 +1,12 @@
 
 # TODO: figure out when pip vs apt package
 - name: Install pip
-  apt:
+  ansible.builtin.apt:
     name: ["python3-pip", "apprise"]
     state: present
 
 - name: Copy config file
-  include_role:
+  ansible.builtin.include_role:
     name: copy_scripts
     apply:
       become: true

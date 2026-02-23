@@ -1,13 +1,13 @@
 
 - name: Install docker
-  include_role:
+  ansible.builtin.include_role:
     name: geerlingguy.docker
 
     apply:
       become: true
 
 - name: Install miniconda
-  include_role:
+  ansible.builtin.include_role:
     name: andrewrothstein.miniconda
   vars:
     miniconda_ver: '4.8.2'
@@ -16,7 +16,7 @@
 
 - name: Install conda packages
   become: true
-  shell:
+  ansible.builtin.shell:
     cmd: "/opt/anaconda/bin/conda install -y {{ item }} -c conda-forge"
   loop:
     - ansible

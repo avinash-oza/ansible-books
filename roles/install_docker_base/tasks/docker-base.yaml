@@ -1,10 +1,10 @@
 - name: Add docker gpg keys
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Install prerequiste packages
-  apt:
+  ansible.builtin.apt:
     name:
       - "apt-transport-https"
       - "ca-certificates"
@@ -18,18 +18,18 @@
     update_cache: true
 
 - name: Add docker apt repository
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
     state: present
     filename: docker
 
 - name: Install docker packages
-  apt:
+  ansible.builtin.apt:
     name: docker-ce
     state: present
     update_cache: true
 
 - name: Start docker
-  systemd:
+  ansible.builtin.systemd:
     name: docker
     state: started

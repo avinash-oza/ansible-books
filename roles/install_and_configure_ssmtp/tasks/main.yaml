@@ -2,7 +2,7 @@
 
 - name: Install ssmtp
   become: true
-  apt:
+  ansible.builtin.apt:
       name: "{{ item }}"
       state: present
   with_items:
@@ -11,7 +11,7 @@
 
 - name: Copy ssmtp config files
   become: true
-  template:
+  ansible.builtin.template:
       src: "{{ item }}.j2"
       dest: "/etc/ssmtp/{{ item }}"
       owner: root
@@ -21,7 +21,7 @@
       - ssmtp.conf
 
 - name: Add cron weekly email
-  cron:
+  ansible.builtin.cron:
       name: "Weekly email"
       job: 'echo $(uptime) | mail -s "$(date)" {{ vault_email_address }}'
       special_time: weekly

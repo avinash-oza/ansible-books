@@ -1,5 +1,5 @@
 - name: download check_docker plugin
-  get_url:
+  ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/timdaman/check_docker/master/check_docker/check_docker.py"
     dest: /usr/lib/nagios/plugins/check_docker
     owner: root
@@ -7,7 +7,7 @@
     mode: "0755"
 
 - name: Add checks for disk space
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: {{ item.key }}"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"{{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
@@ -23,7 +23,7 @@
       mnt-vm_drives: "/mnt/vm-drives"
 
 - name: Add checks for containers
-  cron:
+  ansible.builtin.cron:
     name: "Nagios: {{ item }}"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Docker {{ item }}\" CHECK_CMD=check_docker CHECK_ARGS=\"--status=running --containers {{ item }} --present\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

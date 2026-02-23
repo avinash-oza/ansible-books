@@ -1,13 +1,13 @@
 ---
 - name: Create config directories
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ docker_data_path }}/apache2"
     owner: root
     group: root
 
 - name: copy apache2 config files
-  template:
+  ansible.builtin.template:
     src: "{{ apache_config_files_directory }}/{{ item }}"
     dest: "{{ docker_data_path }}/apache2"
   loop:
@@ -27,11 +27,11 @@
       pull: true
 
 - name: use non ssl container
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: false-ssl.yaml
   when: not apache_is_ssl
 
 - name: use ssl container
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: ssl.yaml
   when: apache_is_ssl
