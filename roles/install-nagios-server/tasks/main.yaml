@@ -1,6 +1,6 @@
 ---
 - name: install nagios and plugins
-  apt: 
+  apt:
     name: ['nagios4', 'nagios-plugins-contrib', 'python3-boto3']
     cache_valid_time: 1440
 
@@ -10,7 +10,7 @@
     state: present
     force: true
     ignore_configcheck: true
-    
+
   with_items:
     - auth_digest
     - authz_groupfile

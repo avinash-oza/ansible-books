@@ -1,22 +1,21 @@
 
-
 - name: install useful packages debian
   become: true
-  apt: 
+  apt:
     name: ['curl', 'git', 'ntp', 'screen', 'stow']
     state: present
-  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu" 
+  when: ansible_distribution == "Debian" or ansible_distribution == "Ubuntu"
 
 - name: enable epel centos
   become: true
-  yum: 
+  yum:
     name: "epel-release"
     state: present
   when: ansible_distribution == "CentOS"
 
 - name: install useful packages centos
   become: true
-  yum: 
+  yum:
     name: ['crontabs', 'curl', 'git', 'chrony', 'screen', 'stow']
     state: present
     enablerepo: "epel"

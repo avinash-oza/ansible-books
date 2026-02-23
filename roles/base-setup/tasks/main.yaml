@@ -6,7 +6,7 @@
     name: America/New_York
 
 - name: install cront
-  apt: 
+  apt:
     name: cron
 
 - name: Restart cron
@@ -17,7 +17,7 @@
 
 - name: scramble root password
   user:
-    name: root 
+    name: root
     password: "{{ vault_root_password | password_hash('sha512') }}"
 
 - name: Disable password based login

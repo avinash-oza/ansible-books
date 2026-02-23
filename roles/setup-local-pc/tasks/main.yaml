@@ -7,7 +7,7 @@
       become: true
 
 - name: Install miniconda
-  include_role: 
+  include_role:
     name: andrewrothstein.miniconda
   vars:
     miniconda_ver: '4.8.2'

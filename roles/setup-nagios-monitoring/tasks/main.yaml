@@ -1,5 +1,5 @@
 - name: install nagios nrpe plugins
-  apt: 
+  apt:
     name: ['nagios-plugins', 'nagios-plugins-contrib']
     state: present
 

@@ -1,6 +1,6 @@
 # install nrdp for remote checks
 - name: install php xml
-  apt: 
+  apt:
     name: ['php-xml']
     cache_valid_time: 1440
   register: nrdp_php_xml

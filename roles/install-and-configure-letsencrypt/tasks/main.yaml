@@ -5,7 +5,7 @@
     classic: true
 
 - name: install apprise
-  include_role: 
+  include_role:
     name: install-apprise
 
 - name: setup job to auto renew if close to expiry

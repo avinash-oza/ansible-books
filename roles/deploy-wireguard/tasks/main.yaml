@@ -10,7 +10,6 @@
     regexp: "^#?net.ipv4.ip_forward"
     line: "net.ipv4.ip_forward=1"
 
-
 - name: Copy config for wg0
   become: true
   template:

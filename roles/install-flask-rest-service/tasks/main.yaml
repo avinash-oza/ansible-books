@@ -22,7 +22,7 @@
   become: true
   apt:
     name: "{{ packages }}"
-    state: present 
+    state: present
     update_cache: true
   vars:
     packages:

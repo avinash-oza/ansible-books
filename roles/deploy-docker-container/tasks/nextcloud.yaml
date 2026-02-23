@@ -25,7 +25,7 @@
       MYSQL_USER: nextcloud
       MYSQL_PASSWORD: "{{ vault_mysql_nextcloud_password }}"
       MYSQL_HOST: some-mariadb-container
-      
+
       NEXTCLOUD_ADMIN_USER: "{{ vault_nextcloud_admin_user }}"
       NEXTCLOUD_ADMIN_PASSWORD: "{{ vault_nextcloud_admin_password }}"
 
