@@ -1,7 +1,7 @@
 - name: make data dir
   file:
     path: "{{ docker_data_path }}/paperless-ngx"
-    recurse: yes
+    recurse: true
     state: directory
     owner: root
     group: root

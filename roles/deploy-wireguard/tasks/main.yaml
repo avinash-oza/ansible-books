@@ -1,5 +1,5 @@
 - name: Install wireguard
-  become: yes
+  become: true
   apt:
     name: wireguard
     state: present
@@ -12,28 +12,28 @@
 
 
 - name: Copy config for wg0
-  become: yes
+  become: true
   template:
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
-    backup: yes
+    backup: true
     mode: "0700"
 
 - name: Copy over post up/post down files
-  become: yes
+  become: true
   template:
     src: "{{ item }}"
     dest: "/etc/wireguard/{{ item }}"
     mode: "0755"
-    backup: yes
+    backup: true
   loop:
     - postup.sh
     - postdown.sh
 
 - name: Setup/restart service for wg0
-  become: yes
+  become: true
   systemd:
     name: wg-quick@wg0
     state: restarted
-    enabled: yes
+    enabled: true
 

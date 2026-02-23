@@ -3,7 +3,7 @@
   docker_container:
     name: some-bookstack-container
     image: "linuxserver/bookstack:25.12.7"
-    restart: yes
+    restart: true
     state: started
     restart_policy: always
     networks:
@@ -28,7 +28,7 @@
   unarchive:
     src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
     dest: "/tmp/"
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
   when: not awscli_result.stat.exists
@@ -41,12 +41,12 @@
   include_role:
     name: copy-scripts
     apply:
-      become: yes
+      become: true
   vars:
     script_to_copy: backup_bookstack_db
 
 - name: set permissions for backup
-  become: yes
+  become: true
   file:
     path: "{{ scripts_dir }}/backup_bookstack_db"
     owner: root
@@ -54,7 +54,7 @@
     mode: "0700"
 
 - name: add backup job for db
-  become: yes
+  become: true
   cron:
     name: "backup bookstack db"
     special_time: weekly

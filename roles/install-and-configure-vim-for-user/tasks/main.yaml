@@ -1,27 +1,27 @@
 ---
 - name: install vim
-  become: yes
+  become: true
   package:
     name: vim
     state: present
 
 # Configure vim with plugins and dotfiles
 - name: checkout vundle
-  become: yes
+  become: true
   become_user: "{{ user_to_configure }}"
   git:
     repo: "{{ vundle_repo }}"
     dest: '{{ user_home_directory  }}/.vim/bundle/Vundle.vim'
 
 - name: stow vimrc file
-  become: yes
+  become: true
   become_user: "{{ user_to_configure }}"
   shell: stow -d '{{ user_home_directory }}/dotfiles' -t '{{ user_home_directory }}' '{{ item }}'
   with_items:
     - vim
 
 - name: install vim plugins
-  become: yes
+  become: true
   become_user: "{{ user_to_configure }}"
   shell: vim -E -s -c "source ~/.vimrc" +PluginInstall +qall
   ignore_errors: true

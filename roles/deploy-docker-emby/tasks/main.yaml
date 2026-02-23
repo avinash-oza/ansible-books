@@ -1,7 +1,7 @@
 - name: make data dir
   file:
     path: "{{ docker_data_path }}/emby"
-    recurse: yes
+    recurse: true
     state: directory
     owner: root
     group: root
@@ -11,7 +11,7 @@
     name: some-emby-container
     image: "emby/embyserver:4.8.0.52"
     state: started
-    restart: yes
+    restart: true
     restart_policy: always
     volumes: "{{ vault_emby_mount_points }}"
     ports:

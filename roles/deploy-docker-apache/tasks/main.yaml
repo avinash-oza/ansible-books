@@ -21,14 +21,14 @@
     tag: "latest"
     state: present
     source: build
-    force_source: yes
+    force_source: true
     build:
       path: "{{ docker_data_path }}/apache2"
-      pull: yes
+      pull: true
 
 - name: use non ssl container
   include_tasks:
-    file: no-ssl.yaml
+    file: false-ssl.yaml
   when: not apache_is_ssl
 
 - name: use ssl container

@@ -4,7 +4,7 @@
     name: geerlingguy.docker
 
     apply:
-      become: yes
+      become: true
 
 - name: Install miniconda
   include_role: 
@@ -15,7 +15,7 @@
     miniconda_parent_dir: /opt
 
 - name: Install conda packages
-  become: yes
+  become: true
   shell:
     cmd: "/opt/anaconda/bin/conda install -y {{ item }} -c conda-forge"
   loop:

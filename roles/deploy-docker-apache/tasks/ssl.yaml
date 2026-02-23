@@ -3,9 +3,9 @@
     name: some-apache2-container
     image: "docker-apache2-ssl:latest"
     state: started
-    recreate: yes
+    recreate: true
     restart_policy: always
-    pull: no # build locally
+    pull: false # build locally
     networks:
       - name: proxy_network
     volumes:

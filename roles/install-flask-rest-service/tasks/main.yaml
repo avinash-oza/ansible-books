@@ -8,7 +8,7 @@
   user:
     name: "{{ microservice_account }}"
     groups: gpio # to allow access to sensors
-    append: yes
+    append: true
     state: present
 
 - name: Create config directory
@@ -57,7 +57,7 @@
   when: microservice_has_config|default(false)|bool
 
 - name: Copy systemd file for starting service on boot
-  become: yes
+  become: true
   template:
     src: "{{ microservice_name }}.service"
     dest: "/etc/systemd/system/{{ microservice_name }}.service"
@@ -65,10 +65,10 @@
 
 - name: reload systemd configs
   systemd:
-    daemon_reload: yes
+    daemon_reload: true
 
 - name: Enable service to run on boot and start
-  become: yes
+  become: true
   service:
     name: "{{ microservice_name }}.service"
     state: restarted

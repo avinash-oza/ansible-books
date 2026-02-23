@@ -2,7 +2,7 @@
   become: true
   snap:
     name: certbot
-    classic: yes
+    classic: true
 
 - name: install apprise
   include_role: 

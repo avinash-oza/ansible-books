@@ -1,7 +1,7 @@
 ---
 
 - name: Install ssmtp
-  become: yes
+  become: true
   apt:
       name: "{{ item }}"
       state: present
@@ -10,7 +10,7 @@
     - mailutils
 
 - name: Copy ssmtp config files
-  become: yes
+  become: true
   template:
       src: "{{ item }}.j2"
       dest: "/etc/ssmtp/{{ item }}"

@@ -9,7 +9,7 @@
   unarchive:
     src: https://github.com/NagiosEnterprises/nrdp/archive/2.0.3.tar.gz
     dest: /tmp
-    remote_src: yes
+    remote_src: true
 
 - name: Create dest directory
   file:
@@ -26,13 +26,13 @@
 # TODO: add modifications for socket path and addition of token vs copy config file
 - name: copy config file
   template:
-    backup: yes
+    backup: true
     src: nrdp/config.inc.php.j2
     dest: /usr/local/nrdp/server/config.inc.php
 
 - name: copy apache site config
   template:
-    backup: yes
+    backup: true
     src: nrdp/nrdp.conf.j2
     dest: /etc/apache2/sites-available/nrdp.conf
 

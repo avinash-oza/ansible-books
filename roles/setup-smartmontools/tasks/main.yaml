@@ -20,7 +20,7 @@
     mode: "0744"
 
 - name: Enable service to run on boot and start
-  become: yes
+  become: true
   service:
     name: "smartmontools"
     state: restarted

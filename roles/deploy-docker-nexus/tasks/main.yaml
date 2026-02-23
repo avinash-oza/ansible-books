@@ -1,7 +1,7 @@
 - name: make data dir
   file:
     path: "{{ docker_nexus_data_path }}"
-    recurse: yes
+    recurse: true
     state: directory
     owner: "200"
     group: "200"
@@ -13,7 +13,7 @@
     volumes:
       - "{{ docker_nexus_data_path }}:/nexus-data"
     state: started
-    restart: yes
+    restart: true
     restart_policy: always
     networks:
       - name: proxy_network

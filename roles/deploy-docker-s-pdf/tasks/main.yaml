@@ -3,7 +3,7 @@
     name: some-s-pdf-container
     image: "frooodle/s-pdf:latest"
     state: started
-    restart: yes
+    restart: true
     restart_policy: always
     ports:
       - 8090:8080

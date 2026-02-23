@@ -8,8 +8,8 @@
   community.general.apache2_module:
     name: "{{ item }}"
     state: present
-    force: yes
-    ignore_configcheck: yes
+    force: true
+    ignore_configcheck: true
     
   with_items:
     - auth_digest
@@ -65,7 +65,7 @@
   user:
     name: "{{ item }}"
     groups: "{{ nagios_command_group }}" # for passive checks
-    append: yes
+    append: true
     state: present
   with_items:
     - nagios
@@ -87,7 +87,7 @@
   unarchive:
     src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
     dest: "/tmp/"
-    remote_src: yes
+    remote_src: true
     owner: root
     group: root
   when: not awscli_result.stat.exists
@@ -126,7 +126,7 @@
 - name: set proper permissions on checkresults
   file:
     state: directory
-    recurse: yes
+    recurse: true
     path: "{{ nagios_results_file_path }}"
     owner: nagios
     group: "{{ nagios_command_group }}"
@@ -180,8 +180,8 @@
 # fetch:
 #   src: "{{ user_home_directory}}/.ssh/id_rsa.pub"
 #   dest: "{{ playbook_dir }}/nagios_pub_key.pub"
-#   fail_on_missing: yes
-#   flat: yes
+#   fail_on_missing: true
+#   flat: true
 
 #TODO: handle copying over apache configs
 - include_tasks: install-nrdp.yaml

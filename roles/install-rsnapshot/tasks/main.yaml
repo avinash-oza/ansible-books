@@ -23,7 +23,7 @@
 
 - name: Copy config file
   template:
-    backup: yes
+    backup: true
     src: "rsnapshot-{{ group_names[0] }}.conf.j2"
     dest: /etc/rsnapshot.conf
     owner: root
@@ -32,7 +32,7 @@
 
 - name: Copy cron config file
   template:
-    backup: yes
+    backup: true
     src: rsnapshot.j2
     dest: /etc/cron.d/rsnapshot
     owner: root

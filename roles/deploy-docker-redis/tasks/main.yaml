@@ -1,7 +1,7 @@
 - name: make data dir
   file:
     path: "{{ docker_data_path }}/redis"
-    recurse: yes
+    recurse: true
     state: directory
     owner: root
     group: root
@@ -12,7 +12,7 @@
     image: "redis:7.2"
     command: "redis-server --requirepass {{ vault_redis_password }}"
     state: started
-    restart: yes
+    restart: true
     restart_policy: always
     networks:
       - name: cache_network

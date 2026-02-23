@@ -4,7 +4,7 @@
     name: qbtuser
     password: '!'
     state: present
-    system: yes
+    system: true
 
 - name: Install package
   apt:
@@ -34,4 +34,4 @@
   systemd:
     name: "qbittorrent-nox@qbtuser"
     state: started
-    enabled: yes
+    enabled: true

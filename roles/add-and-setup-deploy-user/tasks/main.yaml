@@ -19,7 +19,7 @@
     password: "{{ vault_deploy_password | password_hash('sha512') }}"
     shell: /bin/bash
     groups: sudo
-    append: yes
+    append: true
     state: present
 
 - name: Add authorized keys for SSH deploy user

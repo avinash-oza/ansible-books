@@ -1,7 +1,7 @@
 - name: make data dir
   file:
     path: "{{ docker_data_path }}/lubelogger"
-    recurse: yes
+    recurse: true
     state: directory
     owner: root
     group: root
@@ -19,7 +19,7 @@
       - "{{ docker_data_path }}/lubelogger/log:/App/log"
       - "{{ docker_data_path }}/lubelogger/keys:/root/.aspnet/DataProtection-Keys"
     state: started
-    restart: yes
+    restart: true
     restart_policy: always
     networks:
       - name: proxy_network

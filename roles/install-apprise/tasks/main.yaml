@@ -9,7 +9,7 @@
   include_role:
     name: copy-scripts
     apply:
-      become: yes
+      become: true
   vars:
       script_to_copy: apprise.conf
       file_owner: "{{ apprise_owner }}"

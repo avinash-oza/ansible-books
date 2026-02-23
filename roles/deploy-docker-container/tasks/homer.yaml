@@ -6,7 +6,7 @@
 - name: make assets/root directory
   file:
     path: "{{ docker_data_path }}/homer/assets"
-    recurse: yes
+    recurse: true
     state: directory
     owner: root
     group: root
@@ -32,8 +32,8 @@
     name: some-homer-container
     image: "b4bz/homer:latest"
     state: started
-    recreate: yes
-    restart: yes
+    recreate: true
+    restart: true
     restart_policy: always
     networks:
       - name: proxy_network
