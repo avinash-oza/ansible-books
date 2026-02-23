@@ -1,8 +1,9 @@
-
 ---
-- hosts: apt-server
+- name: Configure APT Server
+  hosts: apt-server
   remote_user: deploy
-  become: yes
+  become: true
+
   roles:
 # - { role: add-and-setup-deploy-user}
 # - { role: base-setup}
@@ -24,5 +25,5 @@
   - { role: deploy-docker-homer }
 # - { role: deploy-docker-s-pdf }
 # - { role: deploy-docker-lubelogger }
-  # needs tags=all,apt-server to add proper monitoring
-# - { role: setup-nagios-monitoring, become: yes }
+    # needs tags=all,apt-server to add proper monitoring
+# - { role: setup-nagios-monitoring, become: true }

@@ -1,10 +1,12 @@
 
-- hosts: main-node
+- name: Configure Main Node
+  hosts: main-node
   remote_user: deploy
+
   roles:
-#     - { role: base-setup, become: yes }
-#     - { role: add-and-setup-deploy-user, become: yes }
-#     - { role: install-temperature-sensors-service ,become: true }
+#     - { role: base-setup, become: true }
+#     - { role: add-and-setup-deploy-user, become: true }
+#     - { role: install-temperature-sensors-service, become: true }
 #     - { role: install-aws-temp-scripts, become: true }
-      # needs tags=all,main-node to add proper monitoring
-      - { role: setup-nagios-monitoring, become: yes }
+    # needs tags=all,main-node to add proper monitoring
+    - { role: setup-nagios-monitoring, become: true }

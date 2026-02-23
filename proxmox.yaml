@@ -1,10 +1,12 @@
 
-- hosts: proxmox
+- name: Configure Proxmox
+  hosts: proxmox
   remote_user: deploy
+
   roles:
-      - { role: install-apprise, become: true }
-#     - { role: base-setup, become: yes }
-#     - { role: add-and-setup-deploy-user, become: yes }
-      - { role: setup-apcupsd, become: true }
-      # needs tags=all,proxmox to add proper monitoring
-#     - { role: setup-nagios-monitoring, become: yes }
+    - { role: install-apprise, become: true }
+#     - { role: base-setup, become: true }
+#     - { role: add-and-setup-deploy-user, become: true }
+    - { role: setup-apcupsd, become: true }
+    # needs tags=all,proxmox to add proper monitoring
+#     - { role: setup-nagios-monitoring, become: true }

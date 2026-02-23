@@ -1,9 +1,11 @@
 
-- hosts: nagios-server
+- name: Configure Nagios Server
+  hosts: nagios-server
   remote_user: deploy
+
   roles:
-#     - { role: add-and-setup-deploy-user, become: yes }
-#     - { role: base-setup, become: yes }
-      - { role: install-nagios-server, become: yes }
-      # needs tags=all,nagios-server to add proper monitoring
-#     - { role: setup-nagios-monitoring, become: yes }
+#     - { role: add-and-setup-deploy-user, become: true }
+#     - { role: base-setup, become: true }
+    - { role: install-nagios-server, become: true }
+    # needs tags=all,nagios-server to add proper monitoring
+#     - { role: setup-nagios-monitoring, become: true }
