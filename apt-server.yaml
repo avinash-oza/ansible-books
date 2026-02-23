@@ -16,14 +16,14 @@
 # - { role: install-samba, become: yes }
 # - { role: deploy-docker-redis }
 # - { role: deploy_docker_apache }
-# - { role: deploy-docker-mysql-phpmyadmin }
+# - { role: deploy_docker_mysql_phpmyadmin }
 # - { role: deploy-docker-postgres-adminer }
-# - { role: deploy-docker-immich }
+# - { role: deploy_docker_immich }
 # - { role: deploy-docker-nexus }
 # - { role: deploy-docker-paperless-ngx }
-# - { role: deploy-docker-emby }
-  - { role: deploy-docker-homer }
+# - { role: deploy_docker_emby }
+  - { role: deploy_docker_homer }
 # - { role: deploy-docker-s-pdf }
-# - { role: deploy-docker-lubelogger }
+# - { role: deploy_docker_lubelogger }
     # needs tags=all,apt-server to add proper monitoring
 # - { role: setup-nagios-monitoring, become: true }
