@@ -39,7 +39,7 @@
   when: not awscli_result.stat.exists
 - name: copy over backup script
   include_role:
-    name: copy-scripts
+    name: copy_scripts
     apply:
       become: true
   vars:

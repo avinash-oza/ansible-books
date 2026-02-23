@@ -7,7 +7,7 @@
 
 - name: Copy config file
   include_role:
-    name: copy-scripts
+    name: copy_scripts
     apply:
       become: true
   vars:

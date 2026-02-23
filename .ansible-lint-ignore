@@ -1,9 +1,7 @@
 # This file contains ignores rule violations for ansible-lint
-roles/add-and-setup-deploy-user role-name
 roles/add-and-setup-deploy-user/tasks/main.yaml fqcn[action-core]
 roles/add-and-setup-deploy-user/tasks/main.yaml fqcn[action]
 roles/add-and-setup-deploy-user/tasks/main.yaml name[casing]
-roles/base-setup role-name
 roles/base-setup/handlers/main.yaml fqcn[action-core]
 roles/base-setup/handlers/main.yaml name[casing]
 roles/base-setup/tasks/main.yaml fqcn[action-core]
@@ -11,11 +9,9 @@ roles/base-setup/tasks/main.yaml fqcn[action]
 roles/base-setup/tasks/main.yaml name[casing]
 roles/base-setup/tasks/main.yaml no-handler
 roles/base-setup/tasks/main.yaml yaml[indentation]
-roles/copy-scripts role-name
 roles/copy-scripts/tasks/main.yaml fqcn[action-core]
 roles/copy-scripts/tasks/main.yaml name[casing]
 roles/copy-scripts/tasks/main.yaml risky-file-permissions
-roles/deploy-docker-apache role-name
 roles/deploy-docker-apache/tasks/main.yaml fqcn[action-core]
 roles/deploy-docker-apache/tasks/main.yaml fqcn[action]
 roles/deploy-docker-apache/tasks/main.yaml name[casing]
@@ -24,7 +20,6 @@ roles/deploy-docker-apache/tasks/no-ssl.yaml fqcn[action]
 roles/deploy-docker-apache/tasks/no-ssl.yaml name[casing]
 roles/deploy-docker-apache/tasks/ssl.yaml fqcn[action]
 roles/deploy-docker-apache/tasks/ssl.yaml name[casing]
-roles/deploy-docker-container role-name
 roles/deploy-docker-container/tasks/bookstack.yaml fqcn[action]
 roles/deploy-docker-container/tasks/bookstack.yaml name[casing]
 roles/deploy-docker-container/tasks/homer.yaml fqcn[action-core]

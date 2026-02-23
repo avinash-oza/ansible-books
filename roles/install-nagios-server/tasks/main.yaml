@@ -99,7 +99,7 @@
 
 - name: copy over send_nagios_alert.sh
   include_role:
-    name: copy-scripts
+    name: copy_scripts
   vars:
     script_to_copy: send_nagios_alert.sh
     file_permissions: '0770'

@@ -6,8 +6,8 @@
 
   roles:
     - { role: setup-main-server }
-    - { role: add-and-setup-deploy-user }
-    - { role: base-setup }
+    - { role: add_and_setup_deploy_user }
+    - { role: base_setup }
     - { role: install-and-configure-ssmtp, tags: ['ssmtp'] }
     - { role: install-and-configure-letsencrypt }
     - { role: setup-apcupsd, tags: ['apcupsd'] }
@@ -16,7 +16,7 @@
     - { role: install-samba }
     - { role: install-rclone }
     - { role: install-docker-base }
-    - { role: deploy-docker-apache }
+    - { role: deploy_docker_apache }
     - { role: deploy-wireguard }
     # needs tags=all,main-server to add proper monitoring
     - { role: setup-nagios-monitoring }
