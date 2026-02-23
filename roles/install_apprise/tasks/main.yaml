@@ -12,6 +12,6 @@
       become: true
   vars:
       script_to_copy: apprise.conf
-      file_owner: "{{ apprise_owner }}"
-      file_group: "{{ apprise_group }}"
-      file_permissions: "{{ apprise_config_mode }}"
+      file_owner: "{{ install_apprise_apprise_owner }}"
+      file_group: "{{ install_apprise_apprise_group }}"
+      file_permissions: "{{ install_apprise_apprise_config_mode }}"

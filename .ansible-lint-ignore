@@ -22,7 +22,6 @@ roles/deploy_docker_apache/defaults/main.yaml var-naming[no-role-prefix]
 roles/deploy_docker_apache/tasks/main.yaml risky-file-permissions
 roles/deploy_docker_apache/tasks/no-ssl.yaml yaml[empty-lines]
 roles/deploy_docker_apache/tasks/ssl.yaml yaml[empty-lines]
-roles/deploy_docker_container/defaults/main.yaml var-naming[no-role-prefix]
 roles/deploy_docker_container/tasks/bookstack.yaml command-instead-of-shell
 roles/deploy_docker_container/tasks/bookstack.yaml no-changed-when
 roles/deploy_docker_container/tasks/bookstack.yaml var-naming[no-role-prefix]
@@ -48,7 +47,6 @@ roles/install_and_configure_vim_for_user/tasks/main.yaml ignore-errors
 roles/install_and_configure_vim_for_user/tasks/main.yaml jinja[spacing]
 roles/install_and_configure_vim_for_user/tasks/main.yaml latest[git]
 roles/install_and_configure_vim_for_user/tasks/main.yaml no-changed-when
-roles/install_apprise/defaults/main.yaml var-naming[no-role-prefix]
 roles/install_apprise/tasks/main.yaml var-naming[no-role-prefix]
 roles/install_apprise/tasks/main.yaml yaml[empty-lines]
 roles/install_apprise/tasks/main.yaml yaml[indentation]

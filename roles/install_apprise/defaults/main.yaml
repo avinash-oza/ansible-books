@@ -1,3 +1,3 @@
-apprise_owner: root
-apprise_group: root
-apprise_config_mode: '0750'
+install_apprise_apprise_owner: root
+install_apprise_apprise_group: root
+install_apprise_apprise_config_mode: '0750'
