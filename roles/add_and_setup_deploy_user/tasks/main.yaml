@@ -46,7 +46,7 @@
 
 - name: setup vim
   include_role:
-    name: install-and-configure-vim-for-user
+    name: install_and_configure_vim_for_user
   vars:
     user_to_configure: deploy
 

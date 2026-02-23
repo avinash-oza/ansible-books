@@ -6,7 +6,7 @@
 
 - name: install apprise
   include_role:
-    name: install-apprise
+    name: install_apprise
 
 - name: setup job to auto renew if close to expiry
   cron:

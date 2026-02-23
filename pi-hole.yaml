@@ -6,7 +6,7 @@
   roles:
 # - { role: add_and_setup_deploy_user}
 # - { role: base_setup}
-# - { role: deploy-wireguard }
+# - { role: deploy_wireguard }
   # needs tags=all to add proper monitoring
   - { role: setup-nagios-monitoring, become: yes }
   tasks:

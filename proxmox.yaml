@@ -4,7 +4,7 @@
   remote_user: deploy
 
   roles:
-    - { role: install-apprise, become: true }
+    - { role: install_apprise, become: true }
 #     - { role: base_setup, become: true }
 #     - { role: add_and_setup_deploy_user, become: true }
     - { role: setup-apcupsd, become: true }
