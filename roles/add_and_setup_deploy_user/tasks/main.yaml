@@ -40,9 +40,9 @@
     - laptop.pub
     - win-desktop.pub
 
-- name: setup-dotfiles
+- name: setup_dotfiles
   include_role:
-    name: setup-dotfiles
+    name: setup_dotfiles
 
 - name: setup vim
   include_role:

@@ -8,12 +8,12 @@
 # - { role: add_and_setup_deploy_user}
 # - { role: base_setup}
 # - { role: install_and_configure_letsencrypt }
-# - { role: setup-smartmontools }
-# - { role: install-rsnapshot }
-# - { role: install-rclone }
-# - { role: install-docker-base }
+# - { role: setup_smartmontools }
+# - { role: install_rsnapshot }
+# - { role: install_rclone }
+# - { role: install_docker_base }
 # - { role: deploy_docker_container }
-# - { role: install-samba, become: yes }
+# - { role: install_samba, become: yes }
 # - { role: deploy_docker_redis }
 # - { role: deploy_docker_apache }
 # - { role: deploy_docker_mysql_phpmyadmin }
@@ -26,4 +26,4 @@
 # - { role: deploy_docker_s_pdf }
 # - { role: deploy_docker_lubelogger }
     # needs tags=all,apt-server to add proper monitoring
-# - { role: setup-nagios-monitoring, become: true }
+# - { role: setup_nagios_monitoring, become: true }

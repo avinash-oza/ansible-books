@@ -7,6 +7,6 @@
     - { role: install_apprise, become: true }
 #     - { role: base_setup, become: true }
 #     - { role: add_and_setup_deploy_user, become: true }
-    - { role: setup-apcupsd, become: true }
+    - { role: setup_apcupsd, become: true }
     # needs tags=all,proxmox to add proper monitoring
-#     - { role: setup-nagios-monitoring, become: true }
+#     - { role: setup_nagios_monitoring, become: true }

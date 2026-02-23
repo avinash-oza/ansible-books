@@ -8,7 +8,7 @@
 # - { role: base_setup}
 # - { role: deploy_wireguard }
   # needs tags=all to add proper monitoring
-  - { role: setup-nagios-monitoring, become: yes }
+  - { role: setup_nagios_monitoring, become: yes }
   tasks:
     - name: Add weekly update run for pi-hole
       cron:

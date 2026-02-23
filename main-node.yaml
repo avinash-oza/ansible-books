@@ -6,7 +6,7 @@
   roles:
 #     - { role: base_setup, become: true }
 #     - { role: add_and_setup_deploy_user, become: true }
-#     - { role: install-temperature-sensors-service, become: true }
+#     - { role: install_temperature_sensors_service, become: true }
 #     - { role: install-aws-temp-scripts, become: true }
     # needs tags=all,main-node to add proper monitoring
-    - { role: setup-nagios-monitoring, become: true }
+    - { role: setup_nagios_monitoring, become: true }
