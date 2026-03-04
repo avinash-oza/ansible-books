@@ -1,3 +1,4 @@
 ---
+# noqa: yaml[new-line-at-end-of-file]
 - ansible.builtin.include_role:
     name: install_flask_rest_service

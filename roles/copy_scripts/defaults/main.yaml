@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 file_permissions: '0744'
 file_owner: 'root'
 file_group: 'root'

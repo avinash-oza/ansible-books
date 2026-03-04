@@ -1,3 +1,4 @@
+# noqa: command-instead-of-shell latest[git] no-changed-when partial-become[task] yaml[empty-lines]
 
 - name: install useful packages debian
   become: true

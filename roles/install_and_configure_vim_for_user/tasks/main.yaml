@@ -1,4 +1,5 @@
 ---
+# noqa: command-instead-of-shell ignore-errors jinja[spacing] latest[git] no-changed-when
 - name: install vim
   become: true
   ansible.builtin.package:

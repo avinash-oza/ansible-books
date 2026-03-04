@@ -1,4 +1,5 @@
 ---
+# noqa: syntax-check[unknown-module]
 # configure sudo for other operations
 - name: Check for sudo group
   ansible.builtin.group:

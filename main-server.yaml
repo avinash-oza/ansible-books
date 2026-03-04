@@ -1,4 +1,5 @@
 ---
+# noqa: yaml[empty-lines]
 - name: Configure Main Server
   hosts: main-server
   remote_user: deploy

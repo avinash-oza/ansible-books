@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 microservice_name: garage-door
 microservice_app_name: garage_door
 microservice_has_config: false

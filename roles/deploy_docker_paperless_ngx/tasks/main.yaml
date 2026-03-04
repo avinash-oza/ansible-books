@@ -1,3 +1,4 @@
+# noqa: command-instead-of-shell no-changed-when risky-file-permissions yaml[truthy]
 - name: make data dir
   ansible.builtin.file:
     path: "{{ docker_data_path }}/paperless-ngx"

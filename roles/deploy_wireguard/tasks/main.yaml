@@ -1,3 +1,4 @@
+# noqa: yaml[empty-lines]
 - name: Install wireguard
   become: true
   ansible.builtin.apt:

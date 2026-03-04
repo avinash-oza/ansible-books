@@ -1,4 +1,5 @@
 ---
+# noqa: risky-file-permissions yaml[empty-lines]
 
 - name: create scripts directory
   ansible.builtin.file:

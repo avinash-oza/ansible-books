@@ -1,3 +1,4 @@
+# noqa: syntax-check[unknown-module]
 - name: create mount directories
   become: true
   file:

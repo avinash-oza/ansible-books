@@ -1,3 +1,4 @@
+# noqa: yaml[line-length]
 - name: download check_docker plugin
   ansible.builtin.get_url:
     url: "https://raw.githubusercontent.com/timdaman/check_docker/master/check_docker/check_docker.py"

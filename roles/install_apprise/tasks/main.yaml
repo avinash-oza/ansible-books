@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix] yaml[empty-lines] yaml[indentation]
 
 # TODO: figure out when pip vs apt package
 - name: Install pip

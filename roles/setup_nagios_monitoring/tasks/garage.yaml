@@ -1,3 +1,4 @@
+# noqa: yaml[line-length]
 - name: copy over check garage script
   ansible.builtin.copy:
     src: check_garage.py

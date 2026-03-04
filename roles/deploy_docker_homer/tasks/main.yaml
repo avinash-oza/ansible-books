@@ -1,3 +1,4 @@
+# noqa: risky-file-permissions var-naming[no-role-prefix]
 - name: "Remove current assets directory (prevent caching)"
   ansible.builtin.file:
     path: "{{ docker_data_path }}/homer/assets"

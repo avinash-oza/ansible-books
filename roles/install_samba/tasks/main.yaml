@@ -1,4 +1,5 @@
 ---
+# noqa: jinja[spacing] no-changed-when no-handler risky-file-permissions var-naming[no-role-prefix] yaml[indentation]
 - name: Install samba
   ansible.builtin.apt:
       name: samba

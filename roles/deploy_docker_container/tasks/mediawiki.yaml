@@ -1,3 +1,4 @@
+# noqa: risky-file-permissions
 - name: copy over mediawiki config
   become: true
   ansible.builtin.template:

@@ -1,10 +1,11 @@
 repos:
   - repo: https://github.com/ansible/ansible-lint.git
-    rev: v24.5.0
+    rev: v26.2.0
     hooks:
       - id: ansible-lint
-        files: \.(yaml|yml)$
         name: Ansible Lint
         description: Run configurations on .ansible-lint file
-        verbose: true
-        # args: [-p, ./ansible/*]
+        entry: python3 -m ansiblelint -v --force-color
+        language_version: python3.12
+        pass_filenames: false
+        always_run: true

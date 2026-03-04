@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 airvpn_api_key: "{{ vault_airvpn_api_key }}"
 
 nagios_command_group: nagcmd

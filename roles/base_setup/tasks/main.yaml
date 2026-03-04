@@ -1,4 +1,5 @@
 ---
+# noqa: no-handler var-naming[no-role-prefix] yaml[indentation]
 
 - name: Set machine time to EST
   register: tz

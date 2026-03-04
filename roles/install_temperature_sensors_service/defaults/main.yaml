@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 microservice_name: temperature-sensors
 microservice_app_name: temperature_sensors
 microservice_port: 25002

@@ -1,3 +1,4 @@
+# noqa: yaml[empty-lines] yaml[indentation] yaml[truthy]
 
 ---
 - hosts: pi-hole

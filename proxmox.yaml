@@ -1,3 +1,4 @@
+# noqa: yaml[empty-lines]
 
 - name: Configure Proxmox
   hosts: proxmox

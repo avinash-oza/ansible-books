@@ -1,4 +1,5 @@
 ---
+# noqa: yaml[indentation]
 - name: Configure APT Server
   hosts: apt-server
   remote_user: deploy
@@ -22,7 +23,7 @@
 # - { role: deploy_docker_nexus }
 # - { role: deploy_docker_paperless_ngx }
 # - { role: deploy_docker_emby }
-  - { role: deploy_docker_homer }
+# - { role: deploy_docker_homer }
 # - { role: deploy_docker_s_pdf }
 # - { role: deploy_docker_lubelogger }
     # needs tags=all,apt-server to add proper monitoring

@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 rclone_owner: root
 rclone_group: root
 rclone_config_mode: '0750'

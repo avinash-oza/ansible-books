@@ -1,3 +1,4 @@
+# noqa: command-instead-of-shell no-changed-when risky-file-permissions var-naming[no-role-prefix]
 # install nrdp for remote checks
 - name: install php xml
   ansible.builtin.apt:

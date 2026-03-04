@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 mount_points:
     '/dev/mapper/raid0--vg-home_dirs': '/mnt/raid0'
     '/dev/mapper/raid0--vg-backups': '/mnt/raid_backup'

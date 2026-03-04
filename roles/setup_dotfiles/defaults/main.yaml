@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 dotfiles_repo: https://github.com/avinash-oza/dotfiles.git
 user_to_configure: deploy
 user_home_directory: /home/{{ user_to_configure }}

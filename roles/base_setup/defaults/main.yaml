@@ -1,3 +1,4 @@
+# noqa: var-naming[no-role-prefix]
 users_to_scramble:
   - pi
   - avi

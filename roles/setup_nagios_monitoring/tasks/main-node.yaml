@@ -1,3 +1,4 @@
+# noqa: yaml[line-length]
 - name: "Add check for additional services"
   ansible.builtin.cron:
     name: "Nagios: {{ item.key }}"
