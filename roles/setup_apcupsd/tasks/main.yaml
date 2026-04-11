@@ -5,6 +5,25 @@
     name: apcupsd
     state: present
 
+- name: Check if awscli exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/aws
+  register: awscli_result
+
+- name: download and decompress awscli
+  ansible.builtin.unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/tmp/"
+    remote_src: true
+    owner: root
+    group: root
+  when: not awscli_result.stat.exists
+
+- name: run awscli installer
+  ansible.builtin.shell:
+    cmd: "/tmp/aws/install"
+  when: not awscli_result.stat.exists
+
 - name: Copy over configuration files
   tags: config
   ansible.builtin.template:
