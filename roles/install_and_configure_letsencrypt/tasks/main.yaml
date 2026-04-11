@@ -37,6 +37,6 @@
   ansible.builtin.cron:
     name: certbot-auto renew certificate
     special_time: weekly
-    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\" > /tmp/letsencryptoutput.log; /opt/scripts/send-letsencrypt-log-sns.sh; rm /tmp/letsencryptoutput.log"
+    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\" > /tmp/letsencryptoutput.log 2>&1; /opt/scripts/send-letsencrypt-log-sns.sh; rm /tmp/letsencryptoutput.log"
     state: present
 
