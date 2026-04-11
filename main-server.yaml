@@ -10,7 +10,7 @@
 #   - { role: add_and_setup_deploy_user }
 #   - { role: base_setup }
 #   - { role: install_and_configure_ssmtp, tags: ['ssmtp'] }
-#   - { role: install_and_configure_letsencrypt }
+    - { role: install_and_configure_letsencrypt }
 #   - { role: setup_apcupsd, tags: ['apcupsd'] }
 #   - { role: install_rsnapshot }
 #   - { role: setup_smartmontools }
