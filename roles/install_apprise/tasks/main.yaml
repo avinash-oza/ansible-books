@@ -1,0 +1,18 @@
+# noqa: var-naming[no-role-prefix] yaml[empty-lines] yaml[indentation]
+
+# TODO: figure out when pip vs apt package
+- name: Install pip
+  ansible.builtin.apt:
+    name: ["python3-pip", "apprise"]
+    state: present
+
+- name: Copy config file
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+      script_to_copy: apprise.conf
+      file_owner: "{{ install_apprise_apprise_owner }}"
+      file_group: "{{ install_apprise_apprise_group }}"
+      file_permissions: "{{ install_apprise_apprise_config_mode }}"

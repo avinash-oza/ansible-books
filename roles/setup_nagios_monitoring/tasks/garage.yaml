@@ -1,0 +1,16 @@
+# noqa: yaml[line-length]
+- name: copy over check garage script
+  ansible.builtin.copy:
+    src: check_garage.py
+    dest: "{{ scripts_dir }}"
+    owner: root
+    group: root
+    mode: '0744'
+
+- name: Add check for Garage Door
+  vars:
+    microservice_name: garage-door
+  ansible.builtin.cron:
+    name: "Nagios: Garage Door"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Garage Door\" CHECK_SCRIPT=\"{{ virtual_env_path }}/bin/python {{ scripts_dir }}/check_garage.py\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

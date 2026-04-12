@@ -1,0 +1,25 @@
+---
+# noqa: yaml[line-length]
+- name: copy over check script for airvpn
+  ansible.builtin.copy:
+    src: check_airvpn.py
+    dest: "{{ scripts_dir }}"
+    owner: root
+    group: root
+    mode: '0744'
+
+- name: Add checks for disk space
+  ansible.builtin.cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"{{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ disks | dict2items }}"
+  vars:
+    disks:
+      var-log: "/var/log"
+
+- name: Add check for airvpn
+  ansible.builtin.cron:
+    name: "Nagios: AirVPN"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && EXPECTED_SESSION_COUNT=4 AIRVPN_TOKEN={{ vault_airvpn_api_key }} SERVICE_NAME=\"AIRVPN\" CHECK_SCRIPT=\"/usr/bin/python3 {{ scripts_dir }}/check_airvpn.py\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"

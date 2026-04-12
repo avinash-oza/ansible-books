@@ -1,0 +1,59 @@
+- name: install nagios nrpe plugins
+  ansible.builtin.apt:
+    name: ['nagios-plugins', 'nagios-plugins-contrib']
+    state: present
+
+# need to set permissions here so role is not used
+- name: copy over nrdp client scripts
+  ansible.builtin.copy:
+    src: send_nrdp.sh
+    dest: "{{ scripts_dir }}/"
+    owner: root
+    group: root
+    mode: '0744'
+
+- name: copy over nrdp client scripts
+  ansible.builtin.template:
+    src: submit_nagios_check.sh
+    dest: "{{ scripts_dir }}/"
+    owner: root
+    group: root
+    mode: '0744'
+
+- ansible.builtin.include_tasks:
+    file: basic.yaml
+
+- ansible.builtin.include_tasks:
+    file: garage.yaml
+    apply:
+      tags:
+        - garage
+        - never
+
+- ansible.builtin.include_tasks:
+    file: main-server.yaml
+    apply:
+      tags:
+        - main-server
+        - never
+
+- ansible.builtin.include_tasks:
+    file: nagios-server.yaml
+    apply:
+      tags:
+        - nagios-server
+        - never
+
+- ansible.builtin.include_tasks:
+    file: main-node.yaml
+    apply:
+      tags:
+        - main-node
+        - never
+
+- ansible.builtin.include_tasks:
+    file: apt-server.yaml
+    apply:
+      tags:
+        - apt-server
+        - never

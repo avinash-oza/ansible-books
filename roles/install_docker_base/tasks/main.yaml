@@ -1,0 +1,2 @@
+- ansible.builtin.include_tasks: docker-base.yaml
+- ansible.builtin.include_tasks: docker-networks.yaml

@@ -1,0 +1,2 @@
+deploy_docker_container_docker_configs_root_path: /etc/docker-files/docker-build
+deploy_docker_container_redis_password: "{{ vault_redis_password }}"

@@ -1,0 +1,59 @@
+# noqa: command-instead-of-shell no-changed-when risky-file-permissions var-naming[no-role-prefix]
+# install nrdp for remote checks
+- name: install php xml
+  ansible.builtin.apt:
+    name: ['php-xml']
+    cache_valid_time: 1440
+  register: nrdp_php_xml
+
+- name: Download NRDP package and extract
+  ansible.builtin.unarchive:
+    src: https://github.com/NagiosEnterprises/nrdp/archive/2.0.3.tar.gz
+    dest: /tmp
+    remote_src: true
+
+- name: Create dest directory
+  ansible.builtin.file:
+    path: /usr/local/nrdp
+    state: directory
+    owner: nagios
+    group: nagios
+
+- name: Copy files into /usr/local
+  ansible.builtin.shell: "cp -r clients server LICENSE* CHANGES* /usr/local/nrdp"
+  args:
+    chdir: /tmp/nrdp-2.0.3
+
+# TODO: add modifications for socket path and addition of token vs copy config file
+- name: copy config file
+  ansible.builtin.template:
+    backup: true
+    src: nrdp/config.inc.php.j2
+    dest: /usr/local/nrdp/server/config.inc.php
+
+- name: copy apache site config
+  ansible.builtin.template:
+    backup: true
+    src: nrdp/nrdp.conf.j2
+    dest: /etc/apache2/sites-available/nrdp.conf
+
+  register: nrdp_conf
+
+- name: Enable apache site
+  ansible.builtin.shell: "a2ensite nrdp"
+  args:
+    creates: /etc/apache2/sites-enabled/nrdp.conf
+
+- name: Restart apache2
+  ansible.builtin.systemd:
+    name: apache2
+    state: restarted
+  when: nrdp_conf.changed or nrdp_php_xml.changed
+
+
+- name: set permissions on directory
+  ansible.builtin.file:
+    path: /usr/local/nrdp
+    state: directory
+    owner: nagios
+    group: nagios

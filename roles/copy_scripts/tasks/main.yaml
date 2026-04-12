@@ -1,0 +1,18 @@
+---
+# noqa: risky-file-permissions yaml[empty-lines]
+
+- name: create scripts directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ scripts_dir }}"
+    owner: root
+    group: root
+
+- name: copy over script
+  ansible.builtin.template:
+    src: "{{ script_to_copy }}"
+    dest: "{{ scripts_dir }}"
+    owner: "{{ file_owner }}"
+    group: "{{ file_group }}"
+    mode: "{{ file_permissions }}"
+

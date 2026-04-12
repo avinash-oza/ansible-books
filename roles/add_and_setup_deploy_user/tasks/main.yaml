@@ -1,0 +1,53 @@
+---
+# noqa: syntax-check[unknown-module]
+# configure sudo for other operations
+- name: Check for sudo group
+  ansible.builtin.group:
+    name: sudo
+    state: present
+
+- name: Allow sudo group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo'
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: create deploy user and add to sudo group
+  user:
+    name: deploy
+    password: "{{ vault_deploy_password | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups: sudo
+    append: true
+    state: present
+
+- name: Add authorized keys for SSH deploy user
+  authorized_key:
+    user: deploy
+    state: present
+    key: "{{ item }}"
+  with_file: "{{ deploy_user_public_keys }}"
+
+- name: remove old keys
+  authorized_key:
+    user: deploy
+    state: absent
+    key: "{{ item }}"
+  with_file:
+    - ansible_tower.pub
+    - id_rsa.pub
+    - laptop.pub
+    - win-desktop.pub
+
+- name: setup_dotfiles
+  include_role:
+    name: setup_dotfiles
+
+- name: setup vim
+  include_role:
+    name: install_and_configure_vim_for_user
+  vars:
+    user_to_configure: deploy
+

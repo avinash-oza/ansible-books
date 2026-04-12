@@ -1,22 +1,24 @@
-
 ---
-- hosts: main-server
+# noqa: yaml[empty-lines]
+- name: Configure Main Server
+  hosts: main-server
   remote_user: deploy
-  become: yes
+  become: true
+
   roles:
-  - { role: setup-main-server }
-  - { role: add-and-setup-deploy-user}
-  - { role: base-setup}
-  - { role: install-and-configure-ssmtp, tags: ['ssmtp'] }
-  - { role: install-and-configure-letsencrypt }
-  - { role: setup-apcupsd, tags: ['apcupsd']}
-  - { role: install-rsnapshot }
-  - { role: setup-smartmontools }
-  - { role: install-samba }
-  - { role: install-rclone }
-  - { role: install-docker-base }
-  - { role: deploy-docker-apache }
-  - { role: deploy-wireguard }
-# # needs tags=all,main-server to add proper monitoring
-  - { role: setup-nagios-monitoring }
+    - { role: setup_main_server }
+    - { role: add_and_setup_deploy_user }
+    - { role: base_setup }
+    - { role: install_and_configure_ssmtp, tags: ['ssmtp'] }
+    - { role: install_and_configure_letsencrypt }
+    - { role: setup_apcupsd, tags: ['apcupsd'] }
+    - { role: install_rsnapshot }
+    - { role: setup_smartmontools }
+    - { role: install_samba }
+    - { role: install_rclone }
+    - { role: install_docker_base }
+    - { role: deploy_docker_apache }
+    - { role: deploy_wireguard }
+    # needs tags=all,main-server to add proper monitoring
+    - { role: setup_nagios_monitoring }
 

@@ -1,0 +1,17 @@
+# noqa: risky-file-permissions yaml[empty-lines]
+
+- name: Install apcupsd
+  ansible.builtin.apt:
+    name: apcupsd
+    state: present
+
+- name: Copy over configuration files
+  tags: config
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/apcupsd/{{ item }}"
+  with_items:
+    - apcupsd.conf
+    - offbattery
+    - onbattery
+    - doshutdown

@@ -1,0 +1,188 @@
+---
+# noqa: command-instead-of-shell no-changed-when risky-file-permissions var-naming[no-role-prefix] yaml[comments] yaml[indentation]
+- name: install nagios and plugins
+  ansible.builtin.apt:
+    name: ['nagios4', 'nagios-plugins-contrib', 'python3-boto3']
+    cache_valid_time: 1440
+
+- name: Enable required apache modules
+  community.general.apache2_module:
+    name: "{{ item }}"
+    state: present
+    force: true
+    ignore_configcheck: true
+
+  with_items:
+    - auth_digest
+    - authz_groupfile
+    - cgi
+
+- name: set options to values
+  ansible.builtin.lineinfile:
+    dest: /etc/nagios4/nagios.cfg
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.value }}"
+  loop: "{{ options_to_values | dict2items }}"
+
+  vars:
+    options_to_values:
+      use_syslog: "use_syslog=0"
+      check_external_commands: "check_external_commands=1"
+      log_passive_checks: "log_passive_checks=0"
+      log_rotation_method: "log_rotation_method=d"
+      log_external_commands: "log_external_commands=0"
+      log_notifications: "log_notifications=0"
+      log_event_handlers: "log_event_handlers=0"
+      log_current_states: "log_current_states=0"
+      enable_environment_macros: "enable_environment_macros=1"
+
+- name: set options in cgi.cfg
+  ansible.builtin.lineinfile:
+    dest: /etc/nagios4/cgi.cfg
+    state: present
+    regexp: "^{{ item.key }}"
+    line: "{{ item.value }}"
+  loop: "{{ options_to_values | dict2items }}"
+  vars:
+    options_to_values:
+      use_authentication: "use_authentication=1"
+      default_user_name: "default_user_name=nagiosadmin"
+
+# keep only one backup of the file
+- name: delete stock config includes
+  ansible.builtin.lineinfile:
+    backup: true
+    dest: /etc/nagios4/nagios.cfg
+    regexp: '^cfg_file='
+    state: absent
+
+- name: add group for external commands
+  ansible.builtin.group:
+    name: "{{ nagios_command_group }}"
+    state: present
+
+- name: Add users to the nagcmd group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: "{{ nagios_command_group }}" # for passive checks
+    append: true
+    state: present
+  with_items:
+    - nagios
+    - www-data
+
+- name: set permissions for nagios4 spool
+  ansible.builtin.file:
+    path: /var/lib/nagios4/spool/
+    state: directory
+    owner: nagios
+    group: "{{ nagios_command_group }}"
+
+- name: Check if awscli exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/aws
+  register: awscli_result
+
+- name: download and decompress awscli
+  ansible.builtin.unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/tmp/"
+    remote_src: true
+    owner: root
+    group: root
+  when: not awscli_result.stat.exists
+
+- name: run awscli installer
+  ansible.builtin.shell:
+    cmd: "/tmp/aws/install"
+  when: not awscli_result.stat.exists
+
+- name: copy over send_nagios_alert.sh
+  ansible.builtin.include_role:
+    name: copy_scripts
+  vars:
+    script_to_copy: send_nagios_alert.sh
+    file_permissions: '0770'
+    file_owner: nagios
+    file_group: "{{ nagios_command_group }}"
+
+- name: copy over nagios configs
+  tags: config
+  ansible.builtin.template:
+    backup: true
+    src: "{{ item }}"
+    dest: "/etc/nagios4/conf.d/{{ item | basename | regex_replace('\\.j2', '') }}"
+  with_fileglob:
+    - ../templates/conf.d/*
+
+# name: set proper permissions on socket
+# file:
+#   state: file
+#   path: "{{ nagios_command_file_path }}"
+#   owner: nagios
+#   group: "{{ nagios_command_group }}"
+#   mode: "0770"
+
+- name: set proper permissions on checkresults
+  ansible.builtin.file:
+    state: directory
+    recurse: true
+    path: "{{ nagios_results_file_path }}"
+    owner: nagios
+    group: "{{ nagios_command_group }}"
+    mode: "0770"
+
+- name: copy over web config
+  tags: config
+  ansible.builtin.template:
+    backup: true
+    src: nagios4-cgi.conf.j2
+    dest: /etc/apache2/conf-available/nagios4-cgi.conf
+
+- name: copy over users file
+  tags: config
+  ansible.builtin.copy:
+    src: htdigest.users
+    dest: /etc/nagios4/htdigest.users
+    owner: nagios
+    group: www-data
+
+
+# name: Allow nagios user sudo access for plugins
+# lineinfile:
+#   dest: /etc/sudoers
+#   state: present
+#   regexp: '^nagios'
+#   line: "nagios ALL=(ALL) NOPASSWD:/usr/lib/nagios/plugins/,{{ user_home_directory }}/home-projects/pi"
+#   validate: 'visudo -cf %s'
+
+- name: Restart nagios server
+  ansible.builtin.systemd:
+    name: nagios4
+    state: restarted
+    enabled: true
+
+- name: Add cron weekly message for uptime
+  ansible.builtin.cron:
+      name: "Weekly uptime"
+      job: 'echo $(hostname) $(uptime) | apprise --config /opt/scripts/apprise.conf --tag default'
+      special_time: weekly
+      state: present
+
+- name: Add job to clean up archive logs
+  ansible.builtin.cron:
+      name: "Weekly nagios log archive cleanup"
+      job: '/bin/rm -Rvf /var/log/nagios4/archives/*'
+      special_time: weekly
+      state: present
+
+# name: Fetch public key to local machine
+# fetch:
+#   src: "{{ user_home_directory}}/.ssh/id_rsa.pub"
+#   dest: "{{ playbook_dir }}/nagios_pub_key.pub"
+#   fail_on_missing: true
+#   flat: true
+
+#TODO: handle copying over apache configs
+- ansible.builtin.include_tasks: install-nrdp.yaml

@@ -1,0 +1,44 @@
+# noqa: risky-file-permissions var-naming[no-role-prefix]
+- name: "Remove current assets directory (prevent caching)"
+  ansible.builtin.file:
+    path: "{{ docker_data_path }}/homer/assets"
+    state: absent
+
+- name: make assets/root directory
+  ansible.builtin.file:
+    path: "{{ docker_data_path }}/homer/assets"
+    recurse: true
+    state: directory
+    owner: root
+    group: root
+
+- name: copy over logos
+  ansible.builtin.copy:
+    src: "homer/{{ item }}"
+    dest: "{{ docker_data_path }}/homer/assets/{{ item }}"
+  loop:
+    - "homer.png"
+
+- name: copy over homer config
+  ansible.builtin.template:
+    src: homer/config.yaml
+    dest: "{{ docker_data_path }}/homer/config.yaml"
+    mode: "0755"
+    owner: root
+    group: root
+  register: homer_config
+
+- name: deploy homer container
+  community.docker.docker_container:
+    name: some-homer-container
+    image: "b4bz/homer:latest"
+    state: started
+    recreate: true
+    restart: true
+    restart_policy: always
+    networks:
+      - name: proxy_network
+    volumes:
+      - "{{ docker_data_path }}/homer/config.yaml:/www/config.yml"
+      - "{{ docker_data_path }}/homer/assets:/www/assets"
+# when: homer_config.changed

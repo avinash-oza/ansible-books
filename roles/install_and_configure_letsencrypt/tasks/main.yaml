@@ -1,0 +1,18 @@
+# noqa: yaml[empty-lines] yaml[line-length]
+- name: Install snap for certbot
+  become: true
+  community.general.snap:
+    name: certbot
+    classic: true
+
+- name: install apprise
+  ansible.builtin.include_role:
+    name: install_apprise
+
+- name: setup job to auto renew if close to expiry
+  ansible.builtin.cron:
+    name: certbot-auto renew certificate
+    special_time: weekly
+    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\"| apprise --config /opt/scripts/apprise.conf --tag default > /dev/null 2>&1"
+    state: present
+

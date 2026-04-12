@@ -1,0 +1,9 @@
+- name: deploy s-pdf container
+  community.docker.docker_container:
+    name: some-s-pdf-container
+    image: "frooodle/s-pdf:latest"
+    state: started
+    restart: true
+    restart_policy: always
+    ports:
+      - 8090:8080

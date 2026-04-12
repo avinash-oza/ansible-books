@@ -1,0 +1,22 @@
+# noqa: yaml[line-length]
+- name: "Add check for additional services"
+  ansible.builtin.cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"{{ item.key }}\" CHECK_CMD=check_procs CHECK_ARGS=\"-w {{ item.value }}: -c {{ item.value }}: -a {{ item.key }} \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ services | dict2items }}"
+  vars:
+    services: # number of expected services
+      besu: 1
+      lighthouse: 2
+
+
+- name: Add checks for disk space
+  ansible.builtin.cron:
+    name: "Nagios: {{ item.key }}"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Disk {{ item.key }}\" CHECK_CMD=check_disk CHECK_ARGS=\"-w 20\\% -c 10\\% -p {{ item.value }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop: "{{ disks | dict2items }}"
+  vars:
+    disks:
+      data: "/data"

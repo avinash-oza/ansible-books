@@ -1,0 +1,52 @@
+---
+# noqa: no-handler var-naming[no-role-prefix] yaml[indentation]
+
+- name: Set machine time to EST
+  register: tz
+  community.general.timezone:
+    name: America/New_York
+
+- name: install cront
+  ansible.builtin.apt:
+    name: cron
+
+- name: Restart cron
+  ansible.builtin.service:
+    name: cron
+    state: restarted
+  when: tz.changed
+
+- name: scramble root password
+  ansible.builtin.user:
+    name: root
+    password: "{{ vault_root_password | password_hash('sha512') }}"
+
+- name: Disable password based login
+  notify:
+    - restart sshd
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+
+- name: Disable root login
+  notify:
+    - restart sshd
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^#?PermitRootLogin"
+    line: "PermitRootLogin no"
+
+# scramble any extra common accounts
+- name: Register current users
+  ansible.builtin.getent:
+      database: passwd
+
+- name: Scramble extra user passwords
+  ansible.builtin.user:
+    name: "{{ item }}"
+    password: "{{ lookup('password', '/dev/null length=40') | password_hash('sha512') }}"
+  with_items: "{{ users_to_scramble }}"
+  when: item in getent_passwd
+
+# TODO: add step to remove /etc/sudo.d/10-install from setup if it exists

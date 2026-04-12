@@ -1,0 +1,3 @@
+---
+- ansible.builtin.include_role:
+    name: install_flask_rest_service

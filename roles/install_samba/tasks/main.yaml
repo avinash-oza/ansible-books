@@ -1,0 +1,30 @@
+---
+# noqa: jinja[spacing] no-changed-when no-handler risky-file-permissions var-naming[no-role-prefix] yaml[indentation]
+- name: Install samba
+  ansible.builtin.apt:
+      name: samba
+      state: present
+
+- name: Copy smbd.conf
+  ansible.builtin.template:
+    backup: true
+    src: "smb-{{ group_names[0] }}.conf.j2"
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+
+  register: samba_config
+
+- name: Add users for samba access
+  become: true
+  ansible.builtin.command: "smbpasswd -a -s {{ item.key }}"
+  args:
+    stdin: "{{ item.value}}\n{{ item.value }}"
+  with_dict: "{{ vault_samba_passwords }}"
+
+- name: restart samba
+  become: true
+  ansible.builtin.systemd:
+    name: smbd
+    state: restarted
+  when: samba_config.changed

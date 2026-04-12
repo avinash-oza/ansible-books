@@ -1,0 +1,29 @@
+# noqa: yaml[empty-lines]
+- name: Install smartmontools
+  ansible.builtin.apt:
+    name: smartmontools
+    state: present
+
+- name: copy over telegram alert script
+  ansible.builtin.template:
+    src: 10sendsnsalert
+    dest: /etc/smartmontools/run.d
+    owner: root
+    group: root
+    mode: "0744"
+
+- name: copy over smartd config
+  ansible.builtin.template:
+    src: smartd.conf.j2
+    dest: /etc/smartd.conf
+    owner: root
+    group: root
+    mode: "0744"
+
+- name: Enable service to run on boot and start
+  become: true
+  ansible.builtin.service:
+    name: "smartmontools"
+    state: restarted
+    enabled: true
+

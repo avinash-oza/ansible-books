@@ -1,2 +1,0 @@
-docker_configs_root_path: /etc/docker-files/docker-build
-redis_password: "{{ vault_redis_password }}"

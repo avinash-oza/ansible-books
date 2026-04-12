@@ -1,0 +1,12 @@
+---
+- name: create proxy network
+  community.docker.docker_network:
+    name: proxy_network
+
+- name: create db network
+  community.docker.docker_network:
+    name: db_network
+
+- name: create cache network
+  community.docker.docker_network:
+    name: cache_network

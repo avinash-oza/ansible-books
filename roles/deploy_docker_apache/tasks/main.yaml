@@ -1,0 +1,38 @@
+---
+# noqa: risky-file-permissions
+- name: Create config directories
+  ansible.builtin.file:
+    state: directory
+    path: "{{ docker_data_path }}/apache2"
+    owner: root
+    group: root
+
+- name: copy apache2 config files
+  ansible.builtin.template:
+    src: "{{ apache_config_files_directory }}/{{ item }}"
+    dest: "{{ docker_data_path }}/apache2"
+  loop:
+    - ssl-setup.conf
+    - httpd.conf
+    - Dockerfile
+
+- name: build apache2 image
+  community.docker.docker_image:
+    name: docker-apache2-ssl
+    tag: "latest"
+    state: present
+    source: build
+    force_source: true
+    build:
+      path: "{{ docker_data_path }}/apache2"
+      pull: true
+
+- name: use non ssl container
+  ansible.builtin.include_tasks:
+    file: false-ssl.yaml
+  when: not apache_is_ssl
+
+- name: use ssl container
+  ansible.builtin.include_tasks:
+    file: ssl.yaml
+  when: apache_is_ssl

@@ -1,0 +1,17 @@
+# noqa: syntax-check[unknown-module]
+- name: create mount directories
+  become: true
+  file:
+    path: "{{ item.value }}"
+    state: directory
+  loop: "{{ mount_points|dict2items }}"
+
+- name: add other mounts
+  become: true
+  mount:
+    src: "{{ item.key }}"
+    path: "{{ item.value }}"
+    fstype: ext4
+    opts: "rw,user,noatime,nofail"
+    state: mounted
+  loop: "{{ mount_points|dict2items }}"

@@ -1,0 +1,11 @@
+# noqa: yaml[empty-lines]
+
+profile: min
+
+exclude_paths:
+    - old_roles/
+
+skip_list:
+    - name
+
+use_default_rules: true
