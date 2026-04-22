@@ -62,5 +62,10 @@ fullmessage=`
 # Export message with trailing newline
 export MSG="$fullmessage
 "
+export AWS_ACCESS_KEY_ID={{ vault_aws_keys['smartmontools'].key_id }}
+export AWS_SECRET_ACCESS_KEY={{ vault_aws_keys['smartmontools'].access_key }}
+export TOPIC_ARN={{ vault_nagios_alert_sns_endpoint }}
+export AWS_DEFAULT_REGION={{ vault_aws_default_region }}
+
 # send SNS alert
-printf "$MSG" | apprise --config /opt/scripts/apprise.conf --tag default
+aws sns publish --topic-arn ${TOPIC_ARN} --message "${MSG}" > /dev/null

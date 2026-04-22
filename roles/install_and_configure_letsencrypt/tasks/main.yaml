@@ -5,14 +5,38 @@
     name: certbot
     classic: true
 
-- name: install apprise
+- name: Check if awscli exists
+  ansible.builtin.stat:
+    path: /usr/local/bin/aws
+  register: awscli_result
+
+- name: download and decompress awscli
+  ansible.builtin.unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: "/tmp/"
+    remote_src: true
+    owner: root
+    group: root
+  when: not awscli_result.stat.exists
+
+- name: run awscli installer
+  ansible.builtin.shell:
+    cmd: "/tmp/aws/install"
+  when: not awscli_result.stat.exists
+
+- name: copy over send-letsencrypt-log-sns.sh
   ansible.builtin.include_role:
-    name: install_apprise
+    name: copy_scripts
+  vars:
+    script_to_copy: send-letsencrypt-log-sns.sh
+    file_permissions: '0700'
+    file_owner: root
+    file_group: root
 
 - name: setup job to auto renew if close to expiry
   ansible.builtin.cron:
     name: certbot-auto renew certificate
     special_time: weekly
-    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\"| apprise --config /opt/scripts/apprise.conf --tag default > /dev/null 2>&1"
+    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\" > /tmp/letsencryptoutput.log 2>&1; /opt/scripts/send-letsencrypt-log-sns.sh; rm /tmp/letsencryptoutput.log"
     state: present
 

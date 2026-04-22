@@ -163,10 +163,24 @@
     state: restarted
     enabled: true
 
+- name: set AWS variables
+  cron:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    env: true
+  loop: "{{ aws_vars | dict2items }}"
+  no_log: true
+  vars:
+    aws_vars:
+      "AWS_ACCESS_KEY_ID": "{{ vault_aws_keys['letsencrypt'].key_id }}"
+      "AWS_SECRET_ACCESS_KEY": "{{ vault_aws_keys['letsencrypt'].access_key }}"
+      "TOPIC_ARN": "{{ vault_nagios_alert_sns_endpoint }}"
+      "AWS_DEFAULT_REGION": "{{ vault_aws_default_region }}"
+
 - name: Add cron weekly message for uptime
   ansible.builtin.cron:
       name: "Weekly uptime"
-      job: 'echo $(hostname) $(uptime) | apprise --config /opt/scripts/apprise.conf --tag default'
+      job: 'aws sns publish --topic-arn ${TOPIC_ARN} --message "$(hostname) $(uptime)"'
       special_time: weekly
       state: present
 
