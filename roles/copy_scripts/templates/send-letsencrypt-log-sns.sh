@@ -6,6 +6,6 @@ export AWS_DEFAULT_REGION={{ vault_aws_default_region }}
 
 content=$(cat /tmp/letsencryptoutput.log)
 
-aws sns publish \
+/usr/local/bin/aws sns publish \
     --topic-arn ${TOPIC_ARN} \
     --message "$content" > /dev/null
