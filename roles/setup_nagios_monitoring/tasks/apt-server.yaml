@@ -29,12 +29,20 @@
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Docker {{ item }}\" CHECK_CMD=check_docker CHECK_ARGS=\"--status=running --containers {{ item }} --present\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
   loop:
-    - some-apache2-container-nossl
-    - some-homer-container
-    - some-phpmyadmin-container
-    - some-redis-container
-    - some-mariadb-container
-    - some-nexus-container
-    - some-immich-container
+    - paperless-ngx-webserver-1
+    - paperless-ngx-gotenberg-1
+    - paperless-ngx-tika-1
+
+    - some-bookstack-container
+    - some-caddy-container
     - some-emby-container
+    - some-homer-container
+    - some-immich-container
+    - some-lubelogger-container
+    - some-mariadb-container
     - some-nextcloud-container
+    - some-nexus-container
+    - some-phpmyadmin-container
+    - some-postgres-container
+    - some-redis-container
+    - some-s-pdf-container
