@@ -55,13 +55,16 @@ services:
       - "{{ docker_data_path }}/paperless-ngx/media:/usr/src/paperless/media"
       - "{{ docker_data_path }}/paperless-ngx/export:/usr/src/paperless/export"
       - "{{ docker_data_path }}/paperless-ngx/consume:/usr/src/paperless/consume"
-    ports:
-      - 8099:8000
+    labels:
+      caddy: "paperless.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8000{{ '}}' }}"
+#
     networks:
       - proxy_network
       - cache_network
       - db_network
     environment:
+      PAPERLESS_URL: "{{ vault_local_domain_name_scheme }}://paperless.{{ vault_internal_domain_name }}"
       PAPERLESS_REDIS: "redis://:{{ vault_redis_password}}@some-redis-container:6379"
       PAPERLESS_DBENGINE: mariadb
       PAPERLESS_DBHOST: some-mariadb-container

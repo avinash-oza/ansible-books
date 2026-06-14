@@ -19,6 +19,9 @@
       - name: cache_network
     volumes:
       - "{{ docker_data_path }}/nextcloud:/var/www/html"
+    labels:
+      caddy: "nextcloud.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 80{{ '}}' }}"
     # comment for first run setup
     env:
       MYSQL_DATABASE: nextcloud
@@ -30,4 +33,4 @@
       NEXTCLOUD_ADMIN_PASSWORD: "{{ vault_nextcloud_admin_password }}"
 
       REDIS_HOST: some-redis-container
-      REDIS_HOST_PASSWORD: "{{ deploy_docker_container_redis_password }}"
+      REDIS_HOST_PASSWORD: "{{ vault_redis_password }}"

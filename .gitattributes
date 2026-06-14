@@ -1,0 +1,2 @@
+inventory/real/group_vars/*/vault diff=ansible-vault merge=binary
+roles/deploy_docker_homer/templates/config-apt-*.yaml diff=ansible-vault merge=binary
