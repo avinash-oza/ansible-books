@@ -4,6 +4,10 @@
     name: smartmontools
     state: present
 
+- name: Setup awscli
+  ansible.builtin.include_role:
+    name: setup_awscli
+
 - name: copy over telegram alert script
   ansible.builtin.template:
     src: 10sendsnsalert

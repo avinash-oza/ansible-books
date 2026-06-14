@@ -5,6 +5,10 @@
     name: apcupsd
     state: present
 
+- name: Setup awscli
+  ansible.builtin.include_role:
+    name: setup_awscli
+
 - name: Copy over configuration files
   tags: config
   ansible.builtin.template:
