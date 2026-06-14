@@ -1,3 +1,0 @@
-# noqa: var-naming[no-role-prefix]
-docker_configs_root_path: /etc/docker-files/docker-build
-apache_is_ssl: true
