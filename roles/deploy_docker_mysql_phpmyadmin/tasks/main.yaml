@@ -23,10 +23,13 @@
     networks:
       - name: db_network
       - name: proxy_network
+    labels:
+      caddy: "phpmyadmin.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 80{{ '}}' }}"
     env:
       PMA_HOST: some-mariadb-container
-      PMA_ABSOLUTE_URI: "{{ vault_local_domain_name_scheme }}://{{ local_domain_name }}/tools/phpmyadmin"
-#
+#     PMA_ABSOLUTE_URI: "{{ vault_local_domain_name_scheme }}://phpmyadmin.{{ vault_internal_domain_name }}"
+ 
 - name: deploy backup container
   community.docker.docker_container:
     name: some-mariadb-backup-container

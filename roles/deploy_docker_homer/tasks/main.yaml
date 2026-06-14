@@ -36,6 +36,9 @@
     recreate: true
     restart: true
     restart_policy: always
+    labels:
+      caddy: "homer.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"
     networks:
       - name: proxy_network
     env:

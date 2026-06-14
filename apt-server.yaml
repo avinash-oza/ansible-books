@@ -18,13 +18,14 @@
 # - { role: install_samba, become: yes }
 # - { role: deploy_docker_redis }
 # - { role: deploy_docker_apache }
+# - { role: deploy_docker_caddy }
 # - { role: deploy_docker_mysql_phpmyadmin }
 # - { role: deploy_docker_postgres_adminer }
-  - { role: deploy_docker_immich }
+# - { role: deploy_docker_immich }
 # - { role: deploy_docker_nexus }
 # - { role: deploy_docker_paperless_ngx }
 # - { role: deploy_docker_emby }
-# - { role: deploy_docker_homer }
+  - { role: deploy_docker_homer }
 # - { role: deploy_docker_s_pdf }
 # - { role: deploy_docker_lubelogger }
     # needs tags=all,apt-server to add proper monitoring
