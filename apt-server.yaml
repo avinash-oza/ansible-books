@@ -22,6 +22,7 @@
 # - { role: deploy_docker_mysql_phpmyadmin }
 # - { role: deploy_docker_postgres_adminer }
 # - { role: deploy_docker_nextcloud }
+# - { role: deploy_docker_bookstack }
 # - { role: deploy_docker_immich }
 # - { role: deploy_docker_nexus }
 # - { role: deploy_docker_paperless_ngx }

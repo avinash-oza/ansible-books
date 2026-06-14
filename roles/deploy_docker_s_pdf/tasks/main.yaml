@@ -5,5 +5,8 @@
     state: started
     restart: true
     restart_policy: always
-    ports:
-      - 8090:8080
+    networks:
+      - name: proxy_network
+    labels:
+      caddy: "spdf.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"

@@ -10,10 +10,13 @@
     networks:
       - name: db_network
       - name: proxy_network
+    labels:
+      caddy: "bookstack.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams http 80{{ '}}' }}"
     volumes:
       - "{{ docker_data_path }}/bookstack:/config"
     env:
-      APP_URL: "{{ vault_local_domain_name_scheme }}://{{ vault_local_domain_name }}/tools/bookstack"
+      APP_URL: "{{ vault_local_domain_name_scheme }}://bookstack.{{ vault_internal_domain_name }}"
       DB_HOST: some-mariadb-container
       DB_USER: bookstack
       DB_PASS: "{{ vault_mysql_bookstack_password }}"
