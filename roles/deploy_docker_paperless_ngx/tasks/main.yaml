@@ -15,5 +15,5 @@
 - name: deploy paperless setup
   become: True
   ansible.builtin.shell:
-    cmd: "docker compose -f docker-compose.yml up -d"
+    cmd: "docker compose up -d --force-recreate"
     chdir: "{{ docker_data_path }}/paperless-ngx"

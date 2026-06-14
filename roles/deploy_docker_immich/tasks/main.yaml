@@ -22,8 +22,9 @@
       - name: cache_network
       - name: db_network
       - name: proxy_network
-    ports:
-      - 8098:8080
+    labels:
+      caddy: "immich.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"
     env:
       PUID: "911"
       PGID: "911"
