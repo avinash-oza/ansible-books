@@ -21,6 +21,8 @@
     state: started
     restart: true
     restart_policy: always
+    env:
+      POSTGRES_CONNECTION: "Host=some-postgres-container:5432;Username=postgres;Password={{ vault_postgres_root_password }};Database=lubelogger;"
     networks:
       - name: proxy_network
       - name: db_network
