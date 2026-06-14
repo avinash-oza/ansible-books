@@ -17,5 +17,7 @@
     restart_policy: always
     networks:
       - name: proxy_network
-    ports:
-      - 8081:8081
+    labels:
+      # https redirection explicitly disabled here
+      caddy: "http://nexus.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8081{{ '}}' }}"
