@@ -23,5 +23,6 @@
     restart_policy: always
     networks:
       - name: proxy_network
+      - name: db_network
     ports:
       - 8094:8080

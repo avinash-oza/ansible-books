@@ -1,4 +1,5 @@
 ---
+# run adminer as needed with docker run --network db_network -p 8089:8080 adminer to start on 8089
 
 - name: deploy postgres container
   community.docker.docker_container:
@@ -20,7 +21,7 @@
 - name: deploy postgres backup container
   community.docker.docker_container:
     name: some-postgres-backup-container
-    image: "tiredofit/db-backup:4.1.21"
+    image: "tiredofit/db-backup:4.1.100"
     state: started
     restart_policy: always
     networks:
@@ -45,11 +46,10 @@
       DB01_USER: postgres
       DB01_PASS: "{{ vault_postgres_root_password }}"
 
-- name: deploy adminer
-  community.docker.docker_container:
-    name: some-adminer-container
-    image: "adminer:4.8.1"
-    state: started
-    restart_policy: always
-    networks:
-      - name: db_network
+      DB02_TYPE: "pgsql"
+      DB02_HOST: "some-postgres-container"
+      DB02_NAME: "lubelogger"
+      DB02_SPLIT_DB: "TRUE"
+      DB02_USER: postgres
+      DB02_PASS: "{{ vault_postgres_root_password }}"
+
