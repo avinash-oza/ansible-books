@@ -21,10 +21,11 @@
     state: started
     restart: true
     restart_policy: always
+    labels:
+      caddy: "lubelogger.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"
     env:
       POSTGRES_CONNECTION: "Host=some-postgres-container:5432;Username=postgres;Password={{ vault_postgres_root_password }};Database=lubelogger;"
     networks:
       - name: proxy_network
       - name: db_network
-    ports:
-      - 8094:8080
