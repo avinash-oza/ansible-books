@@ -23,7 +23,7 @@
       - name: db_network
       - name: proxy_network
     labels:
-      caddy: "immich.{{ vault_internal_domain_name }}"
+      caddy: "http://immich.{{ vault_internal_domain_name }}"
       caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"
     env:
       PUID: "911"
