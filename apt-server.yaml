@@ -7,6 +7,7 @@
 
   roles:
 # - { role: add_and_setup_deploy_user}
+  - { role: setup_internal_dns, become: yes }
 # - { role: base_setup}
 # - { role: install_and_configure_letsencrypt }
 # - { role: setup_apcupsd }

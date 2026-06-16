@@ -1,0 +1,24 @@
+- name: install systemd-resolved
+  apt:
+    name: systemd-resolved
+    state: present
+
+- name: create directories
+  file:
+    path: "/etc/systemd/resolved.conf.d"
+    state: directory
+    mode: "0755"
+
+- name: copy over dns config for resolved
+  template:
+    src: dns_servers.conf.j2
+    dest: "/etc/systemd/resolved.conf.d/dns_servers.conf"
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Restart systemd-resolved
+  systemd:
+    name: systemd-resolved
+    state: restarted
+

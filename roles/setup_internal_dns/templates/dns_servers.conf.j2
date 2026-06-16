@@ -1,0 +1,4 @@
+[Resolve]
+DNS={% for item in vault_internal_dns_servers %}{{ item }} {% endfor %}
+
+Domains=~.
