@@ -9,7 +9,6 @@ terraform {
 
 provider "multipass" {
   # Optional overrides
-# multipass_path  = "/usr/bin/multipass"
-  command_timeout = 180          # seconds
-  default_image   = "24.04"        # fallback image alias
+  command_timeout = 180     # seconds
+  default_image   = "24.04" # fallback image alias
 }
