@@ -13,12 +13,6 @@ resource "multipass_instance" "dev" {
   cloud_init_file = "${path.module}/cloud-init.yaml"
 }
 
-resource "multipass_alias" "shell" {
-  name     = "dev-shell"
-  instance = multipass_instance.dev.name
-  command  = "bash"
-}
-
 output "dev_ip" {
   value = multipass_instance.dev.ipv4
 }
