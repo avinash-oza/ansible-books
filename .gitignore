@@ -1,6 +1,8 @@
 .ansible/
 venv/
 .vagrant/
+tf/*.tfstate*
+tf/*terraform*
 .idea/
 *.sw*
 .vscode/settings.json
