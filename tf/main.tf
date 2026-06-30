@@ -10,24 +10,7 @@ resource "multipass_instance" "dev" {
     mac  = "52:54:00:4b:ab:bd"
   }
 
-  cloud_init = <<-EOT
-    # cloud-config
-    apt:
-      primary:
-        - arches: [default]
-          uri: "http://nexus.home.local/repository/ubuntu-archive"
-    bootcmd:
-      - [mkdir, "-p", "/etc/systemd/resolved.conf.d/"]
-      - printf "[Resolve]\nDNS=192.168.0.193 192.168.0.120\nDomains=~.\n" > /etc/systemd/resolved.conf.d/dns_servers.conf
-      - [systemctl, restart, systemd-resolved]
-
-    packages:
-      - git
-      - screen
-      - vim
-      - stow
-
-    EOT
+  cloud_init_file = "${path.module}/cloud-init.yaml"
 }
 
 resource "multipass_alias" "shell" {
