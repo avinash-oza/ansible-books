@@ -1,0 +1,18 @@
+[apt-server]
+apt-server-1 ansible_host=10.204.56.110
+
+[main-server]
+main-server-1 ansible_host=10.204.56.110
+
+[nagios-server]
+nagios-1 ansible_host=10.204.56.110
+
+[main-node]
+main-node-1 ansible_host=10.204.56.110
+
+[proxmox]
+proxmox-1 ansible_host=10.204.56.110
+
+[pi-hole]
+pi-hole-02 ansible_host=10.204.56.110
+pi-hole-03 ansible_host=10.204.56.110
