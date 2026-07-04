@@ -6,7 +6,8 @@ Ansible playbooks for general tasks around provisioning
 - Install `uv`
 - `uv tool install ansible-core`
 - `uv tool install ansible-lint`
-- `ansible-galaxy collection install community.docker`
+- `uv pip install passlib`
+- `ansible-galaxy collection install community.docker ansible.posix`
 
 Setup diff of vault files
 
