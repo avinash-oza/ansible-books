@@ -36,16 +36,6 @@
     to_port: "53"
     direction: "out"
 
-- name: "allow incoming on {{ vault_vpn_interface }}"
-  community.general.ufw:
-    rule: allow
-    to_port: "{{ item }}"
-    direction: "in"
-    interface: "{{ vault_vpn_interface }}"
-  loop:
-    - "12835"
-    - "6771"
-
 - name: "allow outgoing to LAN"
   community.general.ufw:
     rule: allow
@@ -67,3 +57,33 @@
     rule: allow
     direction: "out"
     interface: "{{ vault_vpn_interface }}"
+
+- name: "allow incoming on {{ vault_vpn_interface }}"
+  community.general.ufw:
+    rule: allow
+    direction: "in"
+    interface: "{{ vault_vpn_interface }}"
+
+- name: "allow incoming on {{ vault_vpn_interface }}"
+  community.general.ufw:
+    rule: allow
+    to_port: "{{ item }}"
+    direction: "in"
+    interface: "{{ vault_vpn_interface }}"
+    proto: "tcp"
+  loop:
+    - "12835"
+    - "6771"
+
+- name: "allow incoming on {{ vault_vpn_interface }}"
+  community.general.ufw:
+    rule: allow
+    to_port: "{{ item }}"
+    direction: "in"
+    interface: "{{ vault_vpn_interface }}"
+    proto: "udp"
+  loop:
+    - "12835"
+    - "6771"
+
+
