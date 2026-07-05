@@ -1,0 +1,69 @@
+- name: Reset firewall
+  community.general.ufw:
+    state: "reset"
+
+- name: Enable firewall
+  community.general.ufw:
+    state: "enabled"
+
+- name: default deny outgoing
+  community.general.ufw:
+    default: "deny"
+    direction: "outgoing"
+
+- name: default deny incoming
+  community.general.ufw:
+    default: "deny"
+    direction: "incoming"
+
+- name: allow SSH
+  community.general.ufw:
+    name: OpenSSH
+    rule: allow
+
+- name: allow HTTP/s
+  community.general.ufw:
+    rule: allow
+    to_port: "{{ item }}"
+    proto: "tcp"
+  loop:
+    - 80
+    - 443
+
+- name: allow DNS
+  community.general.ufw:
+    rule: allow
+    to_port: "53"
+    direction: "out"
+
+- name: "allow incoming on {{ vault_vpn_interface }}"
+  community.general.ufw:
+    rule: allow
+    to_port: "{{ item }}"
+    direction: "in"
+    interface: "{{ vault_vpn_interface }}"
+  loop:
+    - "12835"
+    - "6771"
+
+- name: "allow outgoing to LAN"
+  community.general.ufw:
+    rule: allow
+    direction: "out"
+    to_ip: "{{ item }}"
+  loop: "{{ vault_local_ip_ranges }}"
+
+- name: "allow outgoing to WAN"
+  community.general.ufw:
+    rule: allow
+    direction: "out"
+    to_ip: "{{ item }}"
+    interface: "{{ vault_interface }}"
+    to_port: "{{ vault_vpn_port }}"
+  loop: "{{ vault_vpn_ips }}"
+
+- name: "allow outgoing via {{ vault_vpn_interface }}"
+  community.general.ufw:
+    rule: allow
+    direction: "out"
+    interface: "{{ vault_vpn_interface }}"
