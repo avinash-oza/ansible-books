@@ -7,7 +7,7 @@
 
   roles:
 # - { role: add_and_setup_deploy_user}
-  - { role: setup_internal_dns, become: yes }
+# - { role: setup_internal_dns, become: yes }
 # - { role: base_setup}
 # - { role: install_and_configure_letsencrypt }
 # - { role: setup_apcupsd }
@@ -28,6 +28,7 @@
 # - { role: deploy_docker_nexus }
 # - { role: deploy_docker_paperless_ngx }
 # - { role: deploy_docker_emby }
+  - { role: deploy_docker_nebula }
 # - { role: deploy_docker_homer }
 # - { role: deploy_docker_s_pdf }
 # - { role: deploy_docker_lubelogger }
