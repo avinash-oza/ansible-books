@@ -1,0 +1,19 @@
+- name: deploy nebula-sync container
+  community.docker.docker_container:
+    name: nebula-sync
+    image: "ghcr.io/lovelaze/nebula-sync:latest"
+    state: started
+    restart: true
+    restart_policy: always
+    # if an instance does not sync, take an export for the primary and push it to initially seed it
+    env:
+      PRIMARY: "https://{{ hostvars[groups['pi-hole'][0]].ansible_host }}|{{ vault_pi_hole_password }}"
+      REPLICAS: "{{ groups['pi-hole'][1:] | map('extract', hostvars, 'ansible_host') | map('regex_replace', '^(.*)$', 'https://\\1|' ~ vault_pi_hole_password) | join(',') }}"
+      CLIENT_SKIP_TLS_VERIFICATION: "true"
+      # hardware is slower, so increase the sync time
+      CLIENT_RETRY_DELAY_SECONDS: "30"
+      CLIENT_TIMEOUT_SECONDS: "120"
+      CRON: "2 * * * *"
+      # settings
+      FULL_SYNC: "true"
+      RUN_GRAVITY: "true"
