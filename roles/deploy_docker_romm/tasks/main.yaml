@@ -1,0 +1,39 @@
+- name: make data dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    recurse: true
+    state: directory
+    owner: root
+    group: root
+  loop:
+    - "{{ docker_data_path }}/romm/library"
+    - "{{ docker_data_path }}/romm/assets"
+    - "{{ docker_data_path }}/romm/config"
+
+- name: deploy romm container
+  community.docker.docker_container:
+    name: romm
+    image: "rommapp/romm:latest"
+    state: started
+    restart: true
+    restart_policy: unless-stopped
+    networks:
+      - name: db_network
+      - name: proxy_network
+    labels:
+      caddy: "romm.{{ vault_internal_domain_name }}"
+      caddy.reverse_proxy: "{{ '{{' }}upstreams 8080{{ '}}' }}"
+    env:
+      DB_HOST: "some-mariadb-container"
+      DB_NAME: "romm"
+      DB_USER: "romm"
+      DB_PASSWD: "{{ vault_mysql_romm_password }}"
+      ROMM_AUTH_SECRET_KEY: "{{ vault_romm_auth_secret_key }}"
+      SCREENSCRAPER_USER: "{{ vault_romm_screenscraper_user }}"
+      SCREENSCRAPER_PASSWORD: "{{ vault_romm_screenscraper_password }}"
+    volumes:
+      - "{{ docker_data_path }}/romm/romm_resources:/romm/resources"
+      - "{{ docker_data_path }}/romm/romm_redis_data:/redis-data"
+      - "{{ docker_data_path }}/romm/library:/romm/library"
+      - "{{ docker_data_path }}/romm/assets:/romm/assets"
+      - "{{ docker_data_path }}/romm/config:/romm/config"
