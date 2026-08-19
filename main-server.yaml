@@ -7,7 +7,7 @@
 
   roles:
 #   - { role: setup_main_server }
-#   - { role: add_and_setup_deploy_user }
+#   - { role: add_and_setup_user }
 #   - { role: base_setup }
 #   - { role: install_and_configure_ssmtp, tags: ['ssmtp'] }
 #   - { role: install_and_configure_letsencrypt }

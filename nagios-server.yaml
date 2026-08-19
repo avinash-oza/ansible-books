@@ -5,7 +5,7 @@
   remote_user: deploy
 
   roles:
-#     - { role: add_and_setup_deploy_user, become: true }
+#     - { role: add_and_setup_user, become: true }
 #     - { role: base_setup, become: true }
     - { role: install_nagios_server, become: true }
     # needs tags=all,nagios-server to add proper monitoring

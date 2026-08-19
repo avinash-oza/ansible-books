@@ -5,8 +5,8 @@
   remote_user: deploy
   become: true
   roles:
-  - { role: add_and_setup_deploy_user}
-  - role: add_and_setup_deploy_user
+  - { role: add_and_setup_user}
+  - role: add_and_setup_user
     user_name: avi
     allow_sudo: false
     user_password: "{{ vault_avi_password }}"
