@@ -6,7 +6,7 @@
   community.general.timezone:
     name: America/New_York
 
-- name: install cront
+- name: install cron
   ansible.builtin.apt:
     name: cron
 

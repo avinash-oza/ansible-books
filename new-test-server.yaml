@@ -1,0 +1,10 @@
+---
+# noqa: yaml[indentation]
+- name: Configure new-test-server
+  hosts: localhost
+  remote_user: deploy
+  become: true
+  roles:
+# - { role: add_and_setup_deploy_user}
+# - { role: setup_internal_dns, become: yes }
+  - { role: base_setup}
