@@ -5,6 +5,7 @@
   ansible.builtin.group:
     name: sudo
     state: present
+  when: allow_sudo | bool
 
 - name: Allow sudo group to have passwordless sudo
   lineinfile:
@@ -13,41 +14,39 @@
     regexp: '^%sudo'
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
+  when: allow_sudo | bool
 
-- name: create deploy user and add to sudo group
+- name: create configured user and add to sudo group
   user:
-    name: deploy
-    password: "{{ vault_deploy_password | password_hash('sha512') }}"
-    shell: /bin/bash
-    groups: sudo
-    append: true
+    name: "{{ user_name }}"
+    password: "{{ user_password | password_hash('sha512') }}"
+    shell: "{{ user_shell }}"
+    groups: "{{ 'sudo' if (allow_sudo | bool) else omit }}"
+    append: "{{ true if (allow_sudo | bool) else omit }}"
     state: present
 
-- name: Add authorized keys for SSH deploy user
+- name: Add authorized keys for SSH configured user
   authorized_key:
-    user: deploy
+    user: "{{ user_name }}"
     state: present
     key: "{{ item }}"
-  with_file: "{{ deploy_user_public_keys }}"
+  with_file: "{{ add_public_keys }}"
 
 - name: remove old keys
   authorized_key:
-    user: deploy
+    user: "{{ user_name }}"
     state: absent
     key: "{{ item }}"
-  with_file:
-    - ansible_tower.pub
-    - id_rsa.pub
-    - laptop.pub
-    - win-desktop.pub
+  with_file: "{{ remove_public_keys }}"
 
-- name: setup_dotfiles
-  include_role:
-    name: setup_dotfiles
+# name: setup_dotfiles
+# include_role:
+#   name: setup_dotfiles
+# vars:
+#   user_name: "{{ user_name }}"
 
-- name: setup vim
-  include_role:
-    name: install_and_configure_vim_for_user
-  vars:
-    user_to_configure: deploy
-
+# name: setup vim
+# include_role:
+#   name: install_and_configure_vim_for_user
+# vars:
+#   user_name: "{{ user_name }}"
