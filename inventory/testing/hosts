@@ -14,4 +14,4 @@ main-node-1 ansible_host=10.204.56.34 ansible_ssh_user=ubuntu
 proxmox-1 ansible_host=10.204.56.34 ansible_ssh_user=ubuntu
 
 [pi-hole]
-pi-hole-02 ansible_host=10.204.56.34 ansible_ssh_user=ubuntu
+pi-hole-2 ansible_host=10.204.56.34 ansible_ssh_user=ubuntu
