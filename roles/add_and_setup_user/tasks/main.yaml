@@ -23,6 +23,10 @@
     shell: "{{ user_shell }}"
     groups: "{{ 'sudo' if (allow_sudo | bool) else omit }}"
     append: "{{ true if (allow_sudo | bool) else omit }}"
+    # generate github key
+    generate_ssh_key: true
+    ssh_key_bits: 4096
+    ssh_key_file: ".ssh/id_rsa_github"
     state: present
 
 - name: Add authorized keys for SSH configured user
