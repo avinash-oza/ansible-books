@@ -4,13 +4,15 @@
   hosts: localhost
   remote_user: deploy
   become: true
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   roles:
-  - { role: add_and_setup_user}
+# - { role: add_and_setup_user}
   - role: add_and_setup_user
     user_name: avi
     allow_sudo: false
     user_password: "{{ vault_avi_password }}"
     add_public_keys: []
-  - { role: setup_internal_dns, become: yes }
-  - role: base_setup
-    users_to_scramble: []
+# - { role: setup_internal_dns, become: yes }
+# - role: base_setup
+#   users_to_scramble: []

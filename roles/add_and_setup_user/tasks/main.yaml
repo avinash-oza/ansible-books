@@ -39,11 +39,11 @@
     key: "{{ item }}"
   with_file: "{{ remove_public_keys }}"
 
-# name: setup_dotfiles
-# include_role:
-#   name: setup_dotfiles
-# vars:
-#   user_name: "{{ user_name }}"
+- name: setup_dotfiles
+  include_role:
+    name: setup_dotfiles
+  vars:
+    user_to_configure: "{{ user_name }}"
 
 # name: setup vim
 # include_role:
