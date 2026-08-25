@@ -21,7 +21,7 @@
 - name: deploy postgres backup container
   community.docker.docker_container:
     name: some-postgres-backup-container
-    image: "tiredofit/db-backup:4.1.100"
+    image: "ghcr.io/nfrastack/container-db-backup:4.9.0"
     state: started
     restart_policy: always
     networks:
@@ -39,6 +39,7 @@
       DEFAULT_CLEANUP_TIME: "28800"
       # 7 days
       DEFAULT_BACKUP_INTERVAL: "10080"
+
       DB01_TYPE: "pgsql"
       DB01_HOST: "some-postgres-container"
       DB01_NAME: "immich"
@@ -53,3 +54,11 @@
       DB02_USER: postgres
       DB02_PASS: "{{ vault_postgres_root_password }}"
 
+      DB03_TYPE: "pgsql"
+      # daily
+      DB03_BACKUP_INTERVAL: "1440"
+      DB03_HOST: "some-postgres-container"
+      DB03_NAME: "homebox"
+      DB03_SPLIT_DB: "TRUE"
+      DB03_USER: postgres
+      DB03_PASS: "{{ vault_postgres_root_password }}"
