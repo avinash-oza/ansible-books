@@ -32,7 +32,7 @@
 - name: deploy backup container
   community.docker.docker_container:
     name: some-mariadb-backup-container
-    image: "tiredofit/db-backup:4.1.21"
+    image: "ghcr.io/nfrastack/container-db-backup:4.9.0"
     state: started
     restart_policy: always
     networks:

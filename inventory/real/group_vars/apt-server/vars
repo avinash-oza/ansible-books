@@ -5,4 +5,4 @@ nagios_host_name: apt-server
 nagios_load_thresholds: "10.0,8.0,6.0"
 apache_is_ssl: false
 
-docker_db_backup_mysql_dbs: "paperless,nextcloud,bookstack"
+docker_db_backup_mysql_dbs: "bookstack,nextcloud,paperless,romm"

@@ -20,9 +20,9 @@
   # - { role: deploy_docker_redis }
   # - { role: deploy_docker_apache }
   # - { role: deploy_docker_caddy }
-  # - { role: deploy_docker_mysql_phpmyadmin }
+  - { role: deploy_docker_mysql_phpmyadmin }
   # - { role: deploy_docker_homebox }
-  - { role: deploy_docker_postgres_adminer }
+  # - { role: deploy_docker_postgres_adminer }
   # - { role: deploy_docker_nextcloud }
   # - { role: deploy_docker_bookstack }
   # - { role: deploy_docker_immich }
