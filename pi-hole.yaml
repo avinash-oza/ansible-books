@@ -9,7 +9,9 @@
 # - { role: base_setup}
 # - { role: deploy_wireguard }
   # needs tags=all to add proper monitoring
-  - { role: setup_nagios_monitoring, become: yes }
+  - { role: setup_internal_dns, become: true }
+  - { role: setup_chrony_client , become: true}
+# - { role: setup_nagios_monitoring, become: yes }
   tasks:
     - name: Add weekly update run for pi-hole
       ansible.builtin.cron:

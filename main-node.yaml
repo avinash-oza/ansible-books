@@ -6,7 +6,8 @@
 
   roles:
 #     - { role: base_setup, become: true }
-    - { role: setup_internal_dns, become: yes }
+    - { role: setup_internal_dns, become: true }
+    - { role: setup_chrony_client , become: true}
 #     - { role: add_and_setup_user, become: true }
 #     - { role: install_temperature_sensors_service, become: true }
 #     - { role: install-aws-temp-scripts, become: true }

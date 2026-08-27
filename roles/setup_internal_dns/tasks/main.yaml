@@ -2,6 +2,7 @@
   apt:
     name: systemd-resolved
     state: present
+  ignore_errors: true
 
 - name: create directories
   file:
