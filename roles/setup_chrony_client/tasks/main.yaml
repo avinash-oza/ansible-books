@@ -1,0 +1,31 @@
+# noqa: yaml[empty-lines]
+- name: Install chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: present
+    update_cache: true
+
+- name: comment out existing ntp pool/server entries
+  notify:
+    - restart chrony
+  ansible.builtin.replace:
+    dest: /etc/chrony/chrony.conf
+    regexp: "^(pool|server)\\s+"
+    replace: "#\\g<0>"
+
+- name: set ntp.home.local as the ntp server
+  notify:
+    - restart chrony
+  ansible.builtin.blockinfile:
+    dest: /etc/chrony/chrony.conf
+    marker: "# {mark} ANSIBLE MANAGED SERVER BLOCK"
+    block: |
+      server ntp.home.local iburst
+
+- name: Enable service to run on boot and start
+  become: true
+  ansible.builtin.systemd:
+    name: "chronyd"
+    state: started
+    daemon_reload: true
+    enabled: true

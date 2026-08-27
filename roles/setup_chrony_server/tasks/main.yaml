@@ -1,0 +1,25 @@
+# noqa: yaml[empty-lines]
+- name: Install chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: present
+    update_cache: true
+
+- name: allow local IP ranges to query chrony
+  notify:
+    - restart chrony
+  ansible.builtin.blockinfile:
+    dest: /etc/chrony/chrony.conf
+    marker: "# {mark} ANSIBLE MANAGED ALLOW BLOCK"
+    block: |
+      {% for range in vault_local_ip_ranges %}
+      allow {{ range }}
+      {% endfor %}
+
+- name: Enable service to run on boot and start
+  become: true
+  ansible.builtin.systemd:
+    name: "chronyd"
+    state: started
+    daemon_reload: true
+    enabled: true

@@ -11,6 +11,7 @@
   # - { role: base_setup}
   # - { role: install_and_configure_letsencrypt }
   # - { role: setup_apcupsd }
+    - { role: setup_chrony_server }
   # - { role: setup_smartmontools }
   # - { role: install_rsnapshot }
   # - { role: install_rclone }
@@ -20,7 +21,7 @@
   # - { role: deploy_docker_redis }
   # - { role: deploy_docker_apache }
   # - { role: deploy_docker_caddy }
-  - { role: deploy_docker_mysql_phpmyadmin }
+  # - { role: deploy_docker_mysql_phpmyadmin }
   # - { role: deploy_docker_homebox }
   # - { role: deploy_docker_postgres_adminer }
   # - { role: deploy_docker_nextcloud }
@@ -30,7 +31,7 @@
   # - { role: deploy_docker_paperless_ngx }
   # - { role: deploy_docker_emby }
   # - { role: deploy_docker_nebula }
-    # - { role: deploy_docker_romm }
+  # - { role: deploy_docker_romm }
   # - { role: deploy_docker_homer }
   # - { role: deploy_docker_s_pdf }
   # - { role: deploy_docker_lubelogger }
