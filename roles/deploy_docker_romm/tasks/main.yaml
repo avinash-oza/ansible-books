@@ -37,3 +37,30 @@
       - "{{ docker_data_path }}/romm/library:/romm/library"
       - "{{ docker_data_path }}/romm/assets:/romm/assets"
       - "{{ docker_data_path }}/romm/config:/romm/config"
+
+- name: Setup awscli
+  ansible.builtin.include_role:
+    name: setup_awscli
+
+- name: copy over backup script
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: backup_romm_data
+
+- name: set permissions for backup
+  become: true
+  ansible.builtin.file:
+    path: "{{ scripts_dir }}/backup_romm_data"
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: add backup job for romm data
+  become: true
+  ansible.builtin.cron:
+    name: "backup romm data"
+    special_time: weekly
+    job: "{{ scripts_dir }}/backup_romm_data"

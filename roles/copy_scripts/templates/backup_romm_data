@@ -1,0 +1,17 @@
+#!/usr/bin/bash -e
+
+export AWS_ACCESS_KEY_ID={{ vault_aws_keys['db-backup'].key_id }}
+export AWS_SECRET_ACCESS_KEY={{ vault_aws_keys['db-backup'].access_key }}
+export AWS_DEFAULT_REGION={{ vault_aws_default_region }}
+
+
+# create tars of all files
+tar czf "/tmp/assets.tgz" -C {{ docker_data_path }}/romm/assets .
+tar czf "/tmp/config.tgz" -C {{ docker_data_path }}/romm/config .
+tar czf "/tmp/resources.tgz" -C {{ docker_data_path }}/romm/romm_resources .
+
+/usr/local/bin/aws s3 cp --quiet "/tmp/assets.tgz" "s3://{{ vault_aws_projects_bucket }}/backups/romm/assets.tgz"
+/usr/local/bin/aws s3 cp --quiet "/tmp/config.tgz" "s3://{{ vault_aws_projects_bucket }}/backups/romm/config.tgz"
+/usr/local/bin/aws s3 cp --quiet "/tmp/resources.tgz" "s3://{{ vault_aws_projects_bucket }}/backups/romm/resources.tgz"
+
+rm /tmp/assets.tgz /tmp/config.tgz /tmp/resources.tgz
