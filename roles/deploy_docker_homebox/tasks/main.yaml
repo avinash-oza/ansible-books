@@ -34,3 +34,30 @@
     labels:
       caddy: "homebox.{{ vault_internal_domain_name }}"
       caddy.reverse_proxy: "{{ '{{' }}upstreams 7745{{ '}}' }}"
+
+- name: Setup awscli
+  ansible.builtin.include_role:
+    name: setup_awscli
+
+- name: copy over backup script
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: backup_homebox_data
+
+- name: set permissions for backup
+  become: true
+  ansible.builtin.file:
+    path: "{{ scripts_dir }}/backup_homebox_data"
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: add backup job for db
+  become: true
+  ansible.builtin.cron:
+    name: "backup bookstack db"
+    special_time: weekly
+    job: "{{ scripts_dir }}/backup_homebox_data"
