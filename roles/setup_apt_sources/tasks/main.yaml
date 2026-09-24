@@ -1,0 +1,10 @@
+---
+# noqa: yaml[empty-lines]
+
+- name: setup apt sources for ubuntu
+  ansible.builtin.include_tasks: ubuntu.yaml
+  when: ansible_distribution == "Ubuntu"
+
+- name: setup apt sources for debian
+  ansible.builtin.include_tasks: debian.yaml
+  when: ansible_distribution == "Debian"

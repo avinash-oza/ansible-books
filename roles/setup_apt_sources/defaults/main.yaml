@@ -1,0 +1,5 @@
+---
+mirror_root_url: "http://nexus.home.local/repository"
+ubuntu_sources_url: "{{ mirror_root_url }}/ubuntu"
+debian_sources_url: "{{ mirror_root_url }}/debian"
+debian_security_sources_url: "{{ mirror_root_url }}/debian-security"

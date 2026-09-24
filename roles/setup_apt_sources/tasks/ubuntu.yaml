@@ -1,0 +1,24 @@
+---
+# noqa: yaml[empty-lines]
+
+- name: check if ubuntu.sources already points at nexus repository
+  ansible.builtin.command: grep -qF "{{ ubuntu_sources_url }}" /etc/apt/sources.list.d/ubuntu.sources
+  register: apt_sources_check
+  changed_when: false
+  failed_when: false
+
+- name: deploy ubuntu.sources pointing at nexus repository
+  ansible.builtin.template:
+    src: ubuntu.sources.j2
+    dest: /etc/apt/sources.list.d/ubuntu.sources
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+  when: apt_sources_check.rc != 0
+  register: apt_sources_updated
+
+- name: update apt cache after changing sources
+  ansible.builtin.apt:
+    update_cache: true
+  when: apt_sources_updated is changed

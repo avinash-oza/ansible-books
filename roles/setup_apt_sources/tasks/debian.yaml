@@ -1,0 +1,24 @@
+---
+# noqa: yaml[empty-lines]
+# ansible.builtin.replace is idempotent (no-op when the pattern is already gone) and only
+# writes a backup when it actually changes the file, so no manual pre-check is needed here.
+
+- name: replace debian security mirror with nexus repository
+  ansible.builtin.replace:
+    path: /etc/apt/sources.list
+    regexp: "http://security\\.debian\\.org(/debian-security)?"
+    replace: "{{ debian_security_sources_url }}"
+  register: debian_security_updated
+
+- name: replace debian mirror with nexus repository
+  ansible.builtin.replace:
+    path: /etc/apt/sources.list
+    regexp: "http://ftp\\.us\\.debian\\.org/debian"
+    replace: "{{ debian_sources_url }}"
+    backup: true
+  register: debian_mirror_updated
+
+- name: update apt cache after changing sources
+  ansible.builtin.apt:
+    update_cache: true
+  when: debian_security_updated is changed or debian_mirror_updated is changed
