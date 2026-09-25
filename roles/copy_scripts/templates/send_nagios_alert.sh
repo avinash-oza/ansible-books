@@ -33,4 +33,4 @@ END
 
 fi
 
-aws sns publish --topic-arn ${TOPIC_ARN} --message "${MSG}" > /dev/null
+/usr/local/bin/aws sns publish --topic-arn ${TOPIC_ARN} --message "${MSG}" > /dev/null
