@@ -1,0 +1,2 @@
+nagios_host_name: pi-hole-1
+vault_wireguard_listen_port: "51820"
