@@ -22,6 +22,9 @@ main_node_ip_address: "{{ hostvars['main-node-1'].ansible_host }}"
 main_server_host_name: main-server
 main_server_ip_address: "{{ hostvars['main-server-1'].ansible_host }}"
 
+pi_hole_1_host_name: pi-hole-1
+pi_hole_1_ip_address: "{{ hostvars['pi-hole-1'].ansible_host }}"
+
 pi_hole_2_host_name: pi-hole-2
 pi_hole_2_ip_address: "{{ hostvars['pi-hole-2'].ansible_host }}"
 
