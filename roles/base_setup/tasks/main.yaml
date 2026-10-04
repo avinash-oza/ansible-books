@@ -6,9 +6,11 @@
   community.general.timezone:
     name: America/New_York
 
-- name: install cron
+- name: install useful packages
   ansible.builtin.apt:
-    name: cron
+    name: 
+      - cron
+      - ripgrep
 
 - name: Restart cron
   ansible.builtin.service:

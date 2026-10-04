@@ -17,7 +17,8 @@ localhost_host_name: localhost
 localhost_ip_address: 127.0.0.1
 
 main_node_host_name: main-node
-main_node_ip_address: 192.168.0.70
+#main_node_ip_address: 192.168.0.70
+main_node_ip_address: 172.16.1.164
 
 main_server_host_name: main-server
 main_server_ip_address: 172.16.1.10
