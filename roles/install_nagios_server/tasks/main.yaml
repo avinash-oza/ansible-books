@@ -162,12 +162,11 @@
       special_time: weekly
       state: present
 
-# name: Fetch public key to local machine
-# fetch:
-#   src: "{{ user_home_directory}}/.ssh/id_rsa.pub"
-#   dest: "{{ playbook_dir }}/nagios_pub_key.pub"
-#   fail_on_missing: true
-#   flat: true
+- name: Confirm NRDP installation
+  ansible.builtin.pause:
+    prompt: "Install NRDP? Type 'yes' to continue; any other response skips NRDP."
+  register: nrdp_install_confirmation
 
-#TODO: handle copying over apache configs
-- ansible.builtin.include_tasks: install-nrdp.yaml
+- name: Install NRDP
+  ansible.builtin.include_tasks: install-nrdp.yaml
+  when: nrdp_install_confirmation.user_input | lower == 'yes'

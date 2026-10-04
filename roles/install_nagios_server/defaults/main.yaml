@@ -11,23 +11,22 @@ nagios_contact_email: "{{ vault_nagios_contact_email }}"
 
 # Host and IP address definitions for various servers and services
 apt_server_host_name: apt-server
-apt_server_ip_address: 192.168.0.187
+apt_server_ip_address: "{{ hostvars['apt-server-1'].ansible_host }}"
 
 localhost_host_name: localhost
 localhost_ip_address: 127.0.0.1
 
 main_node_host_name: main-node
-#main_node_ip_address: 192.168.0.70
-main_node_ip_address: 172.16.1.164
+main_node_ip_address: "{{ hostvars['main-node-1'].ansible_host }}"
 
 main_server_host_name: main-server
-main_server_ip_address: 172.16.1.10
+main_server_ip_address: "{{ hostvars['main-server-1'].ansible_host }}"
 
 pi_hole_2_host_name: pi-hole-2
-pi_hole_2_ip_address: 192.168.0.120
+pi_hole_2_ip_address: "{{ hostvars['pi-hole-2'].ansible_host }}"
 
 pi_hole_3_host_name: pi-hole-3
-pi_hole_3_ip_address: 192.168.0.193
+pi_hole_3_ip_address: "{{ hostvars['pi-hole-3'].ansible_host }}"
 
 proxmox_host_name: proxmox
-proxmox_ip_address: 192.168.0.74
+proxmox_ip_address: "{{ hostvars['proxmox-1'].ansible_host }}"
