@@ -28,6 +28,20 @@
       caddy.reverse_proxy: "{{ '{{' }}upstreams 80{{ '}}' }}"
     env:
       PMA_HOST: some-mariadb-container
+
+- name: copy over backup notification scripts
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
+    - db-backup-start.sh
+    - db-backup-finish.sh
+
  
 - name: deploy backup container
   community.docker.docker_container:
@@ -37,6 +51,10 @@
     restart_policy: always
     networks:
       - name: db_network
+    volumes:
+      - "{{ scripts_dir }}/db-backup-start.sh:/assets/scripts/pre/db-backup-start.sh"
+      - "{{ scripts_dir }}/db-backup-finish.sh:/assets/scripts/post/db-backup-finish.sh"
+      - "{{ scripts_dir }}/send-healthchecks-io.sh:/assets/scripts/send-healthchecks-io.sh"
     env:
       CONTAINER_ENABLE_MONITORING: "FALSE"
       DEFAULT_BACKUP_LOCATION: "S3"
@@ -45,6 +63,7 @@
       DEFAULT_S3_PATH: "backups/db/mariadb"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
+      # pre/post scripts are setup independently
       # 7 days
       DEFAULT_BACKUP_INTERVAL: "10080"
       DB01_TYPE: "mysql"
