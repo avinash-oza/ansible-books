@@ -21,9 +21,20 @@
       - revaliases
       - ssmtp.conf
 
+- name: copy over healthchecks.io notification scripts
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
+
 - name: Add cron weekly email
   ansible.builtin.cron:
       name: "Weekly email"
-      job: 'echo $(uptime) | mail -s "$(date)" {{ vault_email_address }}'
+      job: '{{ scripts_dir }}/send-healthchecks-io.sh finish {{ inventory_hostname }}-uptime'
       special_time: weekly
       state: present
