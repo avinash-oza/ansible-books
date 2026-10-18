@@ -1,4 +1,4 @@
-# vim: set softtabstop=0 noexpandtab
+# vim: set tabstop=4 noexpandtab
 
 #################################################
 # rsnapshot.conf - rsnapshot configuration file #
@@ -76,12 +76,12 @@ cmd_du		/usr/bin/du
 # Specify the path to a script (and any optional arguments) to run right
 # before rsnapshot syncs files
 #
-#cmd_preexec	/path/to/preexec/script
+cmd_preexec		{{ scripts_dir }}/send-healthchecks-io.sh start rsnapshot-apt-server
 
 # Specify the path to a script (and any optional arguments) to run right
 # after rsnapshot syncs files
 #
-#cmd_postexec	/path/to/postexec/script
+cmd_postexec	{{ scripts_dir }}/send-healthchecks-io.sh finish rsnapshot-apt-server
 
 # Paths to lvcreate, lvremove, mount and umount commands, for use with
 # Linux LVMs.

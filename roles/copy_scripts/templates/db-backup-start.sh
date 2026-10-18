@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+# db-backup wrapper script for healthchecks.io integration
+
 if [[ $# -ne 5 ]]; then
     printf 'Usage: %s <DB01_TYPE> <DB01_HOST> <DB01_NAME> <BACKUP_START_TIME> <BACKUP_FILENAME>\n' "$0" >&2
     exit 1

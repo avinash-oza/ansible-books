@@ -22,6 +22,17 @@
   ansible.builtin.debug:
     msg: "Copy root's ssh pub key under the rsnapshotuser"
 
+- name: copy over healthchecks.io notification scripts
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
+
 - name: Copy config file
   ansible.builtin.template:
     backup: true
