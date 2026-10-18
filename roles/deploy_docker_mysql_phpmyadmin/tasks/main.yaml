@@ -58,6 +58,8 @@
     env:
       CONTAINER_ENABLE_MONITORING: "FALSE"
       DEFAULT_BACKUP_LOCATION: "S3"
+      # wait 10 mins before starting initial backup
+      DEFAULT_BACKUP_BEGIN: "+10"
       DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
       DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
       DEFAULT_S3_PATH: "backups/db/mariadb"
