@@ -5,23 +5,64 @@
     name: certbot
     classic: true
 
-- name: Setup awscli
-  ansible.builtin.include_role:
-    name: setup_awscli
 
-- name: copy over send-letsencrypt-log-sns.sh
+- name: copy over healthchecks.io notification scripts
   ansible.builtin.include_role:
     name: copy_scripts
+    apply:
+      become: true
   vars:
-    script_to_copy: send-letsencrypt-log-sns.sh
-    file_permissions: '0700'
-    file_owner: root
-    file_group: root
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
 
-- name: setup job to auto renew if close to expiry
-  ansible.builtin.cron:
-    name: certbot-auto renew certificate
-    special_time: weekly
-    job: "/snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n --standalone --deploy-hook \"docker restart some-apache2-container\" > /tmp/letsencryptoutput.log 2>&1; /opt/scripts/send-letsencrypt-log-sns.sh; rm /tmp/letsencryptoutput.log"
-    state: present
+- name: Create certbot pre-renewal hooks directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/pre
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
 
+- name: Create certbot post-renewal hooks directory
+  become: true
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/post
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure healthchecks start hook for certbot
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/letsencrypt/renewal-hooks/pre/healthchecks-start.sh
+    content: |
+      #!/bin/bash
+      {{ scripts_dir }}/send-healthchecks-io.sh start letsencrypt-{{ vault_local_domain_name | replace('.', '-') }}
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure healthchecks finish hook for certbot
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/letsencrypt/renewal-hooks/post/healthchecks-finish.sh
+    content: |
+      #!/bin/bash
+      # restart docker
+      docker restart some-apache2-container
+      {{ scripts_dir }}/send-healthchecks-io.sh finish letsencrypt-{{ vault_local_domain_name | replace('.', '-') }}
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Obtain certificate if renewal configuration is missing
+  become: true
+  ansible.builtin.shell:
+    cmd: >-
+      /snap/bin/certbot certonly --domains {{ vault_local_domain_name }} -n
+      --standalone
+    creates: "/etc/letsencrypt/renewal/{{ vault_local_domain_name }}.conf"
