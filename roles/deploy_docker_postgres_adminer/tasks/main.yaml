@@ -18,6 +18,19 @@
       POSTGRES_PASSWORD: "{{ vault_postgres_root_password }}"
       DB_STORAGE_TYPE: "HDD"
 
+- name: copy over backup notification scripts
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
+    - db-backup-start.sh
+    - db-backup-finish.sh
+
 - name: deploy postgres backup container
   community.docker.docker_container:
     name: some-postgres-backup-container
@@ -26,6 +39,10 @@
     restart_policy: always
     networks:
       - name: db_network
+    volumes:
+      - "{{ scripts_dir }}/db-backup-start.sh:/assets/scripts/pre/db-backup-start.sh"
+      - "{{ scripts_dir }}/db-backup-finish.sh:/assets/scripts/post/db-backup-finish.sh"
+      - "{{ scripts_dir }}/send-healthchecks-io.sh:/assets/scripts/send-healthchecks-io.sh"
     env:
       CONTAINER_ENABLE_MONITORING: "FALSE"
       DEFAULT_BACKUP_LOCATION: "S3"
