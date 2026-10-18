@@ -1,3 +1,4 @@
+# inventory names below are used for healthchecks
 [apt-server]
 #apt-server-1 ansible_host=192.168.0.187
 apt-server-1 ansible_host=172.16.74.75
