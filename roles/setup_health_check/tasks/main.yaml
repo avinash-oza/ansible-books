@@ -1,0 +1,27 @@
+- name: copy over healthchecks.io notification scripts
+  ansible.builtin.include_role:
+    name: copy_scripts
+    apply:
+      become: true
+  vars:
+    script_to_copy: "{{ item }}"
+    file_permissions: '0755'
+  loop:
+    - send-healthchecks-io.sh
+
+- name: Clean up legacy notifications
+  become: true
+  ansible.builtin.cron:
+    name: "Weekly email"
+    job: '{{ scripts_dir }}/send-healthchecks-io.sh finish {{ inventory_hostname }}-uptime'
+    special_time: "weekly"
+    state: absent
+  when: frequency != "weekly"
+
+- name: Add cron {{ frequency }} email
+  become: true
+  ansible.builtin.cron:
+      name: "{{ frequency | capitalize }} email"
+      job: '{{ scripts_dir }}/send-healthchecks-io.sh finish {{ inventory_hostname }}-uptime'
+      special_time: "{{ frequency }}"
+      state: present

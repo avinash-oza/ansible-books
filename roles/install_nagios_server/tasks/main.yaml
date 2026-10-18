@@ -148,13 +148,6 @@
     state: restarted
     enabled: true
 
-- name: Add cron daily check for uptime
-  ansible.builtin.cron:
-      name: "Daily liveness check"
-      job: "curl -m 10 --retry 5 https://hc-ping.com/{{ vault_healthchecks_io_key }}/nagios-server-uptime 2>&1 > /dev/null"
-      special_time: daily
-      state: present
-
 - name: Add job to clean up archive logs
   ansible.builtin.cron:
       name: "Weekly nagios log archive cleanup"
