@@ -1,10 +1,22 @@
 ---
 # noqa: yaml[indentation]
+- name: Allow main-server to take rsnapshot backups of the APT server
+  hosts: main-server
+  remote_user: deploy
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Slurp the remote public SSH key
+      ansible.builtin.slurp:
+        src: /root/.ssh/id_rsa.pub
+      register: slurped_ssh_key
+
+
 - name: Configure APT Server
   hosts: apt-server
   remote_user: deploy
   become: true
-
   roles:
   # - { role: add_and_setup_user}
   # - { role: setup_internal_dns, become: yes }
@@ -13,7 +25,8 @@
   # - { role: setup_apcupsd }
 #   - { role: setup_chrony_server }
   # - { role: setup_smartmontools }
-  - { role: install_rsnapshot }
+    -  role: install_rsnapshot 
+       ssh_pub_keys: ["{{ hostvars['main-server-1'].slurped_ssh_key.content | b64decode }}"] 
   # - { role: install_rclone }
   # - { role: install_docker_base }
   # - { role: deploy_docker_container }
@@ -26,7 +39,7 @@
   # - { role: deploy_docker_postgres_adminer }
 #   - { role: deploy_docker_nextcloud }
   # - { role: deploy_docker_bookstack }
-#   - { role: deploy_docker_immich }
+  # - { role: deploy_docker_immich }
 #   - { role: deploy_docker_nexus }
   # - { role: deploy_docker_paperless_ngx }
   # - { role: deploy_docker_emby }

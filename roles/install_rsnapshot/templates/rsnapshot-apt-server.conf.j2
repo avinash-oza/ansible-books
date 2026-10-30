@@ -233,7 +233,7 @@ backup	{{ docker_immich_data_path }}/	immich/
 backup	/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/
 backup	/mnt/nas-disk/docker-data/lubelogger/	lubelogger/
 backup	/mnt/nas-disk/docker-data/nextcloud/	nextcloud/
-backup	rsnapshotuser@172.16.1.10:/mnt/raid0/Homes	homes/	+rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@172.16.1.10:/mnt/raid0/Homes	homes/	+rsync_long_args=--rsync-path="sudo rsync" --compress-level=9 --delete --numeric-ids --relative --delete-excluded
 
 # LOCALHOST
 #backup	/home/		localhost/

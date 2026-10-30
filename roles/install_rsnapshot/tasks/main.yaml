@@ -18,9 +18,13 @@
     block: "rsnapshotuser ALL=(root) NOPASSWD:/usr/bin/rsync"
     validate: 'visudo -cf %s'
 
-- name: Print warning about keys
-  ansible.builtin.debug:
-    msg: "Copy root's ssh pub key under the rsnapshotuser"
+# this is to allow other machines to take backups of this machine
+- name: Add authorized SSH keys for rsnapshotuser
+  ansible.posix.authorized_key:
+    user: rsnapshotuser
+    state: present
+    key: "{{ item }}"
+  loop: "{{ ssh_pub_keys }}"
 
 - name: copy over healthchecks.io notification scripts
   ansible.builtin.include_role:
