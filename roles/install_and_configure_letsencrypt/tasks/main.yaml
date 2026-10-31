@@ -53,7 +53,6 @@
     content: |
       #!/bin/bash
       # restart docker
-      docker restart some-apache2-container
       {{ scripts_dir }}/send-healthchecks-io.sh finish letsencrypt-{{ vault_local_domain_name | replace('.', '-') }}
     owner: root
     group: root
