@@ -4,8 +4,8 @@
     path: "{{ docker_data_path }}/paperless-ngx"
     recurse: true
     state: directory
-    owner: root
-    group: root
+    owner: "911"
+    group: "911"
 
 - name: Copy docker-compose file for paperless
   ansible.builtin.template:
@@ -17,3 +17,6 @@
   ansible.builtin.shell:
     cmd: "docker compose up -d --force-recreate"
     chdir: "{{ docker_data_path }}/paperless-ngx"
+  environment:
+    UID: "911"
+    GID: "911"

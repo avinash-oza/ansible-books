@@ -3,14 +3,15 @@
     path: "{{ docker_data_path }}/homebox"
     recurse: true
     state: directory
-    owner: root
-    group: root
+    owner: "911"
+    group: "911"
 
 - name: deploy homebox container
   community.docker.docker_container:
     name: some-homebox-container
     image: "ghcr.io/sysadminsmedia/homebox:latest"
     state: started
+    user: "911:911"
     restart: true
     restart_policy: always
     env:
@@ -58,6 +59,6 @@
 - name: add backup job for db
   become: true
   ansible.builtin.cron:
-    name: "backup bookstack db"
+    name: "backup homebox db"
     special_time: weekly
     job: "{{ scripts_dir }}/backup_homebox_data"

@@ -40,6 +40,7 @@ networks:
         external: true
 services:
   webserver:
+    user: "${UID}:${GID}"
     image: ghcr.io/paperless-ngx/paperless-ngx:2.20.2
     restart: always
     depends_on:
@@ -78,6 +79,7 @@ services:
       PAPERLESS_ADMIN_PASSWORD: "{{ vault_paperless_admin_password }}"
 
   gotenberg:
+    user: "${UID}:${GID}"
     image: docker.io/gotenberg/gotenberg:8.7
     restart: always
     # The gotenberg chromium route is used to convert .eml files. We do not
@@ -88,5 +90,6 @@ services:
       - "--chromium-allow-list=file:///tmp/.*"
 
   tika:
+    user: "${UID}:${GID}"
     image: ghcr.io/paperless-ngx/tika:latest
     restart: unless-stopped

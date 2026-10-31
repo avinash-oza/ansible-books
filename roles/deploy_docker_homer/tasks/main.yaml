@@ -9,8 +9,8 @@
     path: "{{ docker_data_path }}/homer/assets"
     recurse: true
     state: directory
-    owner: root
-    group: root
+    owner: "911"
+    group: "911"
 
 - name: copy over logos
   ansible.builtin.copy:
@@ -24,8 +24,8 @@
     src: "config-{{ group_names[0] }}.yaml"
     dest: "{{ docker_data_path }}/homer/assets/config.yml"
     mode: "0755"
-    owner: root
-    group: root
+    owner: "911"
+    group: "911"
   register: homer_config
 
 - name: deploy homer container
@@ -33,6 +33,7 @@
     name: some-homer-container
     image: "b4bz/homer:latest"
     state: started
+    user: "911:911"
     recreate: true
     restart: true
     restart_policy: always
