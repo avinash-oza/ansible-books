@@ -230,10 +230,10 @@ lockfile	/var/run/rsnapshot.pid
 ###############################
 
 backup	{{ docker_immich_data_path }}/	immich/
-backup	/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/
-backup	/mnt/nas-disk/docker-data/lubelogger/	lubelogger/
-backup	/mnt/nas-disk/docker-data/nextcloud/	nextcloud/
-backup	rsnapshotuser@172.16.1.10:/mnt/raid0/Homes	homes/	+rsync_long_args=--rsync-path="sudo rsync" --compress-level=9 --delete --numeric-ids --relative --delete-excluded
+backup	{{ docker_data_path }}/paperless-ngx/	paperless-ngx/
+backup	{{ docker_data_path }}/lubelogger/	lubelogger/
+backup	{{ docker_data_path }}/nextcloud/	nextcloud/
+backup	rsnapshotuser@main-server.{{ vault_internal_domain_name }}:/mnt/raid0/Homes	homes/	+rsync_long_args=--rsync-path="sudo rsync"
 
 # LOCALHOST
 #backup	/home/		localhost/
