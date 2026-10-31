@@ -25,7 +25,7 @@
     # - { role: setup_health_check }
 #   - { role: install_and_configure_letsencrypt }
 #   - { role: setup_apcupsd, tags: ['apcupsd'] }
-    # - { role: setup_internal_dns, become: true }
+    - { role: setup_internal_dns, become: true }
 #   - { role: setup_chrony_client , become: true}
     - role: install_rsnapshot 
       ssh_pub_keys: ["{{ hostvars['apt-server-1'].slurped_ssh_key.content | b64decode }}"] 
