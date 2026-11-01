@@ -3,11 +3,13 @@
 - name: Configure Proxmox
   hosts: proxmox
   remote_user: deploy
+  become: true
 
   roles:
 #     - { role: base_setup, become: true }
 #   - { role: setup_smartmontools, become: true }
 #     - { role: add_and_setup_user, become: true }
+    - { role: setup_apt_sources, is_proxmox: true }
     - { role: setup_internal_dns, become: true }
     - { role: setup_chrony_client , become: true}
 #   - { role: setup_apcupsd, become: true }
