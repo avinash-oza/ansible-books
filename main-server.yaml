@@ -26,15 +26,14 @@
     # - { role: install_and_configure_letsencrypt }
 #   - { role: setup_apcupsd, tags: ['apcupsd'] }
     # - { role: setup_internal_dns, become: true }
-    - { role: setup_apt_sources, is_proxmox: true }
+    # - { role: setup_apt_sources, is_proxmox: true }
 #   - { role: setup_chrony_client , become: true}
-    - role: install_rsnapshot 
-      ssh_pub_keys: ["{{ hostvars['apt-server-1'].slurped_ssh_key.content | b64decode }}"] 
+    # - role: install_rsnapshot 
+      # ssh_pub_keys: ["{{ hostvars['apt-server-1'].slurped_ssh_key.content | b64decode }}"] 
 #   - { role: setup_smartmontools }
 #   - { role: install_samba }
 #   - { role: install_rclone }
-#   - { role: install_docker_base }
-#   - { role: deploy_docker_apache }
+    - { role: install_docker_base }
 #   - { role: deploy_wireguard }
     # needs tags=all,main-server to add proper monitoring
 #   - { role: setup_nagios_monitoring }
