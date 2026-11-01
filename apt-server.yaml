@@ -21,6 +21,7 @@
   # - { role: add_and_setup_user}
     # - { role: setup_internal_dns, become: yes }
   # - { role: base_setup}
+  - { role: setup_apt_sources, is_proxmox: true }
   # - { role: setup_apcupsd }
 #   - { role: setup_chrony_server }
   # - { role: setup_smartmontools }
