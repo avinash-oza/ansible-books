@@ -8,3 +8,9 @@
 - name: setup apt sources for debian
   ansible.builtin.include_tasks: debian.yaml
   when: ansible_distribution == "Debian"
+
+- name: setup proxmox no-subscription repository
+  ansible.builtin.include_tasks: setup_proxmox_no_subscription.yaml
+  when:
+    - is_proxmox | default(false) | bool
+    - ansible_distribution == "Debian"

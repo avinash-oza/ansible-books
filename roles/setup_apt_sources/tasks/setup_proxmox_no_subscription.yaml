@@ -1,0 +1,25 @@
+---
+- name: install proxmox archive keyring
+  ansible.builtin.apt:
+    name: proxmox-archive-keyring
+    state: present
+
+- name: remove pve-enterprise repository if it exists
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/pve-enterprise.list
+    state: absent
+
+- name: configure pve-no-subscription repository
+  ansible.builtin.template:
+    src: pve-no-subscription.list.j2
+    dest: /etc/apt/sources.list.d/pve-no-subscription.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  register: pve_no_sub_configured
+
+- name: update apt cache after adding pve-no-subscription repository
+  ansible.builtin.apt:
+    update_cache: true
+  when: pve_no_sub_configured is changed
