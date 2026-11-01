@@ -1,4 +1,10 @@
 ---
+- name: add proxmox archive key to keyring
+  ansible.builtin.apt_key:
+    url: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg
+    keyring: /usr/share/keyrings/proxmox-archive-keyring.gpg
+    state: present
+
 - name: install proxmox archive keyring
   ansible.builtin.apt:
     name: proxmox-archive-keyring
