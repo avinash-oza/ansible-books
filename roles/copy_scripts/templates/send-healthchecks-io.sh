@@ -28,4 +28,5 @@ case "$action" in
         ;;
 esac
 
+printf 'Healthchecks URL: %s\n' "$url"
 exec curl --fail --silent --show-error --output /dev/null -m 10 --retry 5 "$url"

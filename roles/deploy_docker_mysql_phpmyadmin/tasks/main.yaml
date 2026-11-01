@@ -46,7 +46,8 @@
 - name: deploy backup container
   community.docker.docker_container:
     name: some-mariadb-backup-container
-    image: "ghcr.io/nfrastack/container-db-backup:4.9.0"
+    # image: "ghcr.io/nfrastack/container-db-backup:4.9.0"
+    image: "docker.io/nfrastack/db-backup:5.0.7"
     state: started
     restart_policy: always
     networks:
@@ -59,16 +60,18 @@
       CONTAINER_ENABLE_MONITORING: "FALSE"
       DEFAULT_BACKUP_LOCATION: "S3"
       # wait 10 mins before starting initial backup
-      DEFAULT_BACKUP_BEGIN: "+10"
+      # DEFAULT_BACKUP_BEGIN: "+10"
       DEFAULT_S3_BUCKET: "{{ vault_aws_projects_bucket }}"
       DEFAULT_S3_REGION: "{{ vault_aws_default_region }}"
       DEFAULT_S3_PATH: "backups/db/mariadb"
       DEFAULT_S3_KEY_ID: "{{ vault_aws_keys['db-backup']['key_id'] }}"
       DEFAULT_S3_KEY_SECRET: "{{ vault_aws_keys['db-backup']['access_key'] }}"
       # pre/post scripts are setup independently
+      PRE_COMMAND: "/assets/scripts/pre/db-backup-start.sh"
+      POST_COMMAND: "/assets/scripts/post/db-backup-finish.sh"
       # 7 days
       DEFAULT_BACKUP_INTERVAL: "10080"
-      DB01_TYPE: "mysql"
+      DB01_TYPE: "mariadb"
       DB01_HOST: "some-mariadb-container"
       DB01_NAME: "{{ docker_db_backup_mysql_dbs }}"
       DB01_SPLIT_DB: "TRUE"
