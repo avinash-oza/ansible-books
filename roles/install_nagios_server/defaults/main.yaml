@@ -31,5 +31,5 @@ pi_hole_2_ip_address: "{{ hostvars['pi-hole-2'].ansible_host }}"
 pi_hole_3_host_name: pi-hole-3
 pi_hole_3_ip_address: "{{ hostvars['pi-hole-3'].ansible_host }}"
 
-proxmox_host_name: proxmox
-proxmox_ip_address: "{{ hostvars['proxmox-1'].ansible_host }}"
+main_node_base_host_name: main-node-base
+main_node_base_ip_address: "{{ hostvars['main-node-base-1'].ansible_host }}"
