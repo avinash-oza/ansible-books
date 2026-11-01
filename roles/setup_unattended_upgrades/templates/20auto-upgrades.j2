@@ -1,0 +1,5 @@
+// Periodic update scheduling
+APT::Periodic::Update-Package-Lists "{{ '1' if unattended_upgrades_enable_periodic | default(true) else '0' }}";
+APT::Periodic::Download-Upgradeable-Packages "{{ '1' if unattended_upgrades_enable_periodic | default(true) else '0' }}";
+APT::Periodic::AutocleanInterval "{{ '7' if unattended_upgrades_enable_periodic | default(true) else '0' }}";
+APT::Periodic::Unattended-Upgrade "{{ '1' if unattended_upgrades_enable_periodic | default(true) else '0' }}";

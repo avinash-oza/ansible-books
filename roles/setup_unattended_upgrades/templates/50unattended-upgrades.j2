@@ -1,0 +1,47 @@
+// Auto-reboot configuration
+Unattended-Upgrade::Automatic-Reboot "{{ 'true' if unattended_upgrades_enable_auto_reboot else 'false' }}";
+{% if unattended_upgrades_enable_auto_reboot %}
+Unattended-Upgrade::Automatic-Reboot-Time "{{ unattended_upgrades_auto_reboot_time }}";
+{% endif %}
+
+// Package blacklist - packages that should not be automatically upgraded
+Unattended-Upgrade::Package-Blacklist {
+{% for package in unattended_upgrades_package_blacklist %}
+    "{{ package }}";
+{% endfor %}
+};
+
+// Mail notification settings
+{% if unattended_upgrades_mail %}
+Unattended-Upgrade::Mail "{{ unattended_upgrades_mail }}";
+Unattended-Upgrade::MailReport "{{ unattended_upgrades_mail_report }}";
+{% endif %}
+
+// Only install security updates and important fixes
+{% if unattended_upgrades_enable_security %}
+Unattended-Upgrade::Origins-Pattern {
+{% if ansible_distribution == "Debian" %}
+    "origin=Debian,archive=*-security";
+{% if unattended_upgrades_enable_all_updates %}
+    "origin=Debian,archive=*-updates";
+{% endif %}
+{% else %}
+    "origin=*Ubuntu*,archive=*-security";
+{% if unattended_upgrades_enable_all_updates %}
+    "origin=*Ubuntu*,archive=*-updates";
+{% endif %}
+{% endif %}
+};
+{% endif %}
+
+// Allow auto-reboot even if users are logged in
+Unattended-Upgrade::Automatic-Reboot-WithUsers "{{ 'true' if unattended_upgrades_auto_reboot_with_users else 'false' }}";
+
+// Enable automatic removal of new unused dependencies
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+Unattended-Upgrade::Remove-Unused-Dependencies "true";
+
+// Additional options
+{% for option in unattended_upgrades_additional_options %}
+{{ option }};
+{% endfor %}

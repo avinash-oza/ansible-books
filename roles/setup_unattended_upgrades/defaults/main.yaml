@@ -1,0 +1,39 @@
+# Unattended-upgrades configuration defaults
+# These variables can be overridden in playbooks or inventory
+
+# Enable automatic security updates
+unattended_upgrades_enable_security: true
+
+# Enable automatic updates for non-security packages
+unattended_upgrades_enable_all_updates: false
+
+# Enable automatic reboot if required (after installing updates)
+unattended_upgrades_enable_auto_reboot: false
+
+# Time to auto-reboot if needed (HH:MM format, 24-hour)
+unattended_upgrades_auto_reboot_time: "04:00"
+
+# Email address to send unattended-upgrades reports to
+# Set to empty string to disable email notifications
+unattended_upgrades_mail: ""
+
+# Mail report type: always, on-change, or only-on-error
+unattended_upgrades_mail_report: "on-change"
+
+# Enable automatic reboot when there are kernel updates
+unattended_upgrades_auto_reboot_with_users: false
+
+# Packages to not upgrade automatically
+unattended_upgrades_package_blacklist: []
+# Example:
+#   - postgresql
+#   - mysql-server
+
+# Additional APT::Unattended-Upgrade options
+unattended_upgrades_additional_options: []
+
+# Enable periodic configuration
+unattended_upgrades_enable_periodic: true
+
+# Verify configuration by running dry-run
+unattended_upgrades_verify_config: true

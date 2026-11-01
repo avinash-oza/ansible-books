@@ -1,0 +1,65 @@
+---
+- name: Install unattended-upgrades package
+  ansible.builtin.apt:
+    name: unattended-upgrades
+    update_cache: yes
+    state: present
+
+- name: Install apt-listchanges (for email notifications)
+  ansible.builtin.apt:
+    name: apt-listchanges
+    state: present
+
+- name: Create apt-daily-upgrade timer drop-in directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/apt-daily-upgrade.timer.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure randomized apt-daily-upgrade timer delay
+  ansible.builtin.template:
+    src: apt-daily-upgrade.timer.conf.j2
+    dest: /etc/systemd/system/apt-daily-upgrade.timer.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart apt-daily-upgrade.timer
+
+- name: Configure unattended-upgrades
+  ansible.builtin.template:
+    src: 50unattended-upgrades.j2
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart unattended-upgrades
+
+- name: Configure automatic updates
+  ansible.builtin.template:
+    src: 20auto-upgrades.j2
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable and start unattended-upgrades service
+  ansible.builtin.systemd:
+    name: unattended-upgrades
+    enabled: yes
+    state: started
+
+- name: Verify unattended-upgrades configuration
+  ansible.builtin.command:
+    cmd: unattended-upgrade --dry-run --debug
+  register: unattended_upgrades_check
+  changed_when: false
+  when: unattended_upgrades_verify_config | default(true)
+
+- name: Display configuration verification results
+  ansible.builtin.debug:
+    msg: "{{ unattended_upgrades_check.stderr_lines }}"
+  when: 
+    - unattended_upgrades_verify_config | default(true)
+    - unattended_upgrades_check.stderr_lines is defined
