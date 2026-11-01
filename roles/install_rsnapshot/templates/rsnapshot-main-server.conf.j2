@@ -232,10 +232,10 @@ lockfile	/var/run/rsnapshot.pid
 # Home directories
 backup	/mnt/raid0/Homes/	homes/
 
-backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/immich-storage/	immich/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9 --exclude=lost+found/
-backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
-backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/lubelogger/	lubelogger/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
-backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/nextcloud/	nextcloud/ +rsync_long_args=--rsync-path="sudo rsync" --compress-level=9
+backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/immich-storage/	immich/ +rsync_long_args=--rsync-path="sudo rsync" --exclude=lost+found/
+backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/paperless-ngx/	paperless-ngx/ +rsync_long_args=--rsync-path="sudo rsync"
+backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/lubelogger/	lubelogger/ +rsync_long_args=--rsync-path="sudo rsync"
+backup	rsnapshotuser@apt-server.{{ vault_internal_domain_name }}:/mnt/nas-disk/docker-data/nextcloud/	nextcloud/ +rsync_long_args=--rsync-path="sudo rsync"
 
 # LOCALHOST
 #backup	/home/		localhost/

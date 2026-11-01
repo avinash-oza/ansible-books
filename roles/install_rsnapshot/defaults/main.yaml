@@ -1,3 +1,4 @@
 ---
 # noqa: var-naming[no-role-prefix]
 ssh_pub_keys: []
+rsnapshot_cron_randomizer: "python3 -c 'import time;import random;time.sleep(random.randint(1, 300))'"
