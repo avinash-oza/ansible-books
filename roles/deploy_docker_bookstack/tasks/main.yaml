@@ -3,7 +3,7 @@
   become: true
   community.docker.docker_container:
     name: some-bookstack-container
-    image: "linuxserver/bookstack:26.05.5"
+    image: "linuxserver/bookstack:26.09.20260929"
     restart: true
     state: started
     restart_policy: always
