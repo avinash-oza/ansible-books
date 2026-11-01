@@ -10,7 +10,7 @@
   community.docker.docker_container:
     name: some-lubelogger-container
     user: "911:911"
-    image: "ghcr.io/hargata/lubelogger:v1.6.4"
+    image: "ghcr.io/hargata/lubelogger:v1.7.4"
     volumes:
       - "{{ docker_data_path }}/lubelogger/config:/App/config"
       - "{{ docker_data_path }}/lubelogger/data:/App/data"
