@@ -9,7 +9,7 @@
 - name: deploy emby container
   community.docker.docker_container:
     name: some-emby-container
-    image: "emby/embyserver:4.10.0.14"
+    image: "emby/embyserver:4.11.0.13"
     state: started
     restart: true
     restart_policy: always
