@@ -3,7 +3,7 @@
 - name: deploy mariadb container
   community.docker.docker_container:
     name: some-mariadb-container
-    image: "mariadb:11.8.5"
+    image: "mariadb:11.8.9"
     state: started
     restart_policy: always
     volumes:
