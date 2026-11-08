@@ -2,7 +2,7 @@
 - name: deploy caddy container
   community.docker.docker_container:
     name: some-caddy-container
-    image: "lucaslorentz/caddy-docker-proxy:ci-alpine"
+    image: "lucaslorentz/caddy-docker-proxy:2.13.1-alpine"
     state: started
     restart_policy: always
     volumes:
