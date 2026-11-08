@@ -9,8 +9,8 @@
 - name: deploy redis container
   community.docker.docker_container:
     name: some-redis-container
-    image: "redis:7.2"
-    ansible.builtin.command: "redis-server --requirepass {{ vault_redis_password }}"
+    image: "redis:7.4"
+    command: "redis-server --requirepass {{ vault_redis_password }}"
     state: started
     restart: true
     restart_policy: always
