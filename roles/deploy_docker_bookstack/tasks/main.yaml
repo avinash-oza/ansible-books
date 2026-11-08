@@ -16,6 +16,7 @@
     volumes:
       - "{{ docker_data_path }}/bookstack:/config"
     env:
+      APP_KEY: "{{ vault_bookstack_app_key }}"
       APP_URL: "{{ vault_local_domain_name_scheme }}://bookstack.{{ vault_internal_domain_name }}"
       DB_HOST: some-mariadb-container
       DB_USER: bookstack
