@@ -10,7 +10,7 @@
   community.docker.docker_container:
     name: some-redis-container
     image: "redis:7.4"
-    ansible.builtin.command: "redis-server --requirepass {{ vault_redis_password }}"
+    command: "redis-server --requirepass {{ vault_redis_password }}"
     state: started
     restart: true
     restart_policy: always
