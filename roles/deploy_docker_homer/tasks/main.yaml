@@ -31,7 +31,7 @@
 - name: deploy homer container
   community.docker.docker_container:
     name: some-homer-container
-    image: "b4bz/homer:v26.08.3"
+    image: "b4bz/homer:v26.11.3"
     state: started
     user: "911:911"
     recreate: true
