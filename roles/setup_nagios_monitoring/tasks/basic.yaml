@@ -29,3 +29,13 @@
     name: "Nagios: Current Users"
     minute: "{{ check_interval_mins }}"
     job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"Current Users\" CHECK_CMD=check_users CHECK_ARGS=\"-w {{ nagios_max_users }} -c 10 \" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+
+
+- name: Add DNS checks
+  ansible.builtin.cron:
+    name: "Nagios: DNS {{ item }}"
+    minute: "{{ check_interval_mins }}"
+    job: "{{ nagios_cron_randomizer }} && SERVICE_NAME=\"DNS {{ item }}\" CHECK_CMD=check_dns CHECK_ARGS=\"-H {{ item }}\" {{ scripts_dir }}/submit_nagios_check.sh > /dev/null"
+  loop:
+    - nexus.{{ vault_internal_domain_name }}
+    - google.com
